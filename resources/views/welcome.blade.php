@@ -6,9 +6,7 @@
     </head>
     <body class="bg-faded">
       <div id="app" class="main">
-        <alert>
-          Login successful
-        </alert>
+        <alerts :alerts.sync="alerts"></alerts>
         <div class="main-content">
           <div class="inner">
             <h2>Issue Packs</h2>

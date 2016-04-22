@@ -1,6 +1,6 @@
   <template>
   <div :class="alertClasses" v-show="show">
-
+    {{ message }}
     <slot></slot>
 
     <span class="Alert__close" @click="show = false">x</span>
@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    props: ['type'],
+    props: ['type', 'message'],
 
     data () {
       return {
@@ -27,13 +27,6 @@
           'Alert--Error': type == 'error'
         };
       }
-    },
-
-    ready () {
-      console.log('alert loaded');
-    },
-    created () {
-      console.log('alert created');
     }
   };
 </script>

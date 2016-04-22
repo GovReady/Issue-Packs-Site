@@ -5754,10 +5754,10 @@ button.close {
   background: #ddd;
   border: 1px solid #c4c4c4;
   padding: 1em; }
-  .Alert .Alert--Success {
+  .Alert.Alert--Success {
     background: #e6ffe6;
     border: 1px solid #1aff1a; }
-  .Alert .Alert--Error {
+  .Alert.Alert--Error {
     background: lighten red, 70%;
     border: 1px solid #ff9999; }
   .Alert .Alert__close {

@@ -8,7 +8,7 @@
 import Vue from 'vue'
 Vue.use(require('vue-resource'));
 
-import Alert from './components/Alert.vue';
+import Alerts from './components/Alerts.vue';
 import Login from './components/Login.vue';
 
 // Configure debug mode
@@ -20,14 +20,18 @@ Vue.config.debug = true;
 new Vue({
   el: '#app',
 
+  events: {
+    'new-alert': function (alert) {
+      this.alerts.push(alert);
+    }
+  },
+
   data: {
-    'title': 'Issue Packs',
-    'user': {}
+    title: 'Issue Packs',
+    user: {},
+    alerts: []
   },
 
   // Include custom components
-  components: { Login, Alert },
-  ready () {
-    console.log('ready to go');
-  }
+  components: { Login, Alerts }
 });

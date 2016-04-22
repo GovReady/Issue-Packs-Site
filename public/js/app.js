@@ -11852,9 +11852,9 @@ var _vue = require('vue');
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _Alert = require('./components/Alert.vue');
+var _Alerts = require('./components/Alerts.vue');
 
-var _Alert2 = _interopRequireDefault(_Alert);
+var _Alerts2 = _interopRequireDefault(_Alerts);
 
 var _Login = require('./components/Login.vue');
 
@@ -11880,26 +11880,30 @@ _vue2.default.config.debug = true;
 new _vue2.default({
   el: '#app',
 
+  events: {
+    'new-alert': function newAlert(alert) {
+      this.alerts.push(alert);
+    }
+  },
+
   data: {
-    'title': 'Issue Packs',
-    'user': {}
+    title: 'Issue Packs',
+    user: {},
+    alerts: []
   },
 
   // Include custom components
-  components: { Login: _Login2.default, Alert: _Alert2.default },
-  ready: function ready() {
-    console.log('ready to go');
-  }
+  components: { Login: _Login2.default, Alerts: _Alerts2.default }
 });
 
-},{"./components/Alert.vue":29,"./components/Login.vue":30,"vue":27,"vue-resource":16}],29:[function(require,module,exports){
+},{"./components/Alerts.vue":30,"./components/Login.vue":31,"vue":27,"vue-resource":16}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  props: ['type'],
+  props: ['type', 'message'],
 
   data: function data() {
     return {
@@ -11918,17 +11922,10 @@ exports.default = {
         'Alert--Error': type == 'error'
       };
     }
-  },
-
-  ready: function ready() {
-    console.log('alert loaded');
-  },
-  created: function created() {
-    console.log('alert created');
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div :class=\"alertClasses\" v-show=\"show\">\n\n  <slot></slot>\n\n  <span class=\"Alert__close\" @click=\"show = false\">x</span>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div :class=\"alertClasses\" v-show=\"show\">\n  {{ message }}\n  <slot></slot>\n\n  <span class=\"Alert__close\" @click=\"show = false\">x</span>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11946,14 +11943,43 @@ if (module.hot) {(function () {  module.hot.accept()
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _Alert = require('./Alert.vue');
+
+var _Alert2 = _interopRequireDefault(_Alert);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  props: ['alerts'],
+  components: { Alert: _Alert2.default }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"Alerts\">\n  <alert v-for=\"alert in alerts\" :message=\"alert.message\" :type=\"alert.type\"></alert>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/Alerts.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./Alert.vue":29,"vue":27,"vue-hot-reload-api":2}],31:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = {
   methods: {
     login: function login() {
-      console.log('logging in');
+      var message = { message: 'Some message', type: 'success' };
+
+      this.$dispatch('new-alert', message);
     }
-  },
-  created: function created() {
-    console.log('button created');
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default

@@ -6,11 +6,10 @@
   export default  {
     methods: {
       login: function () {
-        console.log('logging in');
+        var message = { message: 'Some message', type: 'success' };
+
+        this.$dispatch('new-alert', message);
       }
-    },
-    created () {
-      console.log('button created');
     }
   };
 </script>
