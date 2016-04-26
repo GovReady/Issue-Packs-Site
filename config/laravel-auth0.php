@@ -10,7 +10,7 @@ return array(
     |
     */
 
-    // 'domain'        => 'XXXX.auth0.com',
+    'domain'        => env('AUTH0_DOMAIN'),
     /*
     |--------------------------------------------------------------------------
     |   Your APP id
@@ -19,7 +19,7 @@ return array(
     |
     */
 
-    // 'client_id'     => 'XXXX',
+    'client_id'     => env('AUTH0_CLIENT'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return array(
     |   As set in the auth0 administration page
     |
     */
-    // 'client_secret' => 'XXXXX',
+    'client_secret' => env('AUTH0_SECRET'),
 
 
    /*
