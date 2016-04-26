@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/api/protected', array('middleware' => 'auth0.jwt', function () {
+  return "Hello " . Auth0::jwtuser()->name;
+}));
