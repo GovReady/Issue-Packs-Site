@@ -159,6 +159,7 @@ return [
         /*
          *  Other service providers...
          */
+        Auth0\Login\LoginServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
@@ -179,6 +180,7 @@ return [
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
+        'Auth0' => Auth0\Login\Facade\Auth0::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
         'Config' => Illuminate\Support\Facades\Config::class,
