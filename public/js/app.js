@@ -11893,7 +11893,49 @@ new _vue2.default({
   },
 
   // Include custom components
-  components: { Login: _Login2.default, Alerts: _Alerts2.default }
+  components: { Login: _Login2.default, Alerts: _Alerts2.default },
+
+  methods: {
+    login: function login() {
+      var self = this;
+      var lock = new Auth0Lock('fmbqeYWZ7UU4PRC19cMND5MmghK0pVzA', 'govready.auth0.com');
+
+      lock.show(function (err, profile, token) {
+        if (err) {
+          // Handle the error
+          console.log(err);
+        } else {
+          // Set the token and user profile in local storage
+          localStorage.setItem('profile', JSON.stringify(profile));
+          localStorage.setItem('id_token', token);
+          self.authenticated = true;
+        }
+      });
+    },
+    logout: function logout() {
+      var self = this;
+      localStorage.removeItem('id_token');
+      localStorage.removeItem('profile');
+      self.authenticated = false;
+    },
+    getSecretThing: function getSecretThing() {
+      var jwtHeader = { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') };
+
+      this.$http.get('http://localhost:3001/secured/ping', {}, {
+        // Send the JWT as a header
+        headers: jwtHeader
+      }).then(
+      //successfull callback
+      function (response) {
+        // Handle data returned
+        console.log(response.data);
+      },
+      //error callback
+      function (err) {
+        return console.log(err);
+      });
+    }
+  }
 });
 
 },{"./components/Alerts.vue":30,"./components/Login.vue":31,"vue":27,"vue-resource":16}],29:[function(require,module,exports){
