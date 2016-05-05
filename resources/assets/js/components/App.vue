@@ -1,12 +1,14 @@
 <template>
-  <!-- <alerts :alerts.sync="alerts"></alerts> -->
+<div>
+  <alerts :alerts.sync="alerts"></alerts>
   <div class="main-content">
     <router-view></router-view>
   </div>
+</div>
 </template>
 
 <script>
-//import Alerts from './Alerts.vue';
+import Alerts from './Alerts.vue';
 
 export default {
   events: {
@@ -24,7 +26,7 @@ export default {
   },
 
   // Include custom components
-  components: { },
+  components: { Alerts },
 
   methods: {
     getSecretThing () {

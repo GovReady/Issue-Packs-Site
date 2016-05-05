@@ -9,10 +9,7 @@
 import Login from './Login.vue';
 
 export default {
-  components: { Login },
-  created () {
-    console.log('Home Page loaded');
-  }
+  components: { Login }
 }
 
 </script>

@@ -14593,6 +14593,10 @@ var _HomeView = require('./components/HomeView.vue');
 
 var _HomeView2 = _interopRequireDefault(_HomeView);
 
+var _Alerts = require('./components/Alerts.vue');
+
+var _Alerts2 = _interopRequireDefault(_Alerts);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.use(_vueResource2.default); /**
@@ -14604,11 +14608,12 @@ _vue2.default.use(_vueResource2.default); /**
  */
 
 _vue2.default.use(_vueRouter2.default);
-//import Alerts from './components/Alerts.vue';
-
 
 // Configure debug mode
 _vue2.default.config.debug = true;
+
+//Register global components
+_vue2.default.component('alerts', _Alerts2.default);
 
 var router = exports.router = new _vueRouter2.default({
   history: true
@@ -14628,15 +14633,89 @@ router.redirect({
 
 router.start(_App2.default, '#app');
 
-},{"./components/App.vue":33,"./components/HomeView.vue":34,"vue":31,"vue-resource":19,"vue-router":30}],33:[function(require,module,exports){
+},{"./components/Alerts.vue":34,"./components/App.vue":35,"./components/HomeView.vue":36,"vue":31,"vue-resource":19,"vue-router":30}],33:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  props: ['type', 'message'],
+
+  data: function data() {
+    return {
+      show: true
+    };
+  },
+
+
+  computed: {
+    alertClasses: function alertClasses() {
+      var type = this.type;
+
+      return {
+        'Alert': true,
+        'Alert--Success': type == 'success',
+        'Alert--Error': type == 'error'
+      };
+    }
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div :class=\"alertClasses\" v-show=\"show\">\n  {{ message }}\n  <slot></slot>\n\n  <span class=\"Alert__close\" @click=\"show = false\">x</span>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/Alert.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":31,"vue-hot-reload-api":5}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _Alert = require('./Alert.vue');
 
-//import Alerts from './Alerts.vue';
+var _Alert2 = _interopRequireDefault(_Alert);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  props: ['alerts'],
+  components: { Alert: _Alert2.default }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"Alerts\">\n  <alert v-for=\"alert in alerts\" :message=\"alert.message\" :type=\"alert.type\"></alert>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/Alerts.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./Alert.vue":33,"vue":31,"vue-hot-reload-api":5}],35:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _Alerts = require('./Alerts.vue');
+
+var _Alerts2 = _interopRequireDefault(_Alerts);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   events: {
@@ -14655,7 +14734,7 @@ exports.default = {
 
 
   // Include custom components
-  components: {},
+  components: { Alerts: _Alerts2.default },
 
   methods: {
     getSecretThing: function getSecretThing() {
@@ -14678,7 +14757,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- <alerts :alerts.sync=\"alerts\"></alerts> -->\n<div class=\"main-content\">\n  <router-view></router-view>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n  <alerts :alerts.sync=\"alerts\"></alerts>\n  <div class=\"main-content\">\n    <router-view></router-view>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -14690,7 +14769,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":5}],34:[function(require,module,exports){
+},{"./Alerts.vue":34,"vue":31,"vue-hot-reload-api":5}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14704,10 +14783,7 @@ var _Login2 = _interopRequireDefault(_Login);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  components: { Login: _Login2.default },
-  created: function created() {
-    console.log('Home Page loaded');
-  }
+  components: { Login: _Login2.default }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"home-content\">\n  <h2>Issue Packs</h2>\n  <login></login>\n</div>\n"
@@ -14722,7 +14798,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Login.vue":35,"vue":31,"vue-hot-reload-api":5}],35:[function(require,module,exports){
+},{"./Login.vue":37,"vue":31,"vue-hot-reload-api":5}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14740,6 +14816,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   methods: {
     login: function login() {
+      var _this = this;
+
       var self = this;
 
       _app.lock.show(function (err, profile, token) {
@@ -14753,6 +14831,7 @@ exports.default = {
           self.authenticated = true;
 
           console.log(localStorage.getItem('profile'));
+          _this.$dispatch('new-alert', { message: 'Login Successful.  Profile logged to console.', type: 'success' });
         }
       });
     },

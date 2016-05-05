@@ -13,11 +13,14 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 
 import App from './components/App.vue';
-//import Alerts from './components/Alerts.vue';
 import HomeView from './components/HomeView.vue';
+import Alerts from './components/Alerts.vue';
 
 // Configure debug mode
 Vue.config.debug = true;
+
+//Register global components
+Vue.component('alerts', Alerts);
 
 export var router = new VueRouter({
   history: true
@@ -36,5 +39,3 @@ router.redirect({
 });
 
 router.start(App, '#app');
-
-

@@ -21,6 +21,7 @@ export default {
           self.authenticated = true;
 
           console.log(localStorage.getItem('profile'));
+          this.$dispatch('new-alert', {message: 'Login Successful.  Profile logged to console.', type: 'success'});
         }
       });
     },

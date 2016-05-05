@@ -5749,14 +5749,23 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
+.Alerts {
+  position: absolute;
+  width: 400px;
+  right: 20px;
+  z-index: 999; }
+
 .Alert {
   position: relative;
   background: #ddd;
   border: 1px solid #c4c4c4;
-  padding: 1em; }
+  border-radius: 10px;
+  padding: 1em;
+  color: white;
+  font-size: 1.2em; }
   .Alert.Alert--Success {
-    background: #e6ffe6;
-    border: 1px solid #1aff1a; }
+    background: #5cb85c;
+    border: 1px solid #4cae4c; }
   .Alert.Alert--Error {
     background: lighten red, 70%;
     border: 1px solid #ff9999; }
@@ -5765,7 +5774,8 @@ button.close {
     top: 1em;
     right: 1em;
     font-weight: bold;
-    cursor: pointer; }
+    cursor: pointer;
+    color: white; }
 
 html, body {
   height: 100%; }

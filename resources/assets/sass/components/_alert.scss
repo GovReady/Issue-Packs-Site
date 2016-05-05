@@ -1,12 +1,22 @@
+.Alerts {
+  position:absolute;
+  width:400px;
+  right:20px;
+  z-index:999;
+}
+
 .Alert {
   position: relative;
   background: #ddd;
   border: 1px solid darken(#ddd, 10%);
+  border-radius:10px;
   padding: 1em;
+  color:white;
+  font-size:1.2em;
 
   &.Alert--Success {
-    background: lighten(green, 70%);
-    border: 1px solid lighten(green, 30%);
+    background: #5cb85c;
+    border: 1px solid #4cae4c;
   }
 
   &.Alert--Error {
@@ -20,5 +30,6 @@
     right: 1em;
     font-weight: bold;
     cursor: pointer;
+    color: white;
   }
 }
