@@ -7,9 +7,9 @@
  */
 import Vue from 'vue'
 Vue.use(require('vue-resource'));
+Vue.use(require('vue-router'));
 
 import Alerts from './components/Alerts.vue';
-import Login from './components/Login.vue';
 
 // Configure debug mode
 Vue.config.debug = true;
@@ -33,7 +33,7 @@ new Vue({
   },
 
   // Include custom components
-  components: { Login, Alerts },
+  components: { Alerts },
 
   methods: {
     login () {
@@ -49,6 +49,8 @@ new Vue({
           localStorage.setItem('profile', JSON.stringify(profile));
           localStorage.setItem('id_token', token);
           self.authenticated = true;
+
+          console.log(localStorage.getItem('profile'));
         }
       });
     },

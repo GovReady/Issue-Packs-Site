@@ -12,7 +12,7 @@
         <div class="main-content">
           <div class="inner">
             <h2>Issue Packs</h2>
-            <login></login>
+            <button class="btn btn-primary btn-lg" v-on:click="login()">Log in with Github</button>
           </div>
         </div>
       </div>

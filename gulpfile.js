@@ -15,5 +15,10 @@ require('laravel-elixir-vueify');
 elixir(function(mix) {
   mix.browserify('app.js')
     .sass('app.scss')
-    .browserSync({ proxy: 'local.issuepacks.com'});
+    .browserSync({
+      open: false,
+      proxy: {
+        target: 'local.issuepacks.com'
+      }
+    });
 });
