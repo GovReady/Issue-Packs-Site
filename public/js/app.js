@@ -14593,6 +14593,10 @@ var _HomeView = require('./components/HomeView.vue');
 
 var _HomeView2 = _interopRequireDefault(_HomeView);
 
+var _ReposView = require('./components/ReposView.vue');
+
+var _ReposView2 = _interopRequireDefault(_ReposView);
+
 var _Alerts = require('./components/Alerts.vue');
 
 var _Alerts2 = _interopRequireDefault(_Alerts);
@@ -14624,6 +14628,9 @@ var lock = exports.lock = new Auth0Lock('fmbqeYWZ7UU4PRC19cMND5MmghK0pVzA', 'gov
 router.map({
   '/': {
     component: _HomeView2.default
+  },
+  '/repos': {
+    component: _ReposView2.default
   }
 });
 
@@ -14633,7 +14640,7 @@ router.redirect({
 
 router.start(_App2.default, '#app');
 
-},{"./components/Alerts.vue":34,"./components/App.vue":35,"./components/HomeView.vue":36,"vue":31,"vue-resource":19,"vue-router":30}],33:[function(require,module,exports){
+},{"./components/Alerts.vue":34,"./components/App.vue":35,"./components/HomeView.vue":36,"./components/ReposView.vue":40,"vue":31,"vue-resource":19,"vue-router":30}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14715,12 +14722,17 @@ var _Alerts = require('./Alerts.vue');
 
 var _Alerts2 = _interopRequireDefault(_Alerts);
 
+var _app = require('../app');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   events: {
     'new-alert': function newAlert(alert) {
       this.alerts.push(alert);
+    },
+    'go': function go(path) {
+      _app.router.go(path);
     }
   },
 
@@ -14769,7 +14781,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Alerts.vue":34,"vue":31,"vue-hot-reload-api":5}],36:[function(require,module,exports){
+},{"../app":32,"./Alerts.vue":34,"vue":31,"vue-hot-reload-api":5}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14831,7 +14843,12 @@ exports.default = {
           self.authenticated = true;
 
           console.log(localStorage.getItem('profile'));
-          _this.$dispatch('new-alert', { message: 'Login Successful.  Profile logged to console.', type: 'success' });
+          _this.$dispatch('new-alert', {
+            message: 'Login Successful.  Profile logged to console.',
+            type: 'success'
+          });
+
+          _this.$dispatch('go', '/repos');
         }
       });
     },
@@ -14856,6 +14873,79 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app":32,"babel-runtime/core-js/json/stringify":1,"vue":31,"vue-hot-reload-api":5}]},{},[32]);
+},{"../app":32,"babel-runtime/core-js/json/stringify":1,"vue":31,"vue-hot-reload-api":5}],38:[function(require,module,exports){
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/Repo.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":31,"vue-hot-reload-api":5}],39:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _Repo = require('./Repo.vue');
+
+var _Repo2 = _interopRequireDefault(_Repo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  props: ['repos'],
+  components: { Repo: _Repo2.default }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<ul>\n  <li v-for=\"repo in repos\">\n    {{ repo }}\n  </li>\n</ul>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/RepoList.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./Repo.vue":38,"vue":31,"vue-hot-reload-api":5}],40:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _RepoList = require('./RepoList.vue');
+
+var _RepoList2 = _interopRequireDefault(_RepoList);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  props: ['repos'],
+  components: { RepoList: _RepoList2.default }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-content\">\n  <h2>Repos</h2>\n  <ul>\n    <repo-list></repo-list>\n  </ul>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/ReposView.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./RepoList.vue":39,"vue":31,"vue-hot-reload-api":5}]},{},[32]);
 
 //# sourceMappingURL=app.js.map

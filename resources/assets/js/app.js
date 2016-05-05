@@ -14,6 +14,7 @@ Vue.use(VueRouter);
 
 import App from './components/App.vue';
 import HomeView from './components/HomeView.vue';
+import ReposView from './components/ReposView.vue';
 import Alerts from './components/Alerts.vue';
 
 // Configure debug mode
@@ -31,6 +32,9 @@ export var lock = new Auth0Lock('fmbqeYWZ7UU4PRC19cMND5MmghK0pVzA', 'govready.au
 router.map({
   '/': {
     component: HomeView
+  },
+  '/repos': {
+    component: ReposView
   }
 });
 

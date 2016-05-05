@@ -9,11 +9,15 @@
 
 <script>
 import Alerts from './Alerts.vue';
+import {router} from '../app';
 
 export default {
   events: {
     'new-alert': function (alert) {
       this.alerts.push(alert);
+    },
+    'go': function (path) {
+      router.go(path);
     }
   },
 
