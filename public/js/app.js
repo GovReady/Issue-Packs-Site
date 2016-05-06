@@ -35055,10 +35055,6 @@ exports.default = {
           self.authenticated = true;
 
           console.log(localStorage.getItem('profile'));
-          _this.$dispatch('new-alert', {
-            message: 'Login Successful.  Profile logged to console.',
-            type: 'success'
-          });
 
           _this.$dispatch('go', '/dashboard');
           _this.$dispatch('login', profile);
