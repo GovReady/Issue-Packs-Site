@@ -10712,6 +10712,9 @@ ul.notifications {
 .login_content form div a {
   margin-bottom: 10px; }
 
+.container {
+  background: #2A3F54; }
+
 .Alerts {
   position: absolute;
   width: 400px;
