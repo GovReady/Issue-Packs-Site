@@ -2,9 +2,9 @@
 <div id="login" class="animate form">
   <section class="login_content">
     <form>
-      <h1>Login With Github</h1>
+      <h1>Issue Packs</h1>
       <div>
-        <a class="btn btn-default" v-on:click="login()"><i class="fa fa-github"></i> Log In</a>
+        <a class="btn btn-default" v-on:click="login()"><i class="fa fa-github"></i> Log In With Github</a>
       </div>
       <!-- <div class="clearfix"></div> -->
       <div class="separator">

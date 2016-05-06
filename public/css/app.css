@@ -10709,6 +10709,9 @@ ul.notifications {
 .login_content h1 {
   margin: 10px 0; }
 
+.login_content form div a {
+  margin-bottom: 10px; }
+
 .Alerts {
   position: absolute;
   width: 400px;
