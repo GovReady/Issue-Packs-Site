@@ -10,19 +10,26 @@ import Alerts from './Alerts.vue';
 import {router} from '../app';
 
 export default {
+  created () {
+    this.profile = JSON.parse(localStorage.getItem('profile'));
+  },
+
   events: {
     'new-alert': function (alert) {
       this.alerts.push(alert);
     },
     'go': function (path) {
       router.go(path);
+    },
+    'login': function (profile) {
+      this.profile = profile;
     }
   },
 
   data() {
     return {
       title: 'Issue Packs',
-      user: {},
+      profile: {},
       alerts: []
     };
   },

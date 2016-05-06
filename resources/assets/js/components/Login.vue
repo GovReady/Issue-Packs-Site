@@ -31,8 +31,10 @@ export default {
           // Handle the error
           console.log(err)
         } else {
+          var profile = JSON.stringify(profile);
+
           // Set the token and user profile in local storage
-          localStorage.setItem('profile', JSON.stringify(profile));
+          localStorage.setItem('profile', profile);
           localStorage.setItem('id_token', token);
           self.authenticated = true;
 
@@ -43,6 +45,7 @@ export default {
           });
 
           this.$dispatch('go', '/dashboard');
+          this.$dispatch('login', profile);
         }
       });
     },

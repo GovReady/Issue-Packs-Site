@@ -19,7 +19,7 @@
           </div>
           <div class="profile_info">
             <span>Welcome,</span>
-            <h2>John Doe</h2>
+            <h2 :v-model="profile.name"></h2>
           </div>
         </div>
         <!-- /menu prile quick info -->
@@ -1029,6 +1029,12 @@
 </template>
 <script>
   export default {
+    data () {
+      var profile = localStorage.getItem('profile');
 
+      return {
+        profile: profile
+      };
+    }
   }
 </script>
