@@ -8,18 +8,18 @@
       <div class="left_col scroll-view">
 
         <div class="navbar nav_title" style="border: 0;">
-          <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentellela Alela!</span></a>
+          <a href="index.html" class="site_title"><i class="fa fa-briefcase"></i> <span>Issue Packs</span></a>
         </div>
         <div class="clearfix"></div>
 
         <!-- menu prile quick info -->
         <div class="profile">
           <div class="profile_pic">
-            <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+            <img v-bind:src="gravatar_link" alt="..." class="img-circle profile_img">
           </div>
           <div class="profile_info">
             <span>Welcome,</span>
-            <h2 :v-model="profile.name"></h2>
+            <h2>{{ profile.name }}</h2>
           </div>
         </div>
         <!-- /menu prile quick info -->
@@ -1028,13 +1028,29 @@
 </div>
 </template>
 <script>
-  export default {
-    data () {
-      var profile = localStorage.getItem('profile');
+import Crypto from 'crypto';
 
-      return {
-        profile: profile
-      };
+export default {
+  data () {
+    var profile = JSON.parse(localStorage.getItem('profile'));
+
+    return {
+      profile: profile
+    };
+  },
+  computed: {
+    gravatar_link: function () {
+      var email = this.profile.email;
+      var base_url = "//www.gravatar.com/avatar/";
+
+      email = email.toLowerCase().trim();
+      var hash = Crypto.createHash('md5');
+      hash.update(email);
+
+      var url = base_url + hash.digest('hex');
+
+      return url;
     }
   }
+}
 </script>
