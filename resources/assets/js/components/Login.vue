@@ -42,7 +42,7 @@ export default {
             type: 'success'
           });
 
-          this.$dispatch('go', '/repos');
+          this.$dispatch('go', '/dashboard');
         }
       });
     },

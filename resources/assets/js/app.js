@@ -14,6 +14,7 @@ Vue.use(VueRouter);
 
 import App from './components/App.vue';
 import HomeView from './components/HomeView.vue';
+import DashboardView from './components/DashboardView.vue';
 import ReposView from './components/ReposView.vue';
 import Alerts from './components/Alerts.vue';
 
@@ -24,7 +25,7 @@ Vue.config.debug = true;
 Vue.component('alerts', Alerts);
 
 export var router = new VueRouter({
-  history: true
+  history: true,
 });
 
 export var lock = new Auth0Lock('fmbqeYWZ7UU4PRC19cMND5MmghK0pVzA', 'govready.auth0.com');
@@ -33,8 +34,8 @@ router.map({
   '/': {
     component: HomeView
   },
-  '/repos': {
-    component: ReposView,
+  '/dashboard': {
+    component: DashboardView,
     data (transition) {
       //return
     }

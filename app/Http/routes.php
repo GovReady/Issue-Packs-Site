@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::any('{slug}', function ($slug) {
+  return view('welcome');
+})->where('slug', '^(?!(api)/)(.*)$');
 
 Route::get('/api/protected', array('middleware' => 'auth0.jwt', function () {
   return "Hello " . Auth0::jwtuser()->name;

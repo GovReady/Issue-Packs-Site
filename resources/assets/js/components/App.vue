@@ -1,9 +1,7 @@
 <template>
 <div>
   <alerts :alerts.sync="alerts"></alerts>
-  <div class="main-content">
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </div>
 </template>
 
