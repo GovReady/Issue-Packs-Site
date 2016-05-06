@@ -1,8 +1,12 @@
 <template>
-  <div class="home-content">
-    <h2>Issue Packs</h2>
+<div class="">
+  <a class="hiddenanchor" id="toregister"></a>
+  <a class="hiddenanchor" id="tologin"></a>
+
+  <div id="wrapper">
     <login></login>
   </div>
+</div>
 </template>
 
 <script>

@@ -1,5 +1,9 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+//@import "global/mixins";
+@import "vendor/gentelella";
+@import "vendor/gentelella-fixes";
 @import 'components/alert';
+
 
 html, body {
   height:100%;

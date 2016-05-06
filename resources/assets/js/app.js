@@ -34,7 +34,10 @@ router.map({
     component: HomeView
   },
   '/repos': {
-    component: ReposView
+    component: ReposView,
+    data (transition) {
+      //return
+    }
   }
 });
 
