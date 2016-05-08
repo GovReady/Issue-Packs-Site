@@ -36,7 +36,6 @@ export default {
           // Set the token and user profile in local storage
           localStorage.setItem('profile', profile);
           localStorage.setItem('id_token', token);
-          self.authenticated = true;
 
           console.log(localStorage.getItem('profile'));
 
@@ -44,12 +43,6 @@ export default {
           this.$dispatch('login', profile);
         }
       });
-    },
-    logout () {
-      var self = this;
-      localStorage.removeItem('id_token');
-      localStorage.removeItem('profile');
-      self.authenticated = false;
     }
   }
 }

@@ -6,9 +6,11 @@
  *  Vue Setup
  */
 import Vue from 'vue';
+import VueAsyncData from 'vue-async-data';
 import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
 
+Vue.use(VueAsyncData);
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
@@ -28,7 +30,7 @@ export var router = new VueRouter({
   history: true,
 });
 
-export var lock = new Auth0Lock('fmbqeYWZ7UU4PRC19cMND5MmghK0pVzA', 'govready.auth0.com');
+export var lock = new Auth0Lock('pqbUxfLwW1UImYUUIe2qQbwCmByq41za', 'govready.auth0.com');
 
 router.map({
   '/': {

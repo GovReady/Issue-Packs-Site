@@ -121,9 +121,7 @@
           <a data-toggle="tooltip" data-placement="top" title="Lock">
             <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
           </a>
-          <a data-toggle="tooltip" data-placement="top" title="Logout">
-            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-          </a>
+          <logout></logout>
         </div>
         <!-- /menu footer buttons -->
       </div>
@@ -388,15 +386,19 @@
 </template>
 <script>
 import Crypto from 'crypto';
+import GithubAPI from 'github';
+import Logout from './Logout.vue';
 
 export default {
   data () {
     var profile = JSON.parse(localStorage.getItem('profile'));
 
     return {
-      profile: profile
+      profile: profile,
+      orgs: []
     };
   },
+  components: { Logout },
   computed: {
     gravatar_link: function () {
       var email = this.profile.email;
@@ -410,6 +412,25 @@ export default {
 
       return url;
     }
+  },
+  asyncData: function (resolve, reject) {
+    var self = this;
+    var nickname = this.profile.nickname;
+    var orgs_url = this.profile.organizations_url;
+    console.log(orgs_url);
+
+    // var github = new GithubAPI({
+    //   version: "3.0.0"
+    // });
+
+    //var orgs = github.getOrgs(nickname);
+    return this.$http.get(orgs_url + '?token=' + localStorage.getItem('id_token'))
+      .then(function (orgs) {
+        console.log(orgs.data);
+        return {
+          orgs: orgs
+        };
+      });
   }
 }
 </script>

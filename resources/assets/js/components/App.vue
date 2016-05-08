@@ -23,15 +23,17 @@ export default {
     },
     'login': function (profile) {
       this.profile = profile;
+      this.authenticated = true;
+    },
+    'logout': function () {
+      this.authenticated = false;
     }
   },
 
   data() {
     return {
-      title: 'Issue Packs',
-      profile: {},
-      alerts: []
-    };
+
+    }
   },
 
   // Include custom components
