@@ -138,7 +138,8 @@
 <script>
 import Crypto from 'crypto';
 import Github from 'github-api';
-import GithubAPI from 'github';
+import GithubService from '../services/github';
+
 import _ from 'underscore';
 
 import Messages from './Messages.vue';
@@ -252,7 +253,7 @@ export default {
 
     return {
       profile: profile,
-      orgs: orgs,
+      orgs: [],
       currentRepo: {selected: false}
     };
   },
@@ -285,34 +286,15 @@ export default {
   },
   asyncData: function (resolve, reject) {
     var self = this;
-    var orgs = [];
 
-    var github_identity = _.findWhere(this.profile.identities, {provider: "github"});
-
-    var github = new Github({
-      token: github_identity.access_token
+    var githubService = new GithubService({
+      profile: this.profile
     });
 
-    var user = github.getUser(this.profile.nickname);
-
-    var orgsPromise = user.getOrgs()
-      .then(function (res) {
-        var orgPromises = [];
-
-        _.each(res.data, function (org) {
-          console.log(org.url);
-          this.$http.get(org.url)
-            .then(function (res) {
-              orgs.push(res.data);
-            });
-          var githubOrg = github.getOrganization(org.login);
-          console.log(githubOrg);
-        }.bind(this));
-      }.bind(this));
-
-    return Promise.all([
-      orgsPromise
-    ]).then(([a]) => ({orgs}));
+    return githubService.getOrgs()
+      .then(function (orgs) {
+        return {orgs: orgs};
+      });
   }
 }
 </script>

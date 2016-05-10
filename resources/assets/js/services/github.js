@@ -1,29 +1,53 @@
+import _ from 'underscore';
+import Github from 'github-api';
+import async from 'async';
+import http from 'axios';
+
+function getOrg(org, callback) {
+  http.get(org.url)
+    .then(function (res) {
+      callback(null, res.data);
+    });
+}
+
 export default class GithubService {
   constructor (options) {
-    console.log('constructing');
     this.profile = options.profile;
-    this.id_token = options.id_token;
+
+    var github_identity = _.findWhere(this.profile.identities, {provider: "github"});
+    this.github_token = github_identity.access_token;
+    http.defaults.headers.common['Authorization'] = 'token ' + this.github_token;
   }
 
-  getSecretThing () {
-      var jwtHeader = { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') };
+  /**
+   *  getOrgs()
+   *
+   *  Returns promise with all organizations (public & private ) with repo list attached
+   */
+  getOrgs(cb) {
+    var orgPromises = [];
 
-      this.$http.get('http://localhost:3001/secured/ping',{}, {
-        // Send the JWT as a header
-        headers: jwtHeader
-      }).then(
-        //successfull callback
-        (response) => {
-          // Handle data returned
-          console.log(response.data);
-        },
-        //error callback
-        (err) => console.log(err));
-    }
+    var github = new Github({
+      token: this.github_token
+    });
+
+    var user = github.getUser(this.profile.nickname);
+
+    return new Promise(function (resolve, reject) {
+      http.get('https://api.github.com/user/orgs')
+        .then(function (res) {
+          var partOrgs = res.data;
+
+          async.map(partOrgs, getOrg, function (err, results) {
+            resolve(results);
+          });
+        });
+    });
+
   }
 
   getRepos() {
-    return this.$http.get(repos_url + '?token=' + this.id_token)
+    return Vue.http.get(repos_url + '?token=' + this.id_token)
       .then(function (repos) {
         console.log(repos.data);
         return {
