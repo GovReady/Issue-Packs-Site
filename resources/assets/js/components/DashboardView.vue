@@ -1,17 +1,12 @@
 <template>
 <div class="container body">
-
-
   <div class="main_container">
-
     <div class="col-md-3 left_col">
       <div class="left_col scroll-view">
-
         <div class="navbar nav_title" style="border: 0;">
           <a href="index.html" class="site_title"><i class="fa fa-briefcase"></i> <span>Issue Packs</span></a>
         </div>
         <div class="clearfix"></div>
-
         <!-- menu prile quick info -->
         <div class="profile">
           <div class="profile_pic">
@@ -34,7 +29,7 @@
                   <span class="org-name">{{ org.name }}</span>
                   <span class="fa fa-chevron-down"></span>
                 </a>
-                <ul class="nav child_menu" v-show="org.show">
+                <ul class="nav child_menu" v-show="org.show" transition="expand">
                   <li v-for="repo in org.repos">
                     <a v-on:click="loadRepo(repo)">{{ repo.name }}</a>
                   </li>

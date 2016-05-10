@@ -10814,6 +10814,18 @@ div#app {
 .left_col {
   background: #2A3F54; }
 
+.child_menu {
+  height: 0px; }
+
+.expand-transition {
+  -webkit-transition: all 1s ease;
+  transition: all 1s ease; }
+
+.expand-enter, .expand-leave {
+  height: 0;
+  padding: 0 10px;
+  opacity: 0; }
+
 .issue-role {
   margin: 0 2px; }
 
