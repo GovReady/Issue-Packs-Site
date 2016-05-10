@@ -43270,7 +43270,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div :class=\"alertClasses\" v-show=\"show\">\n  {{ message }}\n  <slot></slot>\n\n  <span class=\"Alert__close\" @click=\"show = false\">x</span>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n  <div v-show=\"show\" class=\"ui-pnotify \" style=\"width: 300px; opacity: 1; display: block; overflow: visible; cursor: auto; right: 25px; top: 25px;\">\n    <div class=\"alert ui-pnotify-container alert-dark ui-pnotify-shadow\" style=\"min-height: 16px; overflow: hidden;\">\n        <div class=\"ui-pnotify-closer\" style=\"cursor: pointer;\" @click=\"show = false\">\n          <span class=\"glyphicon glyphicon-remove\" title=\"Close\"></span>\n        </div>\n        <div class=\"ui-pnotify-icon\"><span class=\"glyphicon glyphicon-bullhorn\"></span></div>\n        <h4 class=\"ui-pnotify-title\">Notification</h4>\n        <div class=\"ui-pnotify-text\">{{ message }}</div>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

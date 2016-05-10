@@ -1,10 +1,15 @@
   <template>
-  <div :class="alertClasses" v-show="show">
-    {{ message }}
-    <slot></slot>
+  <div v-show="show" class="ui-pnotify " style="width: 300px; opacity: 1; display: block; overflow: visible; cursor: auto; right: 25px; top: 25px;">
+    <div class="alert ui-pnotify-container alert-dark ui-pnotify-shadow" style="min-height: 16px; overflow: hidden;">
+        <div class="ui-pnotify-closer" style="cursor: pointer;" @click="show = false">
+          <span class="glyphicon glyphicon-remove" title="Close"></span>
+        </div>
+        <div class="ui-pnotify-icon"><span class="glyphicon glyphicon-bullhorn"></span></div>
+        <h4 class="ui-pnotify-title">Notification</h4>
+        <div class="ui-pnotify-text">{{ message }}</div>
+    </div>
+</div>
 
-    <span class="Alert__close" @click="show = false">x</span>
-  </div>
 </template>
 
 <script>
