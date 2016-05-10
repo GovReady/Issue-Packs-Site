@@ -10805,10 +10805,14 @@ div#app {
   display: inline-block;
   height: 42px;
   border-radius: 2px;
-  margin-right: 10px; }
+  margin-right: 10px;
+  background: white; }
 
 .org-name {
   display: inline-block; }
+
+.left_col {
+  background: #2A3F54; }
 
 .issue-role {
   margin: 0 2px; }
