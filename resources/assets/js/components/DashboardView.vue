@@ -31,9 +31,10 @@
           <div class="menu_section">
             <h3>Organizations</h3>
             <ul class="nav side-menu">
-              <li>
+              <li v-for="org in orgs">
                 <a>
-                  <i class="fa fa-home"></i> Home
+                  <img v-bind:src="org.avatar_url" class="org-avatar">
+                  <span class="org-name">{{ org.name }}</span>
                   <span class="fa fa-chevron-down"></span>
                 </a>
                 <ul class="nav child_menu" style="display: none">
@@ -42,66 +43,6 @@
                   <li><a href="index2.html">Dashboard2</a>
                   </li>
                   <li><a href="index3.html">Dashboard3</a>
-                  </li>
-                </ul>
-              </li>
-              <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu" style="display: none">
-                  <li><a href="form.html">General Form</a>
-                  </li>
-                  <li><a href="form_advanced.html">Advanced Components</a>
-                  </li>
-                  <li><a href="form_validation.html">Form Validation</a>
-                  </li>
-                  <li><a href="form_wizards.html">Form Wizard</a>
-                  </li>
-                  <li><a href="form_upload.html">Form Upload</a>
-                  </li>
-                  <li><a href="form_buttons.html">Form Buttons</a>
-                  </li>
-                </ul>
-              </li>
-              <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu" style="display: none">
-                  <li><a href="general_elements.html">General Elements</a>
-                  </li>
-                  <li><a href="media_gallery.html">Media Gallery</a>
-                  </li>
-                  <li><a href="typography.html">Typography</a>
-                  </li>
-                  <li><a href="icons.html">Icons</a>
-                  </li>
-                  <li><a href="glyphicons.html">Glyphicons</a>
-                  </li>
-                  <li><a href="widgets.html">Widgets</a>
-                  </li>
-                  <li><a href="invoice.html">Invoice</a>
-                  </li>
-                  <li><a href="inbox.html">Inbox</a>
-                  </li>
-                  <li><a href="calendar.html">Calendar</a>
-                  </li>
-                </ul>
-              </li>
-              <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu" style="display: none">
-                  <li><a href="tables.html">Tables</a>
-                  </li>
-                  <li><a href="tables_dynamic.html">Table Dynamic</a>
-                  </li>
-                </ul>
-              </li>
-              <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu" style="display: none">
-                  <li><a href="chartjs.html">Chart JS</a>
-                  </li>
-                  <li><a href="chartjs2.html">Chart JS2</a>
-                  </li>
-                  <li><a href="morisjs.html">Moris JS</a>
-                  </li>
-                  <li><a href="echarts.html">ECharts </a>
-                  </li>
-                  <li><a href="other_charts.html">Other Charts </a>
                   </li>
                 </ul>
               </li>
@@ -386,16 +327,54 @@
 </template>
 <script>
 import Crypto from 'crypto';
-import GithubAPI from 'github';
 import Logout from './Logout.vue';
+import Github from 'github-api';
+import GithubAPI from 'github';
 
 export default {
+  ready () {
+
+  },
   data () {
     var profile = JSON.parse(localStorage.getItem('profile'));
 
+    var orgs = [
+      {
+        "name": 'GovReady',
+        "url": 'https://github.com/govready',
+        "avatar_url": 'https://avatars1.githubusercontent.com/u/6815262?v=3&s=84'
+      },
+      {
+        "name": '@unitedstates',
+        "url": 'https://github.com/unitedstates',
+        "avatar_url": 'https://avatars.githubusercontent.com/u/2200203?v=3'
+      },
+      {
+        "name": 'statedecoded',
+        "url": 'https://github.com/statedecoded',
+        "avatar_url": 'https://avatars.githubusercontent.com/u/3639174?v=3'
+      },
+      {
+        "name": 'OpenGov Foundation',
+        "url": 'https://github.com/opengovfoundation',
+        "avatar_url": 'https://avatars.githubusercontent.com/u/2090211?v=3'
+      },
+      {
+        "name": 'World Wide Web Consortium',
+        "url": 'https://github.com/w3c',
+        "avatar_url": 'https://avatars.githubusercontent.com/u/379216?v=3'
+      },
+      {
+        "name": 'DCLegalHackers',
+        "url": 'https://github.com/dclegalhackers',
+        "avatar_url": 'https://avatars.githubusercontent.com/u/5272226?v=3'
+      },
+    ];
+
     return {
       profile: profile,
-      orgs: []
+      orgs: orgs,
+      repos: []
     };
   },
   components: { Logout },
@@ -415,22 +394,18 @@ export default {
   },
   asyncData: function (resolve, reject) {
     var self = this;
-    var nickname = this.profile.nickname;
-    var orgs_url = this.profile.organizations_url;
-    console.log(orgs_url);
+    var id_token = localStorage.getItem('id_token');
 
-    // var github = new GithubAPI({
-    //   version: "3.0.0"
+    // var github = new Github({
+    //   token: id_token
     // });
 
-    //var orgs = github.getOrgs(nickname);
-    return this.$http.get(orgs_url + '?token=' + localStorage.getItem('id_token'))
-      .then(function (orgs) {
-        console.log(orgs.data);
-        return {
-          orgs: orgs
-        };
-      });
+    // var cmbirk = github.getUser('cmbirk');
+    // var orgs = cmbirk.getOrgs(function () {
+    //   console.log(arguments);
+    // });
+    // console.log(cmbirk);
+
   }
 }
 </script>

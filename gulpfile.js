@@ -16,7 +16,6 @@ elixir(function(mix) {
   mix.browserify('app.js')
     .sass('app.scss')
     .browserSync({
-      open: false,
       proxy: {
         target: 'local.issuepacks.com'
       }

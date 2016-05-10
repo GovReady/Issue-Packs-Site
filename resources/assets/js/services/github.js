@@ -1,28 +1,34 @@
-import Github from 'github';
-
 export default class GithubService {
-  constructor () {
+  constructor (options) {
     console.log('constructing');
-
-    console.log(Github);
-    var github = new Github({
-      version: "3.0.0"
-    });
-
-    this.github = github;
+    this.profile = options.profile;
+    this.id_token = options.id_token;
   }
 
-  getOrgs(user) {
-    console.log(user);
-    console.log(this);
+  getSecretThing () {
+      var jwtHeader = { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') };
 
-    return new Promise(function (resolve, reject) {
-      this.github.user.getOrgs({
-        user: user
-      }, function (err, res) {
-        console.log(err, res);
-        resolve(res);
+      this.$http.get('http://localhost:3001/secured/ping',{}, {
+        // Send the JWT as a header
+        headers: jwtHeader
+      }).then(
+        //successfull callback
+        (response) => {
+          // Handle data returned
+          console.log(response.data);
+        },
+        //error callback
+        (err) => console.log(err));
+    }
+  }
+
+  getRepos() {
+    return this.$http.get(repos_url + '?token=' + this.id_token)
+      .then(function (repos) {
+        console.log(repos.data);
+        return {
+          repos: repos.data
+        };
       });
-    });
   }
 }
