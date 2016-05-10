@@ -37,7 +37,7 @@
                   <span class="org-name">{{ org.name }}</span>
                   <span class="fa fa-chevron-down"></span>
                 </a>
-                <ul class="nav child_menu" style="display: none">
+                <ul class="nav child_menu" v-show="org.show">
                   <li><a href="index.html">Dashboard</a>
                   </li>
                   <li><a href="index2.html">Dashboard2</a>
