@@ -37,7 +37,10 @@
     },
     methods: {
       install (pack) {
-        this.$dispatch('new-alert', {'message': 'Installing ' + pack.milestone, 'type': 'success'});
+        if(!pack.installed) {
+          this.$dispatch('new-alert', {'message': 'Installing ' + pack.milestone, 'type': 'success'});
+        }
+
         pack.installed = true;
       }
     },
