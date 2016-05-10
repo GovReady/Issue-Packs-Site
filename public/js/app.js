@@ -43449,10 +43449,10 @@ exports.default = {
       avatar_url: 'https://avatars.githubusercontent.com/u/2200203?v=3',
       show: false,
       repos: [{
-        name: '',
-        description: '',
-        html_url: '',
-        full_name: ''
+        name: 'Test-Repo',
+        description: 'Test Repo Description',
+        html_url: 'https://github.com/govready/Issue-Packs-Site',
+        full_name: 'GovReady/Test-Repo'
       }]
     }, {
       name: 'statedecoded',
@@ -43460,10 +43460,10 @@ exports.default = {
       avatar_url: 'https://avatars.githubusercontent.com/u/3639174?v=3',
       show: false,
       repos: [{
-        name: '',
-        description: '',
-        html_url: '',
-        full_name: ''
+        name: 'Test-Repo',
+        description: 'Test Repo Description',
+        html_url: 'https://github.com/govready/Issue-Packs-Site',
+        full_name: 'GovReady/Test-Repo'
       }]
     }, {
       name: 'OpenGov Foundation',
@@ -43471,10 +43471,10 @@ exports.default = {
       avatar_url: 'https://avatars.githubusercontent.com/u/2090211?v=3',
       show: false,
       repos: [{
-        name: '',
-        description: '',
-        html_url: '',
-        full_name: ''
+        name: 'Test-Repo',
+        description: 'Test Repo Description',
+        html_url: 'https://github.com/govready/Issue-Packs-Site',
+        full_name: 'GovReady/Test-Repo'
       }]
     }, {
       name: 'World Wide Web Consortium',
@@ -43482,10 +43482,10 @@ exports.default = {
       avatar_url: 'https://avatars.githubusercontent.com/u/379216?v=3',
       show: false,
       repos: [{
-        name: '',
-        description: '',
-        html_url: '',
-        full_name: ''
+        name: 'Test-Repo',
+        description: 'Test Repo Description',
+        html_url: 'https://github.com/govready/Issue-Packs-Site',
+        full_name: 'GovReady/Test-Repo'
       }]
     }, {
       name: 'DCLegalHackers',
@@ -43493,10 +43493,10 @@ exports.default = {
       avatar_url: 'https://avatars.githubusercontent.com/u/5272226?v=3',
       show: false,
       repos: [{
-        name: '',
-        description: '',
-        html_url: '',
-        full_name: ''
+        name: 'Test-Repo',
+        description: 'Test Repo Description',
+        html_url: 'https://github.com/govready/Issue-Packs-Site',
+        full_name: 'GovReady/Test-Repo'
       }]
     }];
 

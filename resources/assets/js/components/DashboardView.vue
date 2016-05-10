@@ -369,10 +369,10 @@ export default {
         show: false,
         repos: [
           {
-            name: '',
-            description: '',
-            html_url: '',
-            full_name: ''
+            name: 'Test-Repo',
+            description: 'Test Repo Description',
+            html_url: 'https://github.com/govready/Issue-Packs-Site',
+            full_name: 'GovReady/Test-Repo'
           }
         ]
       },
@@ -383,10 +383,10 @@ export default {
         show: false,
         repos: [
           {
-            name: '',
-            description: '',
-            html_url: '',
-            full_name: ''
+            name: 'Test-Repo',
+            description: 'Test Repo Description',
+            html_url: 'https://github.com/govready/Issue-Packs-Site',
+            full_name: 'GovReady/Test-Repo'
           }
         ]
       },
@@ -397,10 +397,10 @@ export default {
         show: false,
         repos: [
           {
-            name: '',
-            description: '',
-            html_url: '',
-            full_name: ''
+            name: 'Test-Repo',
+            description: 'Test Repo Description',
+            html_url: 'https://github.com/govready/Issue-Packs-Site',
+            full_name: 'GovReady/Test-Repo'
           }
         ]
       },
@@ -411,10 +411,10 @@ export default {
         show: false,
         repos: [
           {
-            name: '',
-            description: '',
-            html_url: '',
-            full_name: ''
+            name: 'Test-Repo',
+            description: 'Test Repo Description',
+            html_url: 'https://github.com/govready/Issue-Packs-Site',
+            full_name: 'GovReady/Test-Repo'
           }
         ]
       },
@@ -425,10 +425,10 @@ export default {
         show: false,
         repos: [
           {
-            name: '',
-            description: '',
-            html_url: '',
-            full_name: ''
+            name: 'Test-Repo',
+            description: 'Test Repo Description',
+            html_url: 'https://github.com/govready/Issue-Packs-Site',
+            full_name: 'GovReady/Test-Repo'
           }
         ]
       },
