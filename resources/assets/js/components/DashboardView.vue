@@ -31,8 +31,8 @@
           <div class="menu_section">
             <h3>Organizations</h3>
             <ul class="nav side-menu">
-              <li v-for="org in orgs">
-                <a>
+              <li v-for="org in orgs" v-bind:class="{'active': org.show}">
+                <a v-on:click="show(org)">
                   <img v-bind:src="org.avatar_url" class="org-avatar">
                   <span class="org-name">{{ org.name }}</span>
                   <span class="fa fa-chevron-down"></span>
@@ -340,34 +340,40 @@ export default {
 
     var orgs = [
       {
-        "name": 'GovReady',
-        "url": 'https://github.com/govready',
-        "avatar_url": 'https://avatars1.githubusercontent.com/u/6815262?v=3&s=84'
+        name: 'GovReady',
+        url: 'https://github.com/govready',
+        avatar_url: 'https://avatars1.githubusercontent.com/u/6815262?v=3&s=84',
+        show: false
       },
       {
-        "name": '@unitedstates',
-        "url": 'https://github.com/unitedstates',
-        "avatar_url": 'https://avatars.githubusercontent.com/u/2200203?v=3'
+        name: '@unitedstates',
+        url: 'https://github.com/unitedstates',
+        avatar_url: 'https://avatars.githubusercontent.com/u/2200203?v=3',
+        show: false
       },
       {
-        "name": 'statedecoded',
-        "url": 'https://github.com/statedecoded',
-        "avatar_url": 'https://avatars.githubusercontent.com/u/3639174?v=3'
+        name: 'statedecoded',
+        url: 'https://github.com/statedecoded',
+        avatar_url: 'https://avatars.githubusercontent.com/u/3639174?v=3',
+        show: false
       },
       {
-        "name": 'OpenGov Foundation',
-        "url": 'https://github.com/opengovfoundation',
-        "avatar_url": 'https://avatars.githubusercontent.com/u/2090211?v=3'
+        name: 'OpenGov Foundation',
+        url: 'https://github.com/opengovfoundation',
+        avatar_url: 'https://avatars.githubusercontent.com/u/2090211?v=3',
+        show: false
       },
       {
-        "name": 'World Wide Web Consortium',
-        "url": 'https://github.com/w3c',
-        "avatar_url": 'https://avatars.githubusercontent.com/u/379216?v=3'
+        name: 'World Wide Web Consortium',
+        url: 'https://github.com/w3c',
+        avatar_url: 'https://avatars.githubusercontent.com/u/379216?v=3',
+        show: false
       },
       {
-        "name": 'DCLegalHackers',
-        "url": 'https://github.com/dclegalhackers',
-        "avatar_url": 'https://avatars.githubusercontent.com/u/5272226?v=3'
+        name: 'DCLegalHackers',
+        url: 'https://github.com/dclegalhackers',
+        avatar_url: 'https://avatars.githubusercontent.com/u/5272226?v=3',
+        show: false
       },
     ];
 
@@ -390,6 +396,11 @@ export default {
       var url = base_url + hash.digest('hex');
 
       return url;
+    }
+  },
+  methods: {
+    show (org) {
+      org.show = !org.show;
     }
   },
   asyncData: function (resolve, reject) {
