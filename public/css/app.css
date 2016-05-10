@@ -225,7 +225,7 @@ th {
   .btn > .caret,
   .dropup > .btn > .caret {
     border-top-color: #000 !important; }
-  .label {
+  .label, .issue-role {
     border: 1px solid #000; }
   .table {
     border-collapse: collapse !important; }
@@ -4168,7 +4168,7 @@ tbody.collapse.in {
     background-color: #fff;
     cursor: not-allowed; }
 
-.label {
+.label, .issue-role {
   display: inline;
   padding: .2em .6em .3em;
   font-size: 75%;
@@ -4179,13 +4179,13 @@ tbody.collapse.in {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: .25em; }
-  .label:empty {
+  .label:empty, .issue-role:empty {
     display: none; }
-  .btn .label {
+  .btn .label, .btn .issue-role {
     position: relative;
     top: -1px; }
 
-a.label:hover, a.label:focus {
+a.label:hover, a.issue-role:hover, a.label:focus, a.issue-role:focus {
   color: #fff;
   text-decoration: none;
   cursor: pointer; }
@@ -4195,9 +4195,9 @@ a.label:hover, a.label:focus {
   .label-default[href]:hover, .label-default[href]:focus {
     background-color: #5e5e5e; }
 
-.label-primary {
+.label-primary, .issue-role {
   background-color: #337ab7; }
-  .label-primary[href]:hover, .label-primary[href]:focus {
+  .label-primary[href]:hover, [href].issue-role:hover, .label-primary[href]:focus, [href].issue-role:focus {
     background-color: #286090; }
 
 .label-success {
@@ -10809,6 +10809,9 @@ div#app {
 
 .org-name {
   display: inline-block; }
+
+.issue-role {
+  margin: 0 2px; }
 
 html, body {
   height: 100%; }
