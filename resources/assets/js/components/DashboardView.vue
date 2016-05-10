@@ -90,68 +90,7 @@
               </ul>
             </li>
             <li role="presentation" class="dropdown">
-              <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-envelope-o"></i>
-                <span class="badge bg-green">6</span>
-              </a>
-              <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                <li>
-                  <a>
-                    <span class="image">
-                      <img v-bind:src="gravatar_link" alt="Profile Image" />
-                    </span>
-                    <span>
-                      <span>John Smith</span>
-                      <span class="time">3 mins ago</span>
-                    </span>
-                    <span class="message">Film festivals used to be do-or-die moments for movie makers. They were where...</span>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <span class="image">
-                      <img v-bind:src="gravatar_link" alt="Profile Image" />
-                    </span>
-                    <span>
-                      <span>John Smith</span>
-                      <span class="time">3 mins ago</span>
-                    </span>
-                    <span class="message">Film festivals used to be do-or-die moments for movie makers. They were where...</span>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <span class="image">
-                      <img v-bind:src="gravatar_link" alt="Profile Image" />
-                    </span>
-                    <span>
-                      <span>John Smith</span>
-                      <span class="time">3 mins ago</span>
-                    </span>
-                    <span class="message">Film festivals used to be do-or-die moments for movie makers. They were where...</span>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <span class="image">
-                      <img v-bind:src="gravatar_link" alt="Profile Image" />
-                    </span>
-                    <span>
-                      <span>John Smith</span>
-                      <span class="time">3 mins ago</span>
-                    </span>
-                    <span class="message">Film festivals used to be do-or-die moments for movie makers. They were where...</span>
-                  </a>
-                </li>
-                <li>
-                  <div class="text-center">
-                    <a href="#">
-                      <strong>See All Alerts</strong>
-                      <i class="fa fa-angle-right"></i>
-                    </a>
-                  </div>
-                </li>
-              </ul>
+              <messages :gravatar="gravatar_link"></messages>
             </li>
           </ul>
         </nav>
@@ -201,6 +140,7 @@ import Crypto from 'crypto';
 import Github from 'github-api';
 import GithubAPI from 'github';
 
+import Messages from './Messages.vue';
 import RepoDashboard from './RepoDashboard.vue';
 
 export default {
@@ -315,7 +255,7 @@ export default {
       currentRepo: {selected: false}
     };
   },
-  components: { RepoDashboard },
+  components: { Messages, RepoDashboard },
   computed: {
     gravatar_link: function () {
       var email = this.profile.email;
