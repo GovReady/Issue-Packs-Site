@@ -163,10 +163,26 @@
     <!-- /top navigation -->
     <!-- page content -->
     <div class="right_col" role="main">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>Install Issue Packs</h3>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <span v-if="!currentRepo.selected">Choose issue pack on left.</span>
-          <repo-dashboard :repo="currentRepo" v-if="currentRepo.selected"></repo-dashboard>
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>
+                <span v-if="!currentRepo.selected">Choose issue pack on left.</span>
+                <span v-if="currentRepo.selected">{{ currentRepo.name }}</span>
+              </h2>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+              <repo-dashboard :repo="currentRepo" v-if="currentRepo.selected"></repo-dashboard>
+            </div>
+          </div>
         </div>
       </div>
       <br />
