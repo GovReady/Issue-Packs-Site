@@ -109,7 +109,7 @@
           <div class="x_panel">
             <div class="x_title">
               <h2>
-                <span v-if="!currentRepo.selected">Choose issue pack on left.</span>
+                <span v-if="!currentRepo.selected">Start by choosing a repo on the left.</span>
                 <span v-if="currentRepo.selected">{{ currentRepo.name }}</span>
               </h2>
               <div class="clearfix"></div>
