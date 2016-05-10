@@ -16,6 +16,7 @@
 
 .child_menu {
   height: 0px;
+  overflow:hidden;
 }
 
 .expand-transition {
@@ -24,6 +25,4 @@
 
 .expand-enter, .expand-leave {
   height: 0;
-  padding: 0 10px;
-  opacity: 0;
 }
