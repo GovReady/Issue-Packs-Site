@@ -26,7 +26,7 @@
               <li v-for="org in orgs" v-bind:class="{'active': org.show}">
                 <a v-on:click="show(org)">
                   <img v-bind:src="org.avatar_url" class="org-avatar">
-                  <span class="org-name">{{ org.name }}</span>
+                  <span class="org-name">{{ org.name || org.login }}</span>
                   <span class="fa fa-chevron-down"></span>
                 </a>
                 <ul class="nav child_menu" v-show="org.show" transition="expand">
@@ -139,6 +139,7 @@
 import Crypto from 'crypto';
 import Github from 'github-api';
 import GithubAPI from 'github';
+import _ from 'underscore';
 
 import Messages from './Messages.vue';
 import RepoDashboard from './RepoDashboard.vue';
@@ -284,18 +285,34 @@ export default {
   },
   asyncData: function (resolve, reject) {
     var self = this;
-    var id_token = localStorage.getItem('id_token');
+    var orgs = [];
 
-    // var github = new Github({
-    //   token: id_token
-    // });
+    var github_identity = _.findWhere(this.profile.identities, {provider: "github"});
 
-    // var cmbirk = github.getUser('cmbirk');
-    // var orgs = cmbirk.getOrgs(function () {
-    //   console.log(arguments);
-    // });
-    // console.log(cmbirk);
+    var github = new Github({
+      token: github_identity.access_token
+    });
 
+    var user = github.getUser(this.profile.nickname);
+
+    var orgsPromise = user.getOrgs()
+      .then(function (res) {
+        var orgPromises = [];
+
+        _.each(res.data, function (org) {
+          console.log(org.url);
+          this.$http.get(org.url)
+            .then(function (res) {
+              orgs.push(res.data);
+            });
+          var githubOrg = github.getOrganization(org.login);
+          console.log(githubOrg);
+        }.bind(this));
+      }.bind(this));
+
+    return Promise.all([
+      orgsPromise
+    ]).then(([a]) => ({orgs}));
   }
 }
 </script>
