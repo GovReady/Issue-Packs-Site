@@ -56,7 +56,9 @@
           <a data-toggle="tooltip" data-placement="top" title="Lock">
             <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
           </a>
-          <logout></logout>
+          <a href="#" data-toggle="tooltip" data-placement="top" title="Logout" v-on:click="logout()">
+            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+          </a>
         </div>
         <!-- /menu footer buttons -->
       </div>
@@ -88,7 +90,7 @@
                 <li>
                   <a href="javascript:;">Help</a>
                 </li>
-                <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                <li><a v-on:click="logout()"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                 </li>
               </ul>
             </li>
@@ -204,7 +206,6 @@ import Crypto from 'crypto';
 import Github from 'github-api';
 import GithubAPI from 'github';
 
-import Logout from './Logout.vue';
 import RepoDashboard from './RepoDashboard.vue';
 
 export default {
@@ -319,7 +320,7 @@ export default {
       currentRepo: {selected: false}
     };
   },
-  components: { Logout, RepoDashboard },
+  components: { RepoDashboard },
   computed: {
     gravatar_link: function () {
       var email = this.profile.email;
@@ -341,7 +342,9 @@ export default {
     loadRepo (repo) {
       this.currentRepo = repo;
       this.currentRepo.selected = true;
-
+    },
+    logout () {
+      this.$dispatch('logout');
     }
   },
   asyncData: function (resolve, reject) {

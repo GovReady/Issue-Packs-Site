@@ -43241,7 +43241,7 @@ router.redirect({
 
 router.start(_App2.default, '#app');
 
-},{"./components/Alerts.vue":209,"./components/App.vue":210,"./components/DashboardView.vue":211,"./components/HomeView.vue":212,"./components/ReposView.vue":218,"vue":206,"vue-async-data":179,"vue-resource":194,"vue-router":205}],208:[function(require,module,exports){
+},{"./components/Alerts.vue":209,"./components/App.vue":210,"./components/DashboardView.vue":211,"./components/HomeView.vue":212,"./components/ReposView.vue":217,"vue":206,"vue-async-data":179,"vue-resource":194,"vue-router":205}],208:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43345,7 +43345,11 @@ exports.default = {
       this.authenticated = true;
     },
     'logout': function logout() {
+      localStorage.removeItem('id_token');
+      localStorage.removeItem('profile');
       this.authenticated = false;
+
+      this.$dispatch('go', '/');
     }
   },
 
@@ -43410,10 +43414,6 @@ var _githubApi2 = _interopRequireDefault(_githubApi);
 var _github = require('github');
 
 var _github2 = _interopRequireDefault(_github);
-
-var _Logout = require('./Logout.vue');
-
-var _Logout2 = _interopRequireDefault(_Logout);
 
 var _RepoDashboard = require('./RepoDashboard.vue');
 
@@ -43511,7 +43511,7 @@ exports.default = {
     };
   },
 
-  components: { Logout: _Logout2.default, RepoDashboard: _RepoDashboard2.default },
+  components: { RepoDashboard: _RepoDashboard2.default },
   computed: {
     gravatar_link: function gravatar_link() {
       var email = this.profile.email;
@@ -43533,6 +43533,9 @@ exports.default = {
     loadRepo: function loadRepo(repo) {
       this.currentRepo = repo;
       this.currentRepo.selected = true;
+    },
+    logout: function logout() {
+      this.$dispatch('logout');
     }
   },
   asyncData: function asyncData(resolve, reject) {
@@ -43551,7 +43554,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container body\">\n\n\n  <div class=\"main_container\">\n\n    <div class=\"col-md-3 left_col\">\n      <div class=\"left_col scroll-view\">\n\n        <div class=\"navbar nav_title\" style=\"border: 0;\">\n          <a href=\"index.html\" class=\"site_title\"><i class=\"fa fa-briefcase\"></i> <span>Issue Packs</span></a>\n        </div>\n        <div class=\"clearfix\"></div>\n\n        <!-- menu prile quick info -->\n        <div class=\"profile\">\n          <div class=\"profile_pic\">\n            <img v-bind:src=\"gravatar_link\" alt=\"...\" class=\"img-circle profile_img\">\n          </div>\n          <div class=\"profile_info\">\n            <span>Welcome,</span>\n            <h2>{{ profile.name }}</h2>\n          </div>\n        </div>\n        <!-- /menu profile quick info -->\n        <!-- sidebar menu -->\n        <div id=\"sidebar-menu\" class=\"main_menu_side hidden-print main_menu\">\n          <div class=\"menu_section\">\n            <h3>Organizations</h3>\n            <ul class=\"nav side-menu\">\n              <li v-for=\"org in orgs\" v-bind:class=\"{'active': org.show}\">\n                <a v-on:click=\"show(org)\">\n                  <img v-bind:src=\"org.avatar_url\" class=\"org-avatar\">\n                  <span class=\"org-name\">{{ org.name }}</span>\n                  <span class=\"fa fa-chevron-down\"></span>\n                </a>\n                <ul class=\"nav child_menu\" v-show=\"org.show\">\n                  <li v-for=\"repo in org.repos\">\n                    <a v-on:click=\"loadRepo(repo)\">{{ repo.name }}</a>\n                  </li>\n                </ul>\n              </li>\n            </ul>\n          </div>\n        </div>\n        <!-- /sidebar menu -->\n\n        <!-- /menu footer buttons -->\n        <div class=\"sidebar-footer hidden-small\">\n          <a data-toggle=\"tooltip\" data-placement=\"top\" title=\"Settings\">\n            <span class=\"glyphicon glyphicon-cog\" aria-hidden=\"true\"></span>\n          </a>\n          <a data-toggle=\"tooltip\" data-placement=\"top\" title=\"FullScreen\">\n            <span class=\"glyphicon glyphicon-fullscreen\" aria-hidden=\"true\"></span>\n          </a>\n          <a data-toggle=\"tooltip\" data-placement=\"top\" title=\"Lock\">\n            <span class=\"glyphicon glyphicon-eye-close\" aria-hidden=\"true\"></span>\n          </a>\n          <logout></logout>\n        </div>\n        <!-- /menu footer buttons -->\n      </div>\n    </div>\n\n    <!-- top navigation -->\n    <div class=\"top_nav\">\n      <div class=\"nav_menu\">\n        <nav class=\"\" role=\"navigation\">\n          <div class=\"nav toggle\">\n            <a id=\"menu_toggle\"><i class=\"fa fa-bars\"></i></a>\n          </div>\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li class=\"\">\n              <a href=\"javascript:;\" class=\"user-profile dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                <img v-bind:src=\"gravatar_link\" alt=\"\">{{ profile.name }}\n                <span class=\" fa fa-angle-down\"></span>\n              </a>\n              <ul class=\"dropdown-menu dropdown-usermenu pull-right\">\n                <li>\n                  <a href=\"javascript:;\">  Profile</a>\n                </li>\n                <li>\n                  <a href=\"javascript:;\">\n                    <span class=\"badge bg-red pull-right\">50%</span>\n                    <span>Settings</span>\n                  </a>\n                </li>\n                <li>\n                  <a href=\"javascript:;\">Help</a>\n                </li>\n                <li><a href=\"login.html\"><i class=\"fa fa-sign-out pull-right\"></i> Log Out</a>\n                </li>\n              </ul>\n            </li>\n            <li role=\"presentation\" class=\"dropdown\">\n              <a href=\"javascript:;\" class=\"dropdown-toggle info-number\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                <i class=\"fa fa-envelope-o\"></i>\n                <span class=\"badge bg-green\">6</span>\n              </a>\n              <ul id=\"menu1\" class=\"dropdown-menu list-unstyled msg_list\" role=\"menu\">\n                <li>\n                  <a>\n                    <span class=\"image\">\n                      <img v-bind:src=\"gravatar_link\" alt=\"Profile Image\">\n                    </span>\n                    <span>\n                      <span>John Smith</span>\n                      <span class=\"time\">3 mins ago</span>\n                    </span>\n                    <span class=\"message\">Film festivals used to be do-or-die moments for movie makers. They were where...</span>\n                  </a>\n                </li>\n                <li>\n                  <a>\n                    <span class=\"image\">\n                      <img v-bind:src=\"gravatar_link\" alt=\"Profile Image\">\n                    </span>\n                    <span>\n                      <span>John Smith</span>\n                      <span class=\"time\">3 mins ago</span>\n                    </span>\n                    <span class=\"message\">Film festivals used to be do-or-die moments for movie makers. They were where...</span>\n                  </a>\n                </li>\n                <li>\n                  <a>\n                    <span class=\"image\">\n                      <img v-bind:src=\"gravatar_link\" alt=\"Profile Image\">\n                    </span>\n                    <span>\n                      <span>John Smith</span>\n                      <span class=\"time\">3 mins ago</span>\n                    </span>\n                    <span class=\"message\">Film festivals used to be do-or-die moments for movie makers. They were where...</span>\n                  </a>\n                </li>\n                <li>\n                  <a>\n                    <span class=\"image\">\n                      <img v-bind:src=\"gravatar_link\" alt=\"Profile Image\">\n                    </span>\n                    <span>\n                      <span>John Smith</span>\n                      <span class=\"time\">3 mins ago</span>\n                    </span>\n                    <span class=\"message\">Film festivals used to be do-or-die moments for movie makers. They were where...</span>\n                  </a>\n                </li>\n                <li>\n                  <div class=\"text-center\">\n                    <a href=\"#\">\n                      <strong>See All Alerts</strong>\n                      <i class=\"fa fa-angle-right\"></i>\n                    </a>\n                  </div>\n                </li>\n              </ul>\n            </li>\n          </ul>\n        </nav>\n      </div>\n    </div>\n    <!-- /top navigation -->\n    <!-- page content -->\n    <div class=\"right_col\" role=\"main\">\n      <div class=\"page-title\">\n        <div class=\"title_left\">\n          <h3>Install Issue Packs</h3>\n        </div>\n      </div>\n      <div class=\"row\">\n        <div class=\"col-md-12 col-sm-12 col-xs-12\">\n          <div class=\"x_panel\">\n            <div class=\"x_title\">\n              <h2>\n                <span v-if=\"!currentRepo.selected\">Choose issue pack on left.</span>\n                <span v-if=\"currentRepo.selected\">{{ currentRepo.name }}</span>\n              </h2>\n              <div class=\"clearfix\"></div>\n            </div>\n            <div class=\"x_content\">\n\n              <repo-dashboard :repo=\"currentRepo\" v-if=\"currentRepo.selected\"></repo-dashboard>\n            </div>\n          </div>\n        </div>\n      </div>\n      <br>\n    </div>\n    <!-- /page content -->\n    <!-- footer content -->\n    <footer>\n      <div class=\"pull-right\">\n        Issue Packs Dashboard by <a href=\"https://govready.com\" target=\"_blank\">Govready</a>\n      </div>\n      <div class=\"clearfix\"></div>\n    </footer>\n    <!-- /footer content -->\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container body\">\n\n\n  <div class=\"main_container\">\n\n    <div class=\"col-md-3 left_col\">\n      <div class=\"left_col scroll-view\">\n\n        <div class=\"navbar nav_title\" style=\"border: 0;\">\n          <a href=\"index.html\" class=\"site_title\"><i class=\"fa fa-briefcase\"></i> <span>Issue Packs</span></a>\n        </div>\n        <div class=\"clearfix\"></div>\n\n        <!-- menu prile quick info -->\n        <div class=\"profile\">\n          <div class=\"profile_pic\">\n            <img v-bind:src=\"gravatar_link\" alt=\"...\" class=\"img-circle profile_img\">\n          </div>\n          <div class=\"profile_info\">\n            <span>Welcome,</span>\n            <h2>{{ profile.name }}</h2>\n          </div>\n        </div>\n        <!-- /menu profile quick info -->\n        <!-- sidebar menu -->\n        <div id=\"sidebar-menu\" class=\"main_menu_side hidden-print main_menu\">\n          <div class=\"menu_section\">\n            <h3>Organizations</h3>\n            <ul class=\"nav side-menu\">\n              <li v-for=\"org in orgs\" v-bind:class=\"{'active': org.show}\">\n                <a v-on:click=\"show(org)\">\n                  <img v-bind:src=\"org.avatar_url\" class=\"org-avatar\">\n                  <span class=\"org-name\">{{ org.name }}</span>\n                  <span class=\"fa fa-chevron-down\"></span>\n                </a>\n                <ul class=\"nav child_menu\" v-show=\"org.show\">\n                  <li v-for=\"repo in org.repos\">\n                    <a v-on:click=\"loadRepo(repo)\">{{ repo.name }}</a>\n                  </li>\n                </ul>\n              </li>\n            </ul>\n          </div>\n        </div>\n        <!-- /sidebar menu -->\n\n        <!-- /menu footer buttons -->\n        <div class=\"sidebar-footer hidden-small\">\n          <a data-toggle=\"tooltip\" data-placement=\"top\" title=\"Settings\">\n            <span class=\"glyphicon glyphicon-cog\" aria-hidden=\"true\"></span>\n          </a>\n          <a data-toggle=\"tooltip\" data-placement=\"top\" title=\"FullScreen\">\n            <span class=\"glyphicon glyphicon-fullscreen\" aria-hidden=\"true\"></span>\n          </a>\n          <a data-toggle=\"tooltip\" data-placement=\"top\" title=\"Lock\">\n            <span class=\"glyphicon glyphicon-eye-close\" aria-hidden=\"true\"></span>\n          </a>\n          <a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Logout\" v-on:click=\"logout()\">\n            <span class=\"glyphicon glyphicon-off\" aria-hidden=\"true\"></span>\n          </a>\n        </div>\n        <!-- /menu footer buttons -->\n      </div>\n    </div>\n\n    <!-- top navigation -->\n    <div class=\"top_nav\">\n      <div class=\"nav_menu\">\n        <nav class=\"\" role=\"navigation\">\n          <div class=\"nav toggle\">\n            <a id=\"menu_toggle\"><i class=\"fa fa-bars\"></i></a>\n          </div>\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li class=\"\">\n              <a href=\"javascript:;\" class=\"user-profile dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                <img v-bind:src=\"gravatar_link\" alt=\"\">{{ profile.name }}\n                <span class=\" fa fa-angle-down\"></span>\n              </a>\n              <ul class=\"dropdown-menu dropdown-usermenu pull-right\">\n                <li>\n                  <a href=\"javascript:;\">  Profile</a>\n                </li>\n                <li>\n                  <a href=\"javascript:;\">\n                    <span class=\"badge bg-red pull-right\">50%</span>\n                    <span>Settings</span>\n                  </a>\n                </li>\n                <li>\n                  <a href=\"javascript:;\">Help</a>\n                </li>\n                <li><a v-on:click=\"logout()\"><i class=\"fa fa-sign-out pull-right\"></i> Log Out</a>\n                </li>\n              </ul>\n            </li>\n            <li role=\"presentation\" class=\"dropdown\">\n              <a href=\"javascript:;\" class=\"dropdown-toggle info-number\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                <i class=\"fa fa-envelope-o\"></i>\n                <span class=\"badge bg-green\">6</span>\n              </a>\n              <ul id=\"menu1\" class=\"dropdown-menu list-unstyled msg_list\" role=\"menu\">\n                <li>\n                  <a>\n                    <span class=\"image\">\n                      <img v-bind:src=\"gravatar_link\" alt=\"Profile Image\">\n                    </span>\n                    <span>\n                      <span>John Smith</span>\n                      <span class=\"time\">3 mins ago</span>\n                    </span>\n                    <span class=\"message\">Film festivals used to be do-or-die moments for movie makers. They were where...</span>\n                  </a>\n                </li>\n                <li>\n                  <a>\n                    <span class=\"image\">\n                      <img v-bind:src=\"gravatar_link\" alt=\"Profile Image\">\n                    </span>\n                    <span>\n                      <span>John Smith</span>\n                      <span class=\"time\">3 mins ago</span>\n                    </span>\n                    <span class=\"message\">Film festivals used to be do-or-die moments for movie makers. They were where...</span>\n                  </a>\n                </li>\n                <li>\n                  <a>\n                    <span class=\"image\">\n                      <img v-bind:src=\"gravatar_link\" alt=\"Profile Image\">\n                    </span>\n                    <span>\n                      <span>John Smith</span>\n                      <span class=\"time\">3 mins ago</span>\n                    </span>\n                    <span class=\"message\">Film festivals used to be do-or-die moments for movie makers. They were where...</span>\n                  </a>\n                </li>\n                <li>\n                  <a>\n                    <span class=\"image\">\n                      <img v-bind:src=\"gravatar_link\" alt=\"Profile Image\">\n                    </span>\n                    <span>\n                      <span>John Smith</span>\n                      <span class=\"time\">3 mins ago</span>\n                    </span>\n                    <span class=\"message\">Film festivals used to be do-or-die moments for movie makers. They were where...</span>\n                  </a>\n                </li>\n                <li>\n                  <div class=\"text-center\">\n                    <a href=\"#\">\n                      <strong>See All Alerts</strong>\n                      <i class=\"fa fa-angle-right\"></i>\n                    </a>\n                  </div>\n                </li>\n              </ul>\n            </li>\n          </ul>\n        </nav>\n      </div>\n    </div>\n    <!-- /top navigation -->\n    <!-- page content -->\n    <div class=\"right_col\" role=\"main\">\n      <div class=\"page-title\">\n        <div class=\"title_left\">\n          <h3>Install Issue Packs</h3>\n        </div>\n      </div>\n      <div class=\"row\">\n        <div class=\"col-md-12 col-sm-12 col-xs-12\">\n          <div class=\"x_panel\">\n            <div class=\"x_title\">\n              <h2>\n                <span v-if=\"!currentRepo.selected\">Choose issue pack on left.</span>\n                <span v-if=\"currentRepo.selected\">{{ currentRepo.name }}</span>\n              </h2>\n              <div class=\"clearfix\"></div>\n            </div>\n            <div class=\"x_content\">\n\n              <repo-dashboard :repo=\"currentRepo\" v-if=\"currentRepo.selected\"></repo-dashboard>\n            </div>\n          </div>\n        </div>\n      </div>\n      <br>\n    </div>\n    <!-- /page content -->\n    <!-- footer content -->\n    <footer>\n      <div class=\"pull-right\">\n        Issue Packs Dashboard by <a href=\"https://govready.com\" target=\"_blank\">Govready</a>\n      </div>\n      <div class=\"clearfix\"></div>\n    </footer>\n    <!-- /footer content -->\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -43563,7 +43566,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Logout.vue":214,"./RepoDashboard.vue":216,"crypto":71,"github":115,"github-api":104,"vue":206,"vue-hot-reload-api":180}],212:[function(require,module,exports){
+},{"./RepoDashboard.vue":215,"crypto":71,"github":115,"github-api":104,"vue":206,"vue-hot-reload-api":180}],212:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43642,41 +43645,6 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../app":207,"vue":206,"vue-hot-reload-api":180}],214:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _app = require('../app');
-
-exports.default = {
-  methods: {
-    logout: function logout() {
-      console.log('logging out');
-
-      localStorage.removeItem('id_token');
-      localStorage.removeItem('profile');
-
-      this.$dispatch('go', '/');
-      this.$dispatch('logout');
-    }
-  }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Logout\" v-on:click=\"logout()\">\n  <span class=\"glyphicon glyphicon-off\" aria-hidden=\"true\"></span>\n</a>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/Logout.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"../app":207,"vue":206,"vue-hot-reload-api":180}],215:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -43689,7 +43657,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":206,"vue-hot-reload-api":180}],216:[function(require,module,exports){
+},{"vue":206,"vue-hot-reload-api":180}],215:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43757,7 +43725,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":206,"vue-hot-reload-api":180}],217:[function(require,module,exports){
+},{"vue":206,"vue-hot-reload-api":180}],216:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43787,7 +43755,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Repo.vue":215,"vue":206,"vue-hot-reload-api":180}],218:[function(require,module,exports){
+},{"./Repo.vue":214,"vue":206,"vue-hot-reload-api":180}],217:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43817,6 +43785,6 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./RepoList.vue":217,"vue":206,"vue-hot-reload-api":180}]},{},[207]);
+},{"./RepoList.vue":216,"vue":206,"vue-hot-reload-api":180}]},{},[207]);
 
 //# sourceMappingURL=app.js.map

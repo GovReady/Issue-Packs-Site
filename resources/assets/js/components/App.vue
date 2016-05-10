@@ -26,7 +26,11 @@ export default {
       this.authenticated = true;
     },
     'logout': function () {
+      localStorage.removeItem('id_token');
+      localStorage.removeItem('profile');
       this.authenticated = false;
+
+      this.$dispatch('go', '/');
     }
   },
 
