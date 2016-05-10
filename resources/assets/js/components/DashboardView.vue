@@ -38,11 +38,8 @@
                   <span class="fa fa-chevron-down"></span>
                 </a>
                 <ul class="nav child_menu" v-show="org.show">
-                  <li><a href="index.html">Dashboard</a>
-                  </li>
-                  <li><a href="index2.html">Dashboard2</a>
-                  </li>
-                  <li><a href="index3.html">Dashboard3</a>
+                  <li v-for="repo in org.repos">
+                    <a v-on:click="loadRepo(repo)">{{ repo.name }}</a>
                   </li>
                 </ul>
               </li>
@@ -343,37 +340,97 @@ export default {
         name: 'GovReady',
         url: 'https://github.com/govready',
         avatar_url: 'https://avatars1.githubusercontent.com/u/6815262?v=3&s=84',
-        show: false
+        show: false,
+        repos: [
+          {
+            name: 'Issue-Packs-Site',
+            description: 'Front End for Issue Packs',
+            html_url: 'https://github.com/GovReady/Issue-Packs-Site',
+            full_name: 'GovReady/Issue-Packs-Site'
+          },
+          {
+            name: 'GovReady-WordPress-Agent',
+            description: 'Plugin for WordPress to assist with compliance',
+            html_url: 'https://github.com/GovReady/GovReady-WordPress-Agent',
+            full_name: 'GovReady/GovReady-WordPress-Agent'
+          },
+          {
+            name: 'GovReady-Drupal-Agent',
+            description: 'Plugin for Drupal to assist with compliance',
+            html_url: 'https://github.com/GovReady/GovReady-Drupal-Agent',
+            full_name: 'GovReady/GovReady-Drupal-Agent'
+          }
+        ]
       },
       {
         name: '@unitedstates',
         url: 'https://github.com/unitedstates',
         avatar_url: 'https://avatars.githubusercontent.com/u/2200203?v=3',
-        show: false
+        show: false,
+        repos: [
+          {
+            name: '',
+            description: '',
+            html_url: '',
+            full_name: ''
+          }
+        ]
       },
       {
         name: 'statedecoded',
         url: 'https://github.com/statedecoded',
         avatar_url: 'https://avatars.githubusercontent.com/u/3639174?v=3',
-        show: false
+        show: false,
+        repos: [
+          {
+            name: '',
+            description: '',
+            html_url: '',
+            full_name: ''
+          }
+        ]
       },
       {
         name: 'OpenGov Foundation',
         url: 'https://github.com/opengovfoundation',
         avatar_url: 'https://avatars.githubusercontent.com/u/2090211?v=3',
-        show: false
+        show: false,
+        repos: [
+          {
+            name: '',
+            description: '',
+            html_url: '',
+            full_name: ''
+          }
+        ]
       },
       {
         name: 'World Wide Web Consortium',
         url: 'https://github.com/w3c',
         avatar_url: 'https://avatars.githubusercontent.com/u/379216?v=3',
-        show: false
+        show: false,
+        repos: [
+          {
+            name: '',
+            description: '',
+            html_url: '',
+            full_name: ''
+          }
+        ]
       },
       {
         name: 'DCLegalHackers',
         url: 'https://github.com/dclegalhackers',
         avatar_url: 'https://avatars.githubusercontent.com/u/5272226?v=3',
-        show: false
+        show: false,
+        repos: [
+          {
+            name: '',
+            description: '',
+            html_url: '',
+            full_name: ''
+          }
+        ]
       },
     ];
 
@@ -401,6 +458,9 @@ export default {
   methods: {
     show (org) {
       org.show = !org.show;
+    },
+    loadRepo (repo) {
+      this.$dispatch('new-alert', {message: "Loading " + repo.name, type: "success"});
     }
   },
   asyncData: function (resolve, reject) {
