@@ -12,10 +12,16 @@
             <ul class="to_do">
               <li v-for="issue in pack.issues">
                 <p>
-                  {{ issue.title }}
+                  {{ issue.title }} - {{ issue.body }}
                 </p>
               </li>
             </ul>
+          </div>
+          <div class="pack-install">
+            <button class="btn btn-primary" v-bind:class="{'disabled': pack.installed}" v-on:click="install(pack)">
+              <span v-if="!pack.installed">Install</span>
+              <span v-if="pack.installed">Pack Installed</span>
+            </button>
           </div>
         </div>
       </div>
@@ -29,6 +35,12 @@
     ready () {
 
     },
+    methods: {
+      install (pack) {
+        this.$dispatch('new-alert', {'message': 'Installing ' + pack.milestone, 'type': 'success'});
+        pack.installed = true;
+      }
+    },
     data () {
       return {
         issuePacks: [
@@ -39,12 +51,41 @@
                 title: "Issue 1",
                 body: "This is the first issue",
                 labels: ["Role 1", "Role 2"]
+              },
+              {
+                title: "Issue 2",
+                body: "This is the second issue",
+                labels: ["Role 3"]
+              },
+              {
+                title: "Issue 3",
+                body: "This is the third issue",
               }
-            ]
+            ],
+            installed: false
+          },
+          {
+            milestone: "Milestone 2",
+            issues: [
+              {
+                title: "Issue 1",
+                body: "This is the first issue",
+                labels: ["Role 1", "Role 2"]
+              },
+              {
+                title: "Issue 2",
+                body: "This is the second issue",
+                labels: ["Role 3"]
+              },
+              {
+                title: "Issue 3",
+                body: "This is the third issue",
+              }
+            ],
+            installed: false
           }
         ]
       }
-
     }
   }
 </script>

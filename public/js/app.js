@@ -43690,7 +43690,7 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":206,"vue-hot-reload-api":180}],216:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -43698,6 +43698,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   props: ['repo'],
   ready: function ready() {},
+
+  methods: {
+    install: function install(pack) {
+      this.$dispatch('new-alert', { 'message': 'Installing ' + pack.milestone, 'type': 'success' });
+      pack.installed = true;
+    }
+  },
   data: function data() {
     return {
       issuePacks: [{
@@ -43706,13 +43713,36 @@ exports.default = {
           title: "Issue 1",
           body: "This is the first issue",
           labels: ["Role 1", "Role 2"]
-        }]
+        }, {
+          title: "Issue 2",
+          body: "This is the second issue",
+          labels: ["Role 3"]
+        }, {
+          title: "Issue 3",
+          body: "This is the third issue"
+        }],
+        installed: false
+      }, {
+        milestone: "Milestone 2",
+        issues: [{
+          title: "Issue 1",
+          body: "This is the first issue",
+          labels: ["Role 1", "Role 2"]
+        }, {
+          title: "Issue 2",
+          body: "This is the second issue",
+          labels: ["Role 3"]
+        }, {
+          title: "Issue 3",
+          body: "This is the third issue"
+        }],
+        installed: false
       }]
     };
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div v-for=\"pack in issuePacks\" class=\"issue-pack\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>{{ pack.milestone }}</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <div>\n            <ul class=\"to_do\">\n              <li v-for=\"issue in pack.issues\">\n                <p>\n                  {{ issue.title }}\n                </p>\n              </li>\n            </ul>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div v-for=\"pack in issuePacks\" class=\"issue-pack\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>{{ pack.milestone }}</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <div>\n            <ul class=\"to_do\">\n              <li v-for=\"issue in pack.issues\">\n                <p>\n                  {{ issue.title }} - {{ issue.body }}\n                </p>\n              </li>\n            </ul>\n          </div>\n          <div class=\"pack-install\">\n            <button class=\"btn btn-primary\" v-bind:class=\"{'disabled': pack.installed}\" v-on:click=\"install(pack)\">\n              <span v-if=\"!pack.installed\">Install</span>\n              <span v-if=\"pack.installed\">Pack Installed</span>\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
