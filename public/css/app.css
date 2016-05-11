@@ -10822,6 +10822,9 @@ div#app {
 .expand-enter, .expand-leave {
   height: 0; }
 
+.sidebar-footer a {
+  width: 100%; }
+
 .issue-role {
   margin: 0 2px; }
 
