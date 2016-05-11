@@ -169,6 +169,11 @@ export default {
       this.$dispatch('logout');
     }
   },
+  events: {
+    'repo-selected': function (repo) {
+      this.loadRepo(repo);
+    }
+  },
   asyncData: function (resolve, reject) {
     var self = this;
 

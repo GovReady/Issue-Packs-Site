@@ -42867,6 +42867,11 @@ exports.default = {
       this.$dispatch('logout');
     }
   },
+  events: {
+    'repo-selected': function repoSelected(repo) {
+      this.loadRepo(repo);
+    }
+  },
   asyncData: function asyncData(resolve, reject) {
     var self = this;
 
@@ -43170,6 +43175,9 @@ exports.default = {
     show: function show(org) {
       console.log(org);
       org.show = !org.show;
+    },
+    loadRepo: function loadRepo(repo) {
+      this.$dispatch('repo-selected', repo);
     }
   }
 };

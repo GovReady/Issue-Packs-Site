@@ -34,6 +34,9 @@
       show (org) {
         console.log(org);
         org.show = !org.show;
+      },
+      loadRepo (repo) {
+        this.$dispatch('repo-selected', repo);
       }
     }
   }
