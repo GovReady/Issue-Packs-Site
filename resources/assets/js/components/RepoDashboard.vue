@@ -31,6 +31,10 @@
 </div>
 </template>
 <script>
+  import IssuePack from 'issue-pack';
+  import GithubService from '../services/github';
+  import YAML from 'yamljs';
+
   export default {
     props: ['repo'],
     ready () {
@@ -47,49 +51,26 @@
     },
     data () {
       return {
-        issuePacks: [
-          {
-            milestone: "Milestone 1",
-            issues: [
-              {
-                title: "Issue 1",
-                body: "This is the first issue",
-                labels: ["Role 1", "Role 2"]
-              },
-              {
-                title: "Issue 2",
-                body: "This is the second issue",
-                labels: ["Role 3"]
-              },
-              {
-                title: "Issue 3",
-                body: "This is the third issue",
-              }
-            ],
-            installed: false
-          },
-          {
-            milestone: "Milestone 2",
-            issues: [
-              {
-                title: "Issue 1",
-                body: "This is the first issue",
-                labels: ["Role 1", "Role 2"]
-              },
-              {
-                title: "Issue 2",
-                body: "This is the second issue",
-                labels: ["Role 3"]
-              },
-              {
-                title: "Issue 3",
-                body: "This is the third issue",
-              }
-            ],
-            installed: false
-          }
-        ]
+        issuePacks: []
       }
+    },
+    asyncData: function (resolve, reject) {
+      var profile = JSON.parse(localStorage.getItem('profile'));
+
+      var github = new GithubService({
+        profile: profile
+      });
+
+      return github.getIssuePacks()
+        .then(function (packs) {
+          var packObjects = [];
+
+          packs.forEach(function (pack) {
+            packObjects.push(YAML.parse(pack));
+          });
+
+          return { issuePacks: packObjects }
+        });
     }
   }
 </script>

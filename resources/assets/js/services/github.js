@@ -1,13 +1,24 @@
 import _ from 'underscore';
 import Github from 'github-api';
 import async from 'async';
-import http from 'axios';
+import axios from 'axios';
+
+axios.interceptors.request.use(function (config) {
+  console.log(config);
+}, function (error) {
+  console.log(error);
+  return Promise.reject(error);
+});
+
+var http;
+
+
 
 //Get repos for the organization
 function getRepos (org, callback) {
   http.get(org.repos_url).then(function (res) {
     callback(res.data);
-  })
+  });
 }
 
 //Get organization information
@@ -25,13 +36,36 @@ function getOrg(org, callback) {
     });
 }
 
+function getPack(pack, callback) {
+  http.get(pack.download_url, { dropAuthHeader: true })
+    .then(function (res) {
+      callback(null, res.data);
+    });
+}
+
 export default class GithubService {
   constructor (options) {
     this.profile = options.profile;
 
     var github_identity = _.findWhere(this.profile.identities, {provider: "github"});
     this.github_token = github_identity.access_token;
-    http.defaults.headers.common['Authorization'] = 'token ' + this.github_token;
+
+    //Set default Authorization header for auth'ed requests
+    axios.defaults.headers.common['Authorization'] = 'token ' + this.github_token;
+
+    //Create an axios instance
+    http = axios.create();
+
+    //Set up interceptor to remove Authorization header on file content requests
+    http.interceptors.request.use(function (config) {
+      if (config.dropAuthHeader) {
+        delete config.headers.Authorization;
+      }
+
+      return config;
+    }, function (error) {
+      console.error(error);
+    });
   }
 
   /**
@@ -61,13 +95,17 @@ export default class GithubService {
 
   }
 
-  getRepos() {
-    return Vue.http.get(repos_url + '?token=' + this.id_token)
-      .then(function (repos) {
-        console.log(repos.data);
-        return {
-          repos: repos.data
-        };
+  getIssuePacks() {
+    return new Promise(function (resolve, reject) {
+      http.get('https://api.github.com/repos/govready/issue-packs/contents/examples')
+      .then(function (res) {
+        var packs = res.data;
+
+        async.map(packs, getPack, function (err, results) {
+          console.log(results);
+          resolve(results);
+        });
       });
+    });
   }
 }
