@@ -3,10 +3,25 @@ import Github from 'github-api';
 import async from 'async';
 import http from 'axios';
 
+//Get repos for the organization
+function getRepos (org, callback) {
+  http.get(org.repos_url).then(function (res) {
+    callback(res.data);
+  })
+}
+
+//Get organization information
 function getOrg(org, callback) {
   http.get(org.url)
     .then(function (res) {
-      callback(null, res.data);
+      var org = res.data;
+      org.show = false;
+
+      getRepos(org, function (repos) {
+        org.repos = repos;
+
+        callback(null, org);
+      });
     });
 }
 

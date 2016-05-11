@@ -19,25 +19,7 @@
         </div>
         <!-- /menu profile quick info -->
         <!-- sidebar menu -->
-        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-          <div class="menu_section">
-            <h3>Organizations</h3>
-            <ul class="nav side-menu">
-              <li v-for="org in orgs" v-bind:class="{'active': org.show}">
-                <a v-on:click="show(org)">
-                  <img v-bind:src="org.avatar_url" class="org-avatar">
-                  <span class="org-name">{{ org.name || org.login }}</span>
-                  <span class="fa fa-chevron-down"></span>
-                </a>
-                <ul class="nav child_menu" v-show="org.show" transition="expand">
-                  <li v-for="repo in org.repos">
-                    <a v-on:click="loadRepo(repo)">{{ repo.name }}</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <sidebar-menu wait-for="async-data" :orgs="orgs"></sidebar-menu>
         <!-- /sidebar menu -->
 
         <!-- /menu footer buttons -->
@@ -144,6 +126,7 @@ import _ from 'underscore';
 
 import Messages from './Messages.vue';
 import RepoDashboard from './RepoDashboard.vue';
+import SidebarMenu from './SidebarMenu.vue';
 
 export default {
   ready () {
@@ -158,7 +141,7 @@ export default {
       currentRepo: {selected: false}
     };
   },
-  components: { Messages, RepoDashboard },
+  components: { Messages, RepoDashboard, SidebarMenu },
   computed: {
     gravatar_link: function () {
       var email = this.profile.email;
@@ -175,6 +158,7 @@ export default {
   },
   methods: {
     show (org) {
+      console.log(org);
       org.show = !org.show;
     },
     loadRepo (repo) {
