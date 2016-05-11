@@ -16,6 +16,7 @@
             <span>Welcome,</span>
             <h2>{{ profile.name }}</h2>
           </div>
+          <div class="clearfix"></div>
         </div>
         <!-- /menu profile quick info -->
         <!-- sidebar menu -->

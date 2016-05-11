@@ -1,9 +1,14 @@
 <template>
   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-    <div class="menu_section">
+    <div class="menu-header">
       <h3>Organizations</h3>
+    </div>
+    <div class="menu-search">
+      <input type="text" v-model="orgFilter" class="form-control" placeholder="Filter Organizations">
+    </div>
+    <div class="menu_section">
       <ul class="nav side-menu">
-        <li v-for="org in orgs" v-bind:class="{'active': org.show}">
+        <li v-for="org in orgs | filterBy orgFilter in 'name' 'login'" v-bind:class="{'active': org.show}">
           <a v-on:click="show(org)">
             <img v-bind:src="org.avatar_url" class="org-avatar">
             <span class="org-name">{{ org.name || org.login }}</span>
@@ -26,7 +31,7 @@
     },
     data () {
       return {
-
+        orgFilter: ''
       }
     },
     props: ['orgs'],

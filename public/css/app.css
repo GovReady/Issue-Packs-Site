@@ -10828,6 +10828,20 @@ div#app {
 .issue-role {
   margin: 0 2px; }
 
+.main_menu_side {
+  border-top: 1px dotted #425668;
+  margin-top: 10px; }
+
+.menu-header h3 {
+  color: white;
+  text-align: center;
+  font-size: 1.2em; }
+
+.menu-search > input {
+  border-radius: 4px;
+  width: 75%;
+  margin: 0 auto; }
+
 html, body {
   height: 100%; }
 
