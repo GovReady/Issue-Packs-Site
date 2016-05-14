@@ -3,13 +3,6 @@ import Github from 'github-api';
 import async from 'async';
 import axios from 'axios';
 
-axios.interceptors.request.use(function (config) {
-  console.log(config);
-}, function (error) {
-  console.log(error);
-  return Promise.reject(error);
-});
-
 var http;
 
 
@@ -95,14 +88,13 @@ export default class GithubService {
 
   }
 
-  getIssuePacks() {
+  getIssuePacks(url) {
     return new Promise(function (resolve, reject) {
-      http.get('https://api.github.com/repos/govready/issue-packs/contents/examples')
+      http.get(url)
       .then(function (res) {
         var packs = res.data;
 
         async.map(packs, getPack, function (err, results) {
-          console.log(results);
           resolve(results);
         });
       });

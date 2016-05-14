@@ -34,6 +34,8 @@
   import IssuePack from 'issue-pack';
   import GithubService from '../services/github';
   import YAML from 'yamljs';
+  import Github from 'github';
+  import _ from 'underscore';
 
   export default {
     props: ['repo'],
@@ -46,27 +48,42 @@
           this.$dispatch('new-alert', {'message': 'Installing ' + pack.milestone, 'type': 'success'});
         }
 
+        var github_identity = _.findWhere(this.profile.identities, { provider: "github" });
+
+        var issuePack = new IssuePack({
+          auth: {
+            token: github_identity.access_token
+          }
+        });
+
+        issuePack.load(pack);
+        issuePack.push(this.repo.full_name);
+
         pack.installed = true;
       }
     },
     data () {
       return {
-        issuePacks: []
+        issuePacks: [],
+        pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples",
+        profile: JSON.parse(localStorage.getItem('profile'))
       }
     },
     asyncData: function (resolve, reject) {
-      var profile = JSON.parse(localStorage.getItem('profile'));
+      var profile = this.profile;
 
       var github = new GithubService({
         profile: profile
       });
 
-      return github.getIssuePacks()
+      return github.getIssuePacks(this.pack_url)
         .then(function (packs) {
           var packObjects = [];
 
           packs.forEach(function (pack) {
-            packObjects.push(YAML.parse(pack));
+            var parsed = YAML.parse(pack);
+            parsed.installed = false;
+            packObjects.push(parsed);
           });
 
           return { issuePacks: packObjects }

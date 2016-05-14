@@ -85,6 +85,9 @@
               <h2>
                 <span v-if="!currentRepo.selected">Start by choosing a repo on the left.</span>
                 <span v-if="currentRepo.selected">{{ currentRepo.name }}</span>
+                <!-- <div class="pack-url">
+                  <input type="text" v-model="pack_url" class="pack-url-input form-control">
+                </div> -->
               </h2>
               <div class="clearfix"></div>
             </div>
@@ -130,7 +133,8 @@ export default {
     return {
       profile: profile,
       orgs: [],
-      currentRepo: {selected: false}
+      currentRepo: { selected: false },
+      pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples"
     };
   },
   components: { Messages, RepoDashboard, SidebarMenu },
@@ -150,7 +154,6 @@ export default {
   },
   methods: {
     show (org) {
-      console.log(org);
       org.show = !org.show;
     },
     loadRepo (repo) {
