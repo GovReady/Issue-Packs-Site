@@ -76,6 +76,10 @@
         profile: profile
       });
 
+      var milestones = github.getMilestones(this.repo.full_name, function (milestones) {
+        console.log(milestones);
+      });
+
       return github.getIssuePacks(this.pack_url)
         .then(function (packs) {
           var packObjects = [];

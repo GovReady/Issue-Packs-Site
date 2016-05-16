@@ -5,8 +5,6 @@ import axios from 'axios';
 
 var http;
 
-
-
 //Get repos for the organization
 function getRepos (org, callback) {
   http.get(org.repos_url).then(function (res) {
@@ -29,6 +27,7 @@ function getOrg(org, callback) {
     });
 }
 
+//Get an issue pack contents
 function getPack(pack, callback) {
   http.get(pack.download_url, { dropAuthHeader: true })
     .then(function (res) {
@@ -99,5 +98,12 @@ export default class GithubService {
         });
       });
     });
+  }
+
+  getMilestones (repo, cb) {
+    return http.get('https://api.github.com/repos/' + repo + '/milestones')
+      .then(function (res) {
+        cb(res.data);
+      });
   }
 }

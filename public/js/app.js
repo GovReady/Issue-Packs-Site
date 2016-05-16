@@ -49140,6 +49140,10 @@ exports.default = {
       profile: profile
     });
 
+    var milestones = github.getMilestones(this.repo.full_name, function (milestones) {
+      console.log(milestones);
+    });
+
     return github.getIssuePacks(this.pack_url).then(function (packs) {
       var packObjects = [];
 
@@ -49316,6 +49320,7 @@ function getOrg(org, callback) {
   });
 }
 
+//Get an issue pack contents
 function getPack(pack, callback) {
   http.get(pack.download_url, { dropAuthHeader: true }).then(function (res) {
     callback(null, res.data);
@@ -49388,6 +49393,13 @@ var GithubService = function () {
             resolve(results);
           });
         });
+      });
+    }
+  }, {
+    key: 'getMilestones',
+    value: function getMilestones(repo, cb) {
+      return http.get('https://api.github.com/repos/' + repo + '/milestones').then(function (res) {
+        cb(res.data);
       });
     }
   }]);
