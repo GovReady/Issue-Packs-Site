@@ -63,9 +63,9 @@
                 </li>
               </ul>
             </li>
-            <li role="presentation" class="dropdown">
+            <!-- <li role="presentation" class="dropdown">
               <messages :gravatar="gravatar_link"></messages>
-            </li>
+            </li> -->
           </ul>
         </nav>
       </div>
