@@ -57,7 +57,7 @@
         });
 
         issuePack.load(pack);
-        issuePack.push(this.repo.full_name);
+        var ret = issuePack.push(this.repo.full_name);
 
         pack.installed = true;
       }

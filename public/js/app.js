@@ -49124,7 +49124,7 @@ exports.default = {
       });
 
       issuePack.load(pack);
-      issuePack.push(this.repo.full_name);
+      var ret = issuePack.push(this.repo.full_name);
 
       pack.installed = true;
     }
@@ -49259,8 +49259,12 @@ exports.default = {
   methods: {
     show: function show(org) {
       _underscore2.default.each(this.orgs, function (otherOrg) {
-        otherOrg.show = false;
+        //Don't change clicked org's status
+        if (!_underscore2.default.isEqual(otherOrg, org)) {
+          otherOrg.show = false;
+        }
       });
+      //Toggle clicked org
       org.show = !org.show;
     },
     loadRepo: function loadRepo(repo) {

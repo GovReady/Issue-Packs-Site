@@ -43,8 +43,12 @@ import _ from 'underscore';
     methods: {
       show (org) {
         _.each(this.orgs, function (otherOrg) {
-          otherOrg.show = false;
+          //Don't change clicked org's status
+          if(!_.isEqual(otherOrg, org)) {
+            otherOrg.show = false;
+          }
         });
+        //Toggle clicked org
         org.show = !org.show;
       },
       loadRepo (repo) {
