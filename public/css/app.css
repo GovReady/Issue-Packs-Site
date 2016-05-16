@@ -10798,6 +10798,11 @@ div#app {
     cursor: pointer;
     color: white; }
 
+.nav-md .container.body .col-md-3.left_col {
+  height: 100%;
+  overflow: hidden;
+  overflow-y: scroll; }
+
 .org-avatar {
   display: inline-block;
   height: 42px;
@@ -10830,7 +10835,8 @@ div#app {
 
 .main_menu_side {
   border-top: 1px dotted #425668;
-  margin-top: 10px; }
+  margin-top: 10px;
+  background: #2A3F54; }
 
 .menu-header h3 {
   color: white;
@@ -10841,6 +10847,13 @@ div#app {
   border-radius: 4px;
   width: 75%;
   margin: 0 auto; }
+
+.menu_section {
+  margin-bottom: 0px;
+  background: #2A3F54; }
+
+.sidebar-footer a {
+  padding: 11px 0 10px; }
 
 html, body {
   height: 100%; }
