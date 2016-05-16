@@ -48675,6 +48675,17 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   props: ['type', 'message'],
 
+  ready: function ready() {
+    var _this = this;
+
+    //Set timeout to 3 secounds
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+    }
+    this._timeout = setTimeout(function () {
+      return _this.show = false;
+    }, 3600);
+  },
   data: function data() {
     return {
       show: true

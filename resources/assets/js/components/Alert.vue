@@ -16,6 +16,14 @@
   export default {
     props: ['type', 'message'],
 
+    ready () {
+      //Set timeout to 3 secounds
+      if(this._timeout) {
+        clearTimeout(this._timeout);
+      }
+      this._timeout = setTimeout(() => this.show = false, 3600);
+    },
+
     data () {
       return {
         show: true
