@@ -49240,6 +49240,13 @@ if (module.hot) {(function () {  module.hot.accept()
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
   ready: function ready() {},
   data: function data() {
@@ -49251,7 +49258,9 @@ exports.default = {
   props: ['orgs'],
   methods: {
     show: function show(org) {
-      console.log(org);
+      _underscore2.default.each(this.orgs, function (otherOrg) {
+        otherOrg.show = false;
+      });
       org.show = !org.show;
     },
     loadRepo: function loadRepo(repo) {
@@ -49272,7 +49281,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":221,"vue-hot-reload-api":195}],245:[function(require,module,exports){
+},{"underscore":188,"vue":221,"vue-hot-reload-api":195}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

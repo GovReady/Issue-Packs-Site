@@ -28,6 +28,8 @@
   </div>
 </template>
 <script>
+import _ from 'underscore';
+
   export default {
     ready () {
 
@@ -40,7 +42,9 @@
     props: ['orgs'],
     methods: {
       show (org) {
-        console.log(org);
+        _.each(this.orgs, function (otherOrg) {
+          otherOrg.show = false;
+        });
         org.show = !org.show;
       },
       loadRepo (repo) {
