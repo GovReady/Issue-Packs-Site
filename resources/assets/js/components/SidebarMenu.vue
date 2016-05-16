@@ -8,14 +8,14 @@
     </div>
     <div class="menu_section">
       <ul class="nav side-menu">
-        <li v-for="org in orgs | filterBy orgFilter in 'name' 'login'" v-bind:class="{'active': org.show}">
+        <li v-for="org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'" v-bind:class="{'active': org.show}">
           <a v-on:click="show(org)">
             <img v-bind:src="org.avatar_url" class="org-avatar">
             <span class="org-name">{{ org.name || org.login }}</span>
             <span class="fa fa-chevron-down"></span>
           </a>
           <ul class="nav child_menu" v-show="org.show" transition="expand">
-            <li v-for="repo in org.repos">
+            <li v-for="repo in org.repos | orderBy 'name'">
               <a v-on:click="loadRepo(repo)">{{ repo.name }}</a>
             </li>
           </ul>
