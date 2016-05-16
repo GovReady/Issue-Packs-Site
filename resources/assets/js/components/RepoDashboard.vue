@@ -20,8 +20,8 @@
           </div>
           <div class="pack-install">
             <button class="btn btn-primary" v-bind:class="{'disabled': pack.installed}" v-on:click="install(pack)">
-              <span v-if="!pack.installed">Install</span>
-              <span v-if="pack.installed">Pack Installed</span>
+              <span v-if="!pack.installed">Create Milestone &amp; Issues</span>
+              <span v-if="pack.installed">Issues Created</span>
             </button>
           </div>
         </div>
