@@ -15,7 +15,10 @@
             <span class="fa fa-chevron-down"></span>
           </a>
           <ul class="nav child_menu" v-show="org.show" transition="expand">
-            <li v-for="repo in org.repos | orderBy 'name'">
+            <div class="repo-filter">
+              <input v-model="org.repoFilter" type="text" class="form-control" placeholder="Filter Repos">
+            </div>
+            <li v-for="repo in org.repos | filterBy org.repoFilter in 'name' | orderBy 'name'">
               <a v-on:click="loadRepo(repo)">{{ repo.name }}</a>
             </li>
           </ul>

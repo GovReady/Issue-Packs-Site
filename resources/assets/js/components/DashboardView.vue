@@ -178,6 +178,10 @@ export default {
 
     return githubService.getOrgs()
       .then(function (orgs) {
+
+        _.each(orgs, function (org) {
+          org.repoFilter = ''
+        });
         return {orgs: orgs};
       });
   }
