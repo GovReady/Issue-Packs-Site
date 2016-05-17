@@ -49318,7 +49318,7 @@ var http;
 
 //Get repos for the organization
 function getRepos(org, callback) {
-  http.get(org.repos_url).then(function (res) {
+  http.get(org.repos_url + '?per_page=100').then(function (res) {
     callback(res.data);
   });
 }
@@ -49390,7 +49390,7 @@ var GithubService = function () {
       var user = github.getUser(this.profile.nickname);
 
       return new Promise(function (resolve, reject) {
-        http.get('https://api.github.com/user/orgs').then(function (res) {
+        http.get('https://api.github.com/user/orgs?per_page=100').then(function (res) {
           var partOrgs = res.data;
 
           _async2.default.map(partOrgs, getOrg, function (err, results) {
