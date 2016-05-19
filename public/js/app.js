@@ -23197,13 +23197,11 @@ var _randomstring2 = _interopRequireDefault(_randomstring);
 
 var _jsBase = require('js-base64');
 
-var _githubApi = require('github-api');
-
-var _githubApi2 = _interopRequireDefault(_githubApi);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var logger = console;
 
 var IssuePack = function () {
   //Set initial options and logger
@@ -23218,8 +23216,6 @@ var IssuePack = function () {
       throw new Error('Incorrect authorization options');
     }
 
-    this.__github = {};
-
     this.__auth = {
       token: options.auth.token,
       username: options.auth.username,
@@ -23232,7 +23228,7 @@ var IssuePack = function () {
     this.__http = _axios2.default.create();
     this.__apiBase = 'https://api.github.com';
 
-    this.logger = logger;
+    logger = logger;
   }
 
   /**
@@ -23244,8 +23240,8 @@ var IssuePack = function () {
   _createClass(IssuePack, [{
     key: 'load',
     value: function load(pack) {
-      this.logger.log(_chalk2.default.yellow('Unpacking milestone: ' + pack.milestone));
-      this.logger.log(_chalk2.default.green(' - ' + pack.issues.length + ' issues unpacked.'));
+      logger.log(_chalk2.default.yellow('Unpacking pack: ' + pack.name));
+      logger.log(_chalk2.default.green(' - ' + pack.issues.length + ' issues unpacked.'));
       this.pack = pack;
     }
 
@@ -23258,17 +23254,8 @@ var IssuePack = function () {
     value: function __authenticate(auth) {
       if (this.__auth.token) {
         _axios2.default.defaults.headers.common['Authorization'] = 'token ' + this.__auth.token;
-
-        this.__github = new _githubApi2.default({
-          token: this.__auth.token
-        });
       } else if (this.__auth.username && this.__auth.password) {
         _axios2.default.defaults.headers.common['Authorization'] = 'Basic ' + _jsBase.Base64.encode(this.__auth.username + ':' + this.__auth.password);
-
-        this.__github = new _githubApi2.default({
-          username: this.__auth.username,
-          password: this.__auth.password
-        });
       }
     }
 
@@ -23279,16 +23266,35 @@ var IssuePack = function () {
   }, {
     key: 'push',
     value: function push(repo) {
-      var _this = this;
+      var milestoneNumber = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
-      this.logger.log(_chalk2.default.yellow('Pushing milestone to Github'));
+      logger.log(_chalk2.default.yellow('Pushing pack to Github'));
 
       if (!this.pack) {
         throw new Error('Cannot push to Github.  Pack contents not loaded.');
       }
 
-      this._createMilestone(this.pack.milestone, repo, function (milestone) {
-        _this._createIssues(_this.pack.issues, repo, milestone);
+      var pushPromise = new Promise(function (resolve, reject) {
+        var _this = this;
+
+        if (milestoneNumber === undefined) {
+          this._createMilestone(this.pack.name, repo, function (milestone) {
+            var issuesPromise = _this._createIssues(_this.pack.issues, repo, milestone.number);
+            issuesPromise.then(function () {
+              resolve(milestone);
+            });
+          });
+        } else {
+          var issuesPromise = this._createIssues(this.pack.issues, repo, milestoneNumber);
+          issuesPromise.then(function () {
+            resolve(milestoneNumber);
+          });
+        }
+      }.bind(this));
+
+      return pushPromise.then(function (milestone) {
+        logger.log(_chalk2.default.green('Milestone pushed successfully.'));
+        return milestone;
       });
     }
 
@@ -23301,8 +23307,16 @@ var IssuePack = function () {
     value: function _createIssues(issues, repo, milestone) {
       var _this2 = this;
 
+      var issuePromises = [];
+
       issues.forEach(function (issue) {
-        _this2._createIssue(issue, repo, milestone);
+        var promise = _this2._createIssue(issue, repo, milestone);
+        issuePromises.push(promise);
+      });
+
+      return Promise.all(issuePromises).then(function (issues) {
+        logger.log(_chalk2.default.green('Issues created successfully'));
+        return issues;
       });
     }
 
@@ -23321,7 +23335,7 @@ var IssuePack = function () {
         labelPromises.push(res);
       }
 
-      Promise.all(labelPromises).then(function (resolve, reject) {
+      return Promise.all(labelPromises).then(function () {
         var newIssue = {
           title: issue.title,
           body: issue.body,
@@ -23329,17 +23343,20 @@ var IssuePack = function () {
           labels: issue.labels
         };
 
-        this.__http.post(this.__apiBase + "/repos/" + repo + "/issues", newIssue).then(function (res) {
+        return this.__http.post(this.__apiBase + "/repos/" + repo + "/issues", newIssue).then(function (res) {
           var data = res.data;
-          this.logger.log(_chalk2.default.green('Issue created: ' + data.html_url));
-        }.bind(this)).catch(function (err) {
-          this.logger.log(_chalk2.default.red('Error: ' + err));
-        }.bind(this));
+          logger.log(_chalk2.default.green('Issue created: ' + data.html_url));
+          return data;
+        }).catch(function (err) {
+          logger.log(_chalk2.default.red('Error: ' + err));
+        });
       }.bind(this));
     }
 
     /**
      *  Create milestone on Github
+     *
+     *  Returns callback with the milestone object as the argument
      */
 
   }, {
@@ -23350,35 +23367,35 @@ var IssuePack = function () {
       };
 
       this.__http.post(this.__apiBase + '/repos/' + repo + '/milestones', milestone).then(function (res) {
-        this.logger.log(_chalk2.default.green('Milestone created: ' + res.data.html_url));
-        cb(res.data.number);
-      }.bind(this)).catch(function (res) {
+        logger.log(_chalk2.default.green('Milestone created: ' + res.data.html_url));
+        cb(res.data);
+      }).catch(function (res) {
         var message = res.data;
-        console.log(message);
 
         if (message.errors && message.errors.length == 1 && message.errors[0].code == 'already_exists') {
-          this.logger.log(_chalk2.default.yellow.bold('Milestone `' + milestone.title + '` already exists.  Retrieving id from Github.'));
+          logger.log(_chalk2.default.yellow.bold('Milestone `' + milestone.title + '` already exists.  Retrieving id from Github.'));
 
-          this._getMilestoneNumber(milestone, repo, function (number) {
-            cb(number);
+          this._getMilestone(milestone, repo, function (found) {
+            cb(found);
           });
         } else {
-          this.logger.log(_chalk2.default.red('Error: ' + err));
+          logger.log(_chalk2.default.red('Error: ' + err));
         }
       }.bind(this));
     }
   }, {
-    key: '_getMilestoneNumber',
-    value: function _getMilestoneNumber(q, repo, cb) {
+    key: '_getMilestone',
+    value: function _getMilestone(q, repo, cb) {
       this.__http.get(this.__apiBase + '/repos/' + repo + '/milestones').then(function (res) {
+
         var found = res.data.find(function (milestone) {
           return milestone.title == q.title;
         });
 
-        cb(found.number);
+        cb(found);
       }).catch(function (err) {
-        this.logger.log(_chalk2.default.red(err.data));
-      }.bind(this));
+        logger.log(_chalk2.default.red("Error: " + err));
+      });
     }
   }, {
     key: '_createLabel',
@@ -23395,20 +23412,20 @@ var IssuePack = function () {
           name: name,
           color: color
         }).then(function (res) {
-          this.logger.log(_chalk2.default.green('Label `' + name + '` created.'));
+          logger.log(_chalk2.default.green('Label `' + name + '` created.'));
           resolve('Label `' + name + '` created.');
         }.bind(this)).catch(function (err) {
           var message = err.data;
 
           if (message.errors && message.errors.length == 1 && message.errors[0].code == 'already_exists') {
-            this.logger.log(_chalk2.default.yellow.bold('Label `' + name + '` already exists.  Skipping'));
+            logger.log(_chalk2.default.yellow.bold('Label `' + name + '` already exists.  Skipping'));
 
-            resolve(err);
+            resolve(name);
           } else {
-            this.logger.log(_chalk2.default.red('Error: ' + err));
+            logger.log(_chalk2.default.red('Error: ' + err));
             reject(err);
           }
-        }.bind(this));
+        });
       }.bind(this));
     }
   }]);
@@ -23417,8 +23434,7 @@ var IssuePack = function () {
 }();
 
 module.exports = IssuePack;
-
-},{"axios":19,"chalk":69,"github-api":111,"js-base64":139,"randomstring":136}],136:[function(require,module,exports){
+},{"axios":19,"chalk":69,"js-base64":139,"randomstring":136}],136:[function(require,module,exports){
 module.exports = require("./lib/randomstring");
 },{"./lib/randomstring":138}],137:[function(require,module,exports){
 var arrayUniq = require('array-uniq');
@@ -23481,6 +23497,16 @@ module.exports = exports = Charset;
 var crypto  = require('crypto');
 var Charset = require('./charset.js');
 
+function safeRandomBytes(length) {
+  while (true) {
+    try {
+      return crypto.randomBytes(length);
+    } catch(e) {
+      continue;
+    }
+  }
+}
+
 exports.generate = function(options) {
   
   var charset = new Charset();
@@ -23518,22 +23544,21 @@ exports.generate = function(options) {
   }
   
   // Generate the string
-  while (string.length < length) {
-    var bf;
-    try {
-      bf = crypto.randomBytes(length);
-    }
-    catch (e) {
-      continue;
-    }
-    for (var i = 0; i < bf.length; i++) {
-      var index = bf.readUInt8(i) % charset.chars.length;
-      string += charset.chars.charAt(index);
+  var charsLen = charset.chars.length;
+  var maxByte = 256 - (256 % charsLen);
+  while (length > 0) {
+    var buf = safeRandomBytes(Math.ceil(length * 256 / maxByte));
+    for (var i = 0; i < buf.length && length > 0; i++) {
+      var randomByte = buf.readUInt8(i);
+      if (randomByte < maxByte) {
+        string += charset.chars.charAt(randomByte % charsLen);
+        length--;
+      }
     }
   }
 
   return string;
-}
+};
 
 },{"./charset.js":137,"crypto":77}],139:[function(require,module,exports){
 /*
@@ -49124,9 +49149,24 @@ exports.default = {
       });
 
       issuePack.load(pack);
-      var ret = issuePack.push(this.repo.full_name);
 
-      pack.installed = true;
+      if (pack.installExisting) {
+        var ret = issuePack.push(this.repo.full_name, pack.installTo.number);
+
+        ret.then(function (milestone) {
+          this.$dispatch('new-alert', { 'message': 'Pack installed successfully', 'type': 'success' });
+          pack.installedTo = pack.installTo;
+          pack.installed = true;
+        }.bind(this));
+      } else {
+        var ret = issuePack.push(this.repo.full_name);
+
+        ret.then(function (milestone) {
+          this.$dispatch('new-alert', { 'message': 'Pack installed successfully', 'type': 'success' });
+          pack.installedTo = milestone;
+          pack.installed = true;
+        }.bind(this));
+      }
     },
     showMilestones: function showMilestones(pack) {
       pack.installExisting = true;
@@ -49179,7 +49219,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div v-for=\"pack in issuePacks\" class=\"issue-pack\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>{{ pack.name }}</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <div>\n            <ul class=\"to_do\">\n              <li v-for=\"issue in pack.issues\">\n                <p>\n                  <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n                  <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label }}</span>\n                </p>\n              </li>\n            </ul>\n          </div>\n          <div class=\"pack-install\">\n            <button class=\"btn btn-primary\" v-bind:class=\"{'disabled': pack.installed}\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">\n              <span v-if=\"!pack.installed\">Create Milestone &amp; Issues</span>\n              <span v-if=\"pack.installed\">Issues Created</span>\n            </button>\n          </div>\n          <div class=\"pack-install-existing\">\n            <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n            <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n            <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n              <select v-model=\"pack.installTo\">\n                <option selected=\"\">Select Milestone</option>\n                <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n              </select>\n              <button class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div v-for=\"pack in issuePacks\" class=\"issue-pack\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>{{ pack.name }}</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <div>\n            <ul class=\"to_do\">\n              <li v-for=\"issue in pack.issues\">\n                <p>\n                  <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n                  <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label }}</span>\n                </p>\n              </li>\n            </ul>\n          </div>\n          <div class=\"pack-install\" v-show=\"!pack.installed\">\n            <button class=\"btn btn-primary\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">Create Milestone &amp; Issues</button>\n          </div>\n          <div class=\"pack-install-existing\" v-show=\"!pack.installed\">\n            <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n            <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n            <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n              <select v-model=\"pack.installTo\">\n                <option selected=\"\">Select Milestone</option>\n                <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n              </select>\n              <button v-on:click=\"install(pack)\" class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n            </div>\n          </div>\n          <div class=\"pack-installed-messages\" v-if=\"pack.installed\">\n            <span>\n              Pack installed successfully to\n              <br>\n              <a href=\"{{ pack.installedTo.html_url }}\" target=\"_blank\">{{ pack.installedTo.html_url }}</a>\n              </span>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

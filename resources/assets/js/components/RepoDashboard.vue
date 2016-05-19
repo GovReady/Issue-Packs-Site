@@ -18,13 +18,10 @@
               </li>
             </ul>
           </div>
-          <div class="pack-install">
-            <button class="btn btn-primary" v-bind:class="{'disabled': pack.installed}" v-on:click="install(pack)" v-show="!pack.installExisting">
-              <span v-if="!pack.installed">Create Milestone &amp; Issues</span>
-              <span v-if="pack.installed">Issues Created</span>
-            </button>
+          <div class="pack-install" v-show="!pack.installed">
+            <button class="btn btn-primary"v-on:click="install(pack)" v-show="!pack.installExisting">Create Milestone &amp; Issues</button>
           </div>
-          <div class="pack-install-existing">
+          <div class="pack-install-existing" v-show="!pack.installed">
             <a v-on:click="showMilestones(pack)" v-show="!pack.installExisting">Or install issues in existing milestone</a>
             <a v-on:click="hideMilestones(pack)" v-show="pack.installExisting">Nevermind, install new milestone</a>
             <div class="existing-milestones" v-show="pack.installExisting">
@@ -32,8 +29,15 @@
                 <option selected>Select Milestone</option>
                 <option v-for="milestone in milestones" v-bind:value="milestone">{{ milestone.title }}</option>
               </select>
-              <button class="btn btn-primary install-existing-btn" v-if="pack.installTo != 'Select Milestone'">Install to {{ pack.installTo.title }}</button>
+              <button v-on:click="install(pack)"class="btn btn-primary install-existing-btn" v-if="pack.installTo != 'Select Milestone'">Install to {{ pack.installTo.title }}</button>
             </div>
+          </div>
+          <div class="pack-installed-messages" v-if="pack.installed">
+            <span>
+              Pack installed successfully to
+              <br>
+              <a href="{{ pack.installedTo.html_url }}" target="_blank">{{ pack.installedTo.html_url }}</a>
+              </span>
           </div>
         </div>
       </div>
@@ -68,9 +72,24 @@
         });
 
         issuePack.load(pack);
-        var ret = issuePack.push(this.repo.full_name);
 
-        pack.installed = true;
+        if(pack.installExisting) {
+          var ret = issuePack.push(this.repo.full_name, pack.installTo.number);
+
+          ret.then(function (milestone) {
+            this.$dispatch('new-alert', {'message': 'Pack installed successfully', 'type': 'success'});
+            pack.installedTo = pack.installTo;
+            pack.installed = true;
+          }.bind(this));
+        } else {
+          var ret = issuePack.push(this.repo.full_name);
+
+          ret.then(function (milestone) {
+            this.$dispatch('new-alert', {'message': 'Pack installed successfully', 'type': 'success'});
+            pack.installedTo = milestone;
+            pack.installed = true;
+          }.bind(this));
+        }
       },
       showMilestones(pack) {
         pack.installExisting = true;
