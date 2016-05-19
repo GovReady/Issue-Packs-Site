@@ -19,10 +19,21 @@
             </ul>
           </div>
           <div class="pack-install">
-            <button class="btn btn-primary" v-bind:class="{'disabled': pack.installed}" v-on:click="install(pack)">
+            <button class="btn btn-primary" v-bind:class="{'disabled': pack.installed}" v-on:click="install(pack)" v-show="!pack.installExisting">
               <span v-if="!pack.installed">Create Milestone &amp; Issues</span>
               <span v-if="pack.installed">Issues Created</span>
             </button>
+          </div>
+          <div class="pack-install-existing">
+            <a v-on:click="showMilestones(pack)" v-show="!pack.installExisting">Or install issues in existing milestone</a>
+            <a v-on:click="hideMilestones(pack)" v-show="pack.installExisting">Nevermind, install new milestone</a>
+            <div class="existing-milestones" v-show="pack.installExisting">
+              <select v-model="pack.installTo">
+                <option selected>Select Milestone</option>
+                <option v-for="milestone in milestones" v-bind:value="milestone">{{ milestone.title }}</option>
+              </select>
+              <button class="btn btn-primary install-existing-btn" v-if="pack.installTo != 'Select Milestone'">Install to {{ pack.installTo.title }}</button>
+            </div>
           </div>
         </div>
       </div>
@@ -60,6 +71,12 @@
         var ret = issuePack.push(this.repo.full_name);
 
         pack.installed = true;
+      },
+      showMilestones(pack) {
+        pack.installExisting = true;
+      },
+      hideMilestones(pack) {
+        pack.installExisting = false;
       }
     },
     data () {
@@ -91,6 +108,8 @@
           packs.forEach(function (pack) {
             var parsed = YAML.parse(pack);
             parsed.installed = false;
+            parsed.installExisting = false;
+            parsed.installTo = {};
             packObjects.push(parsed);
           });
 

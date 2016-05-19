@@ -9,3 +9,17 @@
   @extend .label-primary;
   margin: 0 2px;
 }
+
+.pack-install-existing {
+  a {
+    cursor:pointer;
+    display:block;
+    margin-bottom:5px;
+  }
+
+  .install-existing-btn {
+    clear:left;
+    display:block;
+    margin-top:10px;
+  }
+}

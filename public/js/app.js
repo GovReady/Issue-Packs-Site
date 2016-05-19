@@ -49127,6 +49127,12 @@ exports.default = {
       var ret = issuePack.push(this.repo.full_name);
 
       pack.installed = true;
+    },
+    showMilestones: function showMilestones(pack) {
+      pack.installExisting = true;
+    },
+    hideMilestones: function hideMilestones(pack) {
+      pack.installExisting = false;
     }
   },
   data: function data() {
@@ -49155,6 +49161,8 @@ exports.default = {
       packs.forEach(function (pack) {
         var parsed = _yamljs2.default.parse(pack);
         parsed.installed = false;
+        parsed.installExisting = false;
+        parsed.installTo = {};
         packObjects.push(parsed);
       });
 
@@ -49171,7 +49179,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div v-for=\"pack in issuePacks\" class=\"issue-pack\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>{{ pack.name }}</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <div>\n            <ul class=\"to_do\">\n              <li v-for=\"issue in pack.issues\">\n                <p>\n                  <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n                  <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label }}</span>\n                </p>\n              </li>\n            </ul>\n          </div>\n          <div class=\"pack-install\">\n            <button class=\"btn btn-primary\" v-bind:class=\"{'disabled': pack.installed}\" v-on:click=\"install(pack)\">\n              <span v-if=\"!pack.installed\">Create Milestone &amp; Issues</span>\n              <span v-if=\"pack.installed\">Issues Created</span>\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div v-for=\"pack in issuePacks\" class=\"issue-pack\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>{{ pack.name }}</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <div>\n            <ul class=\"to_do\">\n              <li v-for=\"issue in pack.issues\">\n                <p>\n                  <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n                  <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label }}</span>\n                </p>\n              </li>\n            </ul>\n          </div>\n          <div class=\"pack-install\">\n            <button class=\"btn btn-primary\" v-bind:class=\"{'disabled': pack.installed}\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">\n              <span v-if=\"!pack.installed\">Create Milestone &amp; Issues</span>\n              <span v-if=\"pack.installed\">Issues Created</span>\n            </button>\n          </div>\n          <div class=\"pack-install-existing\">\n            <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n            <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n            <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n              <select v-model=\"pack.installTo\">\n                <option selected=\"\">Select Milestone</option>\n                <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n              </select>\n              <button class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

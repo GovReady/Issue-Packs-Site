@@ -10833,6 +10833,16 @@ div#app {
 .issue-role {
   margin: 0 2px; }
 
+.pack-install-existing a {
+  cursor: pointer;
+  display: block;
+  margin-bottom: 5px; }
+
+.pack-install-existing .install-existing-btn {
+  clear: left;
+  display: block;
+  margin-top: 10px; }
+
 .main_menu_side {
   border-top: 1px dotted #425668;
   margin-top: 10px;
