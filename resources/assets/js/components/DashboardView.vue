@@ -92,7 +92,6 @@
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
-
               <repo-dashboard :repo="currentRepo" v-if="currentRepo.selected"></repo-dashboard>
             </div>
           </div>

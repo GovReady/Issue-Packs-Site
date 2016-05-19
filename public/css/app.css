@@ -10896,4 +10896,11 @@ html, body {
   .main .main-content {
     position: relative; }
 
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%; }
+  footer div {
+    margin-right: 250px; }
+
 /*# sourceMappingURL=app.css.map */
