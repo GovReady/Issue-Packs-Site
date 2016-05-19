@@ -4,7 +4,7 @@
     <div v-for="pack in issuePacks" class="issue-pack">
       <div class="x_panel">
         <div class="x_title">
-          <h2>{{ pack.milestone }}</h2>
+          <h2>{{ pack.name }}</h2>
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
