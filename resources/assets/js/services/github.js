@@ -100,10 +100,10 @@ export default class GithubService {
     });
   }
 
-  getMilestones (repo, cb) {
+  getMilestones (repo) {
     return http.get('https://api.github.com/repos/' + repo + '/milestones')
       .then(function (res) {
-        cb(res.data);
+        return res.data;
       });
   }
 }

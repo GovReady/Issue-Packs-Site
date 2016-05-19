@@ -37,8 +37,6 @@ export default {
           localStorage.setItem('profile', profile);
           localStorage.setItem('id_token', token);
 
-          console.log(localStorage.getItem('profile'));
-
           this.$dispatch('go', '/dashboard');
           this.$dispatch('login', profile);
         }

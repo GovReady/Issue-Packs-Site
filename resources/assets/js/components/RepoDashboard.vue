@@ -65,6 +65,7 @@
     data () {
       return {
         issuePacks: [],
+        milestones: [],
         pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples",
         profile: JSON.parse(localStorage.getItem('profile'))
       }
@@ -76,11 +77,14 @@
         profile: profile
       });
 
-      var milestones = github.getMilestones(this.repo.full_name, function (milestones) {
-        console.log(milestones);
-      });
+      var milestonesPromise = github.getMilestones(this.repo.full_name)
+        .then(function (milestones) {
+          return milestones;
+        });
 
-      return github.getIssuePacks(this.pack_url)
+
+
+      var packsPromise = github.getIssuePacks(this.pack_url)
         .then(function (packs) {
           var packObjects = [];
 
@@ -90,8 +94,13 @@
             packObjects.push(parsed);
           });
 
-          return { issuePacks: packObjects }
+          return packObjects;
         });
+
+      return Promise.all([
+        milestonesPromise,
+        packsPromise
+      ]).then(([milestones, issuePacks]) => ({milestones, issuePacks}));
     }
   }
 </script>

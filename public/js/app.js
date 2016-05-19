@@ -48999,8 +48999,6 @@ exports.default = {
           localStorage.setItem('profile', profile);
           localStorage.setItem('id_token', token);
 
-          console.log(localStorage.getItem('profile'));
-
           _this.$dispatch('go', '/dashboard');
           _this.$dispatch('login', profile);
         }
@@ -49083,6 +49081,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _issuePack = require('issue-pack');
 
 var _issuePack2 = _interopRequireDefault(_issuePack);
@@ -49132,6 +49132,7 @@ exports.default = {
   data: function data() {
     return {
       issuePacks: [],
+      milestones: [],
       pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples",
       profile: JSON.parse(localStorage.getItem('profile'))
     };
@@ -49144,11 +49145,11 @@ exports.default = {
       profile: profile
     });
 
-    var milestones = github.getMilestones(this.repo.full_name, function (milestones) {
-      console.log(milestones);
+    var milestonesPromise = github.getMilestones(this.repo.full_name).then(function (milestones) {
+      return milestones;
     });
 
-    return github.getIssuePacks(this.pack_url).then(function (packs) {
+    var packsPromise = github.getIssuePacks(this.pack_url).then(function (packs) {
       var packObjects = [];
 
       packs.forEach(function (pack) {
@@ -49157,7 +49158,15 @@ exports.default = {
         packObjects.push(parsed);
       });
 
-      return { issuePacks: packObjects };
+      return packObjects;
+    });
+
+    return Promise.all([milestonesPromise, packsPromise]).then(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2);
+
+      var milestones = _ref2[0];
+      var issuePacks = _ref2[1];
+      return { milestones: milestones, issuePacks: issuePacks };
     });
   }
 };
@@ -49414,9 +49423,9 @@ var GithubService = function () {
     }
   }, {
     key: 'getMilestones',
-    value: function getMilestones(repo, cb) {
+    value: function getMilestones(repo) {
       return http.get('https://api.github.com/repos/' + repo + '/milestones').then(function (res) {
-        cb(res.data);
+        return res.data;
       });
     }
   }]);
