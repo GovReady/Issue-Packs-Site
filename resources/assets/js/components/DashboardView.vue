@@ -20,7 +20,7 @@
         </div>
         <!-- /menu profile quick info -->
         <!-- sidebar menu -->
-        <sidebar-menu wait-for="async-data" :orgs="orgs"></sidebar-menu>
+        <sidebar-menu wait-for="async-data" :orgs="orgs" :toggled="sidebarToggle"></sidebar-menu>
         <!-- /sidebar menu -->
 
         <!-- /menu footer buttons -->
@@ -38,7 +38,7 @@
       <div class="nav_menu">
         <nav class="" role="navigation">
           <div class="nav toggle">
-            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+            <a id="menu_toggle" v-on:click="toggleSidebar()"><i class="fa fa-bars"></i></a>
           </div>
           <ul class="nav navbar-nav navbar-right">
             <li class="">
@@ -134,7 +134,8 @@ export default {
       profile: profile,
       orgs: [],
       currentRepo: { selected: false },
-      pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples"
+      pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples",
+      sidebarToggle: false
     };
   },
   components: { Messages, RepoDashboard, SidebarMenu },
@@ -162,6 +163,10 @@ export default {
     },
     logout () {
       this.$dispatch('logout');
+    },
+    toggleSidebar () {
+      this.sidebarToggle = !this.sidebarToggle;
+      this.$dispatch('navbar-toggle', this.sidebarToggle);
     }
   },
   events: {

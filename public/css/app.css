@@ -10803,6 +10803,18 @@ div#app {
   overflow: hidden;
   overflow-y: scroll; }
 
+.nav-sm ul.nav.child_menu {
+  display: block; }
+
+.nav-sm .org-name {
+  display: none; }
+
+.nav-sm .menu-search {
+  display: none; }
+
+.nav-sm .menu-header {
+  display: none; }
+
 .org-avatar {
   display: inline-block;
   height: 42px;

@@ -4,6 +4,24 @@
   overflow-y: scroll;
 }
 
+.nav-sm {
+  ul.nav.child_menu {
+    display:block;
+  }
+
+  .org-name {
+    display:none;
+  }
+
+  .menu-search {
+    display:none;
+  }
+
+  .menu-header {
+    display:none;
+  }
+}
+
 .org-avatar {
   display:inline-block;
   height:42px;

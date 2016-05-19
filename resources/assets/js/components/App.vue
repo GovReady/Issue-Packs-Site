@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-bind:class="{'nav-md': !navbarToggle, 'nav-sm': navbarToggle}">
   <alerts :alerts.sync="alerts"></alerts>
   <router-view></router-view>
 </div>
@@ -31,12 +31,16 @@ export default {
       this.authenticated = false;
 
       this.$dispatch('go', '/');
+    },
+    'navbar-toggle': function (toggle) {
+      this.navbarToggle = toggle;
     }
   },
 
   data() {
     return {
-      alerts: []
+      alerts: [],
+      navbarToggle: false
     }
   },
 
@@ -59,6 +63,7 @@ export default {
         //error callback
         (err) => console.log(err));
     }
-  }
+  },
+  replace: false
 }
 </script>

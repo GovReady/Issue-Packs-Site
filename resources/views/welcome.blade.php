@@ -7,7 +7,7 @@
       <script src="//cdn.auth0.com/js/lock-9.0.min.js"></script>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     </head>
-    <body class="bg-faded nav-md pace-done">
+    <body class="bg-faded pace-done">
       <div id="app"></div>
       <!-- jQuery -->
       <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
