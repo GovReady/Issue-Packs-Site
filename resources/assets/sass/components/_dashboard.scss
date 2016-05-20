@@ -39,16 +39,7 @@
 }
 
 .child_menu {
-  height: 0px;
   overflow:hidden;
-}
-
-.expand-transition {
-  transition: all 1s ease;
-}
-
-.expand-enter, .expand-leave {
-  height: 0;
 }
 
 .sidebar-footer a {
