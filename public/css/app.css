@@ -10881,8 +10881,8 @@ div#app {
   max-height: 999px; }
 
 .expand-transition {
-  -webkit-transition: max-height .5s;
-  transition: max-height .5s; }
+  -webkit-transition: max-height 1s;
+  transition: max-height 1s; }
 
 html, body {
   height: 100%; }
