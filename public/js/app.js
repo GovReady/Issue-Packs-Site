@@ -49459,12 +49459,13 @@ var GithubService = function () {
       return new Promise(function (resolve, reject) {
         http.get('https://api.github.com/user/orgs?per_page=100').then(function (res) {
           var partOrgs = res.data;
+          partOrgs.push(this.profile);
 
           _async2.default.map(partOrgs, getOrg, function (err, results) {
             resolve(results);
           });
-        });
-      });
+        }.bind(this));
+      }.bind(this));
     }
   }, {
     key: 'getIssuePacks',

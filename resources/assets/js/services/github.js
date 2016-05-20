@@ -78,12 +78,13 @@ export default class GithubService {
       http.get('https://api.github.com/user/orgs?per_page=100')
         .then(function (res) {
           var partOrgs = res.data;
+          partOrgs.push(this.profile);
 
           async.map(partOrgs, getOrg, function (err, results) {
             resolve(results);
           });
-        });
-    });
+        }.bind(this));
+    }.bind(this));
 
   }
 
