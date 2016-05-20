@@ -42,10 +42,22 @@
         </div>
       </div>
     </div>
+    <div class="issue-pack-upload">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Upload a Pack</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <file-upload></file-upload>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 </template>
 <script>
+  import FileUpload from './FileUpload.vue';
   import IssuePack from 'issue-pack';
   import GithubService from '../services/github';
   import YAML from 'yamljs';
@@ -54,13 +66,21 @@
 
   export default {
     props: ['repo'],
-    ready () {
+    components: { FileUpload },
+    events: {
+      'create-pack': function (pack) {
+        var parsed = YAML.parse(pack);
+        parsed.installed = false;
+        parsed.installExisting = false;
+        parsed.installTo = {};
 
+        this.issuePacks.push(parsed);
+      }
     },
     methods: {
       install (pack) {
         if(!pack.installed) {
-          this.$dispatch('new-alert', {'message': 'Installing ' + pack.milestone, 'type': 'success'});
+          this.$dispatch('new-alert', {'message': 'Installing ' + pack.name, 'type': 'success'});
         }
 
         var github_identity = _.findWhere(this.profile.identities, { provider: "github" });

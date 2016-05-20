@@ -48691,7 +48691,7 @@ router.redirect({
 
 router.start(_App2.default, '#app');
 
-},{"./components/Alerts.vue":234,"./components/App.vue":235,"./components/DashboardView.vue":236,"./components/HomeView.vue":237,"./components/ReposView.vue":243,"vue":221,"vue-async-data":194,"vue-resource":209,"vue-router":220}],233:[function(require,module,exports){
+},{"./components/Alerts.vue":234,"./components/App.vue":235,"./components/DashboardView.vue":236,"./components/HomeView.vue":238,"./components/ReposView.vue":244,"vue":221,"vue-async-data":194,"vue-resource":209,"vue-router":220}],233:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48978,7 +48978,52 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":245,"./Messages.vue":239,"./RepoDashboard.vue":241,"./SidebarMenu.vue":244,"crypto":77,"github-api":111,"underscore":188,"vue":221,"vue-hot-reload-api":195}],237:[function(require,module,exports){
+},{"../services/github":246,"./Messages.vue":240,"./RepoDashboard.vue":242,"./SidebarMenu.vue":245,"crypto":77,"github-api":111,"underscore":188,"vue":221,"vue-hot-reload-api":195}],237:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  data: function data() {
+    return {
+      file: '',
+      hovering: false
+    };
+  },
+
+  methods: {
+    onFileChange: function onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) {
+        return;
+      }
+
+      this.createPack(files[0]);
+    },
+    createPack: function createPack(file) {
+      var reader = new FileReader();
+      var contents = reader.readAsText(file);
+      reader.onload = function (e) {
+        this.$dispatch('create-pack', e.target.result);
+      }.bind(this);
+    }
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"dropzone\">\n  <div v-if=\"!uploadedPack\">\n    <div class=\"dropzone-area\" drag-over=\"handleDragOver\" @dragenter=\"hovering = true\" @dragleave=\"hovering = false\" :class\"{'hovered':=\"\" hovering}\"=\"\">\n      <span class=\"dropzone-text\">Drop issue pack here or click to select</span>\n      <input type=\"file\" @change=\"onFileChange\">\n    </div>\n  </div>\n  <div class=\"uploadedPack\" v-if=\"uploadedPack\">\n\n  </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/FileUpload.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":221,"vue-hot-reload-api":195}],238:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49007,7 +49052,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Login.vue":238,"vue":221,"vue-hot-reload-api":195}],238:[function(require,module,exports){
+},{"./Login.vue":239,"vue":221,"vue-hot-reload-api":195}],239:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49054,7 +49099,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app":232,"vue":221,"vue-hot-reload-api":195}],239:[function(require,module,exports){
+},{"../app":232,"vue":221,"vue-hot-reload-api":195}],240:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49096,7 +49141,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":221,"vue-hot-reload-api":195}],240:[function(require,module,exports){
+},{"vue":221,"vue-hot-reload-api":195}],241:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -49109,7 +49154,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":221,"vue-hot-reload-api":195}],241:[function(require,module,exports){
+},{"vue":221,"vue-hot-reload-api":195}],242:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49117,6 +49162,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _FileUpload = require('./FileUpload.vue');
+
+var _FileUpload2 = _interopRequireDefault(_FileUpload);
 
 var _issuePack = require('issue-pack');
 
@@ -49142,12 +49191,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   props: ['repo'],
-  ready: function ready() {},
+  components: { FileUpload: _FileUpload2.default },
+  events: {
+    'create-pack': function createPack(pack) {
+      var parsed = _yamljs2.default.parse(pack);
+      parsed.installed = false;
+      parsed.installExisting = false;
+      parsed.installTo = {};
 
+      this.issuePacks.push(parsed);
+    }
+  },
   methods: {
     install: function install(pack) {
       if (!pack.installed) {
-        this.$dispatch('new-alert', { 'message': 'Installing ' + pack.milestone, 'type': 'success' });
+        this.$dispatch('new-alert', { 'message': 'Installing ' + pack.name, 'type': 'success' });
       }
 
       var github_identity = _underscore2.default.findWhere(this.profile.identities, { provider: "github" });
@@ -49229,7 +49287,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div v-for=\"pack in issuePacks\" class=\"issue-pack\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>{{ pack.name }}</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <div>\n            <ul class=\"to_do\">\n              <li v-for=\"issue in pack.issues\">\n                <p>\n                  <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n                  <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label }}</span>\n                </p>\n              </li>\n            </ul>\n          </div>\n          <div class=\"pack-install\" v-show=\"!pack.installed\">\n            <button class=\"btn btn-primary\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">Create Milestone &amp; Issues</button>\n          </div>\n          <div class=\"pack-install-existing\" v-show=\"!pack.installed\">\n            <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n            <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n            <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n              <select v-model=\"pack.installTo\">\n                <option selected=\"\">Select Milestone</option>\n                <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n              </select>\n              <button v-on:click=\"install(pack)\" class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n            </div>\n          </div>\n          <div class=\"pack-installed-messages\" v-if=\"pack.installed\">\n            <span>\n              Pack installed successfully to\n              <br>\n              <a href=\"{{ pack.installedTo.html_url }}\" target=\"_blank\">{{ pack.installedTo.html_url }}</a>\n              </span>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div v-for=\"pack in issuePacks\" class=\"issue-pack\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>{{ pack.name }}</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <div>\n            <ul class=\"to_do\">\n              <li v-for=\"issue in pack.issues\">\n                <p>\n                  <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n                  <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label }}</span>\n                </p>\n              </li>\n            </ul>\n          </div>\n          <div class=\"pack-install\" v-show=\"!pack.installed\">\n            <button class=\"btn btn-primary\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">Create Milestone &amp; Issues</button>\n          </div>\n          <div class=\"pack-install-existing\" v-show=\"!pack.installed\">\n            <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n            <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n            <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n              <select v-model=\"pack.installTo\">\n                <option selected=\"\">Select Milestone</option>\n                <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n              </select>\n              <button v-on:click=\"install(pack)\" class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n            </div>\n          </div>\n          <div class=\"pack-installed-messages\" v-if=\"pack.installed\">\n            <span>\n              Pack installed successfully to\n              <br>\n              <a href=\"{{ pack.installedTo.html_url }}\" target=\"_blank\">{{ pack.installedTo.html_url }}</a>\n              </span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49241,7 +49299,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":245,"github":122,"issue-pack":135,"underscore":188,"vue":221,"vue-hot-reload-api":195,"yamljs":231}],242:[function(require,module,exports){
+},{"../services/github":246,"./FileUpload.vue":237,"github":122,"issue-pack":135,"underscore":188,"vue":221,"vue-hot-reload-api":195,"yamljs":231}],243:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49271,7 +49329,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Repo.vue":240,"vue":221,"vue-hot-reload-api":195}],243:[function(require,module,exports){
+},{"./Repo.vue":241,"vue":221,"vue-hot-reload-api":195}],244:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49301,7 +49359,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./RepoList.vue":242,"vue":221,"vue-hot-reload-api":195}],244:[function(require,module,exports){
+},{"./RepoList.vue":243,"vue":221,"vue-hot-reload-api":195}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49352,7 +49410,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"underscore":188,"vue":221,"vue-hot-reload-api":195}],245:[function(require,module,exports){
+},{"underscore":188,"vue":221,"vue-hot-reload-api":195}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
