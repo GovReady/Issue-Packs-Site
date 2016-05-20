@@ -12,9 +12,9 @@
           <a v-on:click="show(org)">
             <img v-bind:src="org.avatar_url" class="org-avatar">
             <span class="org-name">{{ org.name || org.login }}</span>
-            <span class="fa fa-chevron-down"></span>
+            <span class="fa" v-bind:class="{'fa-chevron-down': !org.show, 'fa-chevron-up': org.show}"></span>
           </a>
-          <ul class="nav child_menu" v-show="org.show" transition="expand">
+          <ul class="nav child_menu" transition="expand">
             <div class="repo-filter">
               <input v-model="org.repoFilter" type="text" class="form-control" placeholder="Filter Repos">
             </div>

@@ -48653,17 +48653,17 @@ _vue2.default.transition('expand', {
   enter: function enter(el) {
     el.style.height = 'auto';
     var endHeight = getComputedStyle(el).height;
-    el.style.height = '0px';
+    //el.style.height = '0px';
     el.offsetHeight;
     el.style.height = endHeight;
   },
   afterEnter: function afterEnter(el) {
-    el.style.height = 'auto';
+    //el.style.height = 'auto';
   },
   beforeLeave: function beforeLeave(el) {
-    el.style.height = getComputedStyle(el).height;
-    el.offsetHeight;
-    el.style.height = '0px';
+    //el.style.height = getComputedStyle(el).height;
+    //el.offsetHeight;
+    //el.style.height = '0px';
   }
 });
 
@@ -49340,7 +49340,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"sidebar-menu\" class=\"main_menu_side hidden-print main_menu\">\n  <div class=\"menu-header\">\n    <h3>Organizations</h3>\n  </div>\n  <div class=\"menu-search\">\n    <input type=\"text\" v-model=\"orgFilter\" class=\"form-control\" placeholder=\"Filter Organizations\">\n  </div>\n  <div class=\"menu_section\">\n    <ul class=\"nav side-menu\">\n      <li v-for=\"org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'\" v-bind:class=\"{'active': org.show}\">\n        <a v-on:click=\"show(org)\">\n          <img v-bind:src=\"org.avatar_url\" class=\"org-avatar\">\n          <span class=\"org-name\">{{ org.name || org.login }}</span>\n          <span class=\"fa fa-chevron-down\"></span>\n        </a>\n        <ul class=\"nav child_menu\" v-show=\"org.show\" transition=\"expand\">\n          <div class=\"repo-filter\">\n            <input v-model=\"org.repoFilter\" type=\"text\" class=\"form-control\" placeholder=\"Filter Repos\">\n          </div>\n          <li v-for=\"repo in org.repos | filterBy org.repoFilter in 'name' | orderBy 'name'\">\n            <a v-on:click=\"loadRepo(repo)\">{{ repo.name }}</a>\n          </li>\n        </ul>\n      </li>\n    </ul>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"sidebar-menu\" class=\"main_menu_side hidden-print main_menu\">\n  <div class=\"menu-header\">\n    <h3>Organizations</h3>\n  </div>\n  <div class=\"menu-search\">\n    <input type=\"text\" v-model=\"orgFilter\" class=\"form-control\" placeholder=\"Filter Organizations\">\n  </div>\n  <div class=\"menu_section\">\n    <ul class=\"nav side-menu\">\n      <li v-for=\"org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'\" v-bind:class=\"{'active': org.show}\">\n        <a v-on:click=\"show(org)\">\n          <img v-bind:src=\"org.avatar_url\" class=\"org-avatar\">\n          <span class=\"org-name\">{{ org.name || org.login }}</span>\n          <span class=\"fa\" v-bind:class=\"{'fa-chevron-down': !org.show, 'fa-chevron-up': org.show}\"></span>\n        </a>\n        <ul class=\"nav child_menu\" transition=\"expand\">\n          <div class=\"repo-filter\">\n            <input v-model=\"org.repoFilter\" type=\"text\" class=\"form-control\" placeholder=\"Filter Repos\">\n          </div>\n          <li v-for=\"repo in org.repos | filterBy org.repoFilter in 'name' | orderBy 'name'\">\n            <a v-on:click=\"loadRepo(repo)\">{{ repo.name }}</a>\n          </li>\n        </ul>\n      </li>\n    </ul>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

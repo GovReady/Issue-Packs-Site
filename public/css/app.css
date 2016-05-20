@@ -10874,6 +10874,16 @@ div#app {
 .sidebar-footer a {
   padding: 11px 0 10px; }
 
+.child_menu {
+  max-height: 0; }
+
+.active .child_menu {
+  max-height: 999px; }
+
+.expand-transition {
+  -webkit-transition: max-height .5s;
+  transition: max-height .5s; }
+
 html, body {
   height: 100%; }
 

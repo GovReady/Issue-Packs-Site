@@ -30,17 +30,17 @@ Vue.transition('expand', {
   enter (el) {
     el.style.height = 'auto';
     var endHeight = getComputedStyle(el).height;
-    el.style.height = '0px';
+    //el.style.height = '0px';
     el.offsetHeight;
     el.style.height = endHeight;
   },
   afterEnter (el) {
-    el.style.height = 'auto';
+    //el.style.height = 'auto';
   },
   beforeLeave (el) {
-    el.style.height = getComputedStyle(el).height;
-    el.offsetHeight;
-    el.style.height = '0px';
+    //el.style.height = getComputedStyle(el).height;
+    //el.offsetHeight;
+    //el.style.height = '0px';
   }
 });
 
