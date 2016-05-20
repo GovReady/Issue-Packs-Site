@@ -44,7 +44,7 @@
             <li class="">
               <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <img v-bind:src="gravatar_link" alt="">{{ profile.name }}
-                <span class=" fa fa-angle-down"></span>
+                <!-- <span class=" fa fa-angle-down"></span> -->
               </a>
               <ul class="dropdown-menu dropdown-usermenu pull-right">
                 <li>

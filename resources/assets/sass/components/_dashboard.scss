@@ -4,6 +4,11 @@
   overflow-y: scroll;
 }
 
+.top_nav .nav > li > a:hover {
+  background: inherit;
+  cursor: default;
+}
+
 .main_container {
   background-color: #f1f1f1;
 }
