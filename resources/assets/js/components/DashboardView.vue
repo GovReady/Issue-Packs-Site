@@ -26,7 +26,7 @@
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
           <a href="#" data-toggle="tooltip" data-placement="top" title="Logout" v-on:click="logout()">
-            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            <span class="fa fa-sign-out" aria-hidden="true"></span>
           </a>
         </div>
         <!-- /menu footer buttons -->
