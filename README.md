@@ -7,3 +7,15 @@ The issue packs on the site currently pull from [the issue-pack examples directo
 
 _Users can also upload issue packs of their own, but they are currently only used as a sync tool and are not stored on the site._
 
+## Colophon
+
+The site is built on Laravel 5.2, which currently serves a VueJS application.  All front-end source files are located in the `/resources/assets` directory and are built using the `gulp` command.  For development purposes, `gulp watch` can also be used to watch the source files and automatically rebuild them when a file is changed.  The theme for the dashboard has been pulled from [Gentelella](https://github.com/puikinsh/gentelella) and included / overridden in the `resources/assets` directory.
+
+* [Laravel](https://laravel.com/docs/5.2)
+* [Auth0](https://auth0.com/)
+* [VueJS](https://vuejs.org/)
+* [Laravel-Elixir](https://laravel.com/docs/5.2/elixir)
+  * [Vueify](https://github.com/vuejs/vueify)
+  * [BabelJS](https://babeljs.io/)
+  * [SASS](http://sass-lang.com/)
+
