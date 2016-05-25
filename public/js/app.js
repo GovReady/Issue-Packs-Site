@@ -48624,6 +48624,10 @@ var _ReposView = require('./components/ReposView.vue');
 
 var _ReposView2 = _interopRequireDefault(_ReposView);
 
+var _MyPacks = require('./components/MyPacks.vue');
+
+var _MyPacks2 = _interopRequireDefault(_MyPacks);
+
 var _Alerts = require('./components/Alerts.vue');
 
 var _Alerts2 = _interopRequireDefault(_Alerts);
@@ -48664,7 +48668,15 @@ router.map({
   },
   '/dashboard': {
     component: _DashboardView2.default,
-    auth: true
+    auth: true,
+    title: 'Install Issue Packs',
+    subRoutes: {
+      '/my-packs': {
+        name: 'my-packs',
+        component: _MyPacks2.default,
+        title: 'My Issue Packs'
+      }
+    }
   }
 });
 
@@ -48699,7 +48711,7 @@ router.redirect({
 
 router.start(_App2.default, '#app');
 
-},{"./components/Alerts.vue":234,"./components/App.vue":235,"./components/DashboardView.vue":236,"./components/HomeView.vue":238,"./components/ReposView.vue":244,"vue":221,"vue-async-data":194,"vue-resource":209,"vue-router":220}],233:[function(require,module,exports){
+},{"./components/Alerts.vue":234,"./components/App.vue":235,"./components/DashboardView.vue":236,"./components/HomeView.vue":238,"./components/MyPacks.vue":241,"./components/ReposView.vue":245,"vue":221,"vue-async-data":194,"vue-resource":209,"vue-router":220}],233:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48974,7 +48986,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container body\">\n  <div class=\"main_container\">\n    <div class=\"col-md-3 left_col\">\n      <div class=\"left_col scroll-view\">\n        <div class=\"navbar nav_title\" style=\"border: 0;\">\n          <a href=\"index.html\" class=\"site_title\"><i class=\"fa fa-briefcase\"></i> <span>Issue Packs</span></a>\n        </div>\n        <div class=\"clearfix\"></div>\n        <!-- menu prile quick info -->\n        <div class=\"profile\">\n          <div class=\"profile_pic\">\n            <img v-bind:src=\"gravatar_link\" alt=\"...\" class=\"img-circle profile_img\">\n          </div>\n          <div class=\"profile_info\">\n            <span>Welcome,</span>\n            <h2>{{ profile.name }}</h2>\n          </div>\n          <div class=\"clearfix\"></div>\n        </div>\n        <!-- /menu profile quick info -->\n        <!-- sidebar menu -->\n        <sidebar-menu wait-for=\"async-data\" :orgs=\"orgs\" :toggled=\"sidebarToggle\"></sidebar-menu>\n        <!-- /sidebar menu -->\n\n        <!-- /menu footer buttons -->\n        <div class=\"sidebar-footer hidden-small\">\n          <a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Logout\" v-on:click=\"logout()\">\n            <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span>\n          </a>\n        </div>\n        <!-- /menu footer buttons -->\n      </div>\n    </div>\n\n    <!-- top navigation -->\n    <div class=\"top_nav\">\n      <div class=\"nav_menu\">\n        <nav class=\"\" role=\"navigation\">\n          <div class=\"nav toggle\">\n            <a id=\"menu_toggle\" v-on:click=\"toggleSidebar()\"><i class=\"fa fa-bars\"></i></a>\n          </div>\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li class=\"\">\n              <a href=\"javascript:;\" class=\"user-profile dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                <img v-bind:src=\"gravatar_link\" alt=\"\">{{ profile.name }}\n                <span class=\" fa fa-angle-down\"></span>\n              </a>\n              <ul class=\"dropdown-menu dropdown-usermenu pull-right\">\n                <li>\n                  <a href=\"javascript:;\">  Profile</a>\n                </li>\n                <li>\n                  <a v-link=\"'my-packs'\">\n                    <span>My Packs</span>\n                  </a>\n                </li>\n                <li><a v-on:click=\"logout()\"><i class=\"fa fa-sign-out pull-right\"></i> Log Out</a>\n                </li>\n              </ul>\n            </li>\n            <!-- <li role=\"presentation\" class=\"dropdown\">\n              <messages :gravatar=\"gravatar_link\"></messages>\n            </li> -->\n          </ul>\n        </nav>\n      </div>\n    </div>\n    <!-- /top navigation -->\n    <!-- page content -->\n    <div class=\"right_col\" role=\"main\">\n      <div class=\"page-title\">\n        <div class=\"title_left\">\n          <h3>Install Issue Packs</h3>\n        </div>\n      </div>\n      <div class=\"row\">\n        <div class=\"col-md-12 col-sm-12 col-xs-12\">\n          <div class=\"x_panel\">\n            <div class=\"x_title\">\n              <h2>\n                <span v-if=\"!currentRepo.selected\">Start by choosing a repo on the left.</span>\n                <span v-if=\"currentRepo.selected\">{{ currentRepo.name }}</span>\n                <!-- <div class=\"pack-url\">\n                  <input type=\"text\" v-model=\"pack_url\" class=\"pack-url-input form-control\">\n                </div> -->\n              </h2>\n              <div class=\"clearfix\"></div>\n            </div>\n            <div class=\"x_content\">\n              <repo-dashboard :repo=\"currentRepo\" v-if=\"currentRepo.selected\"></repo-dashboard>\n            </div>\n          </div>\n        </div>\n      </div>\n      <br>\n    </div>\n    <!-- /page content -->\n    <!-- footer content -->\n    <footer>\n      <div class=\"pull-right\">\n        Issue Packs Dashboard by <a href=\"https://govready.com\" target=\"_blank\">Govready</a>\n      </div>\n      <div class=\"clearfix\"></div>\n    </footer>\n    <!-- /footer content -->\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container body\">\n  <div class=\"main_container\">\n    <div class=\"col-md-3 left_col\">\n      <div class=\"left_col scroll-view\">\n        <div class=\"navbar nav_title\" style=\"border: 0;\">\n          <a href=\"index.html\" class=\"site_title\"><i class=\"fa fa-briefcase\"></i> <span>Issue Packs</span></a>\n        </div>\n        <div class=\"clearfix\"></div>\n        <!-- menu prile quick info -->\n        <div class=\"profile\">\n          <div class=\"profile_pic\">\n            <img v-bind:src=\"gravatar_link\" alt=\"...\" class=\"img-circle profile_img\">\n          </div>\n          <div class=\"profile_info\">\n            <span>Welcome,</span>\n            <h2>{{ profile.name }}</h2>\n          </div>\n          <div class=\"clearfix\"></div>\n        </div>\n        <!-- /menu profile quick info -->\n        <!-- sidebar menu -->\n        <sidebar-menu wait-for=\"async-data\" :orgs=\"orgs\" :toggled=\"sidebarToggle\"></sidebar-menu>\n        <!-- /sidebar menu -->\n\n        <!-- /menu footer buttons -->\n        <div class=\"sidebar-footer hidden-small\">\n          <a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Logout\" v-on:click=\"logout()\">\n            <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span>\n          </a>\n        </div>\n        <!-- /menu footer buttons -->\n      </div>\n    </div>\n\n    <!-- top navigation -->\n    <div class=\"top_nav\">\n      <div class=\"nav_menu\">\n        <nav class=\"\" role=\"navigation\">\n          <div class=\"nav toggle\">\n            <a id=\"menu_toggle\" v-on:click=\"toggleSidebar()\"><i class=\"fa fa-bars\"></i></a>\n          </div>\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li class=\"\">\n              <a href=\"javascript:;\" class=\"user-profile dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                <img v-bind:src=\"gravatar_link\" alt=\"\">{{ profile.name }}\n                <span class=\" fa fa-angle-down\"></span>\n              </a>\n              <ul class=\"dropdown-menu dropdown-usermenu pull-right\">\n                <li>\n                  <a href=\"javascript:;\">  Profile</a>\n                </li>\n                <li>\n                  <a v-link=\"{name: 'my-packs'}\">\n                    <span>My Packs</span>\n                  </a>\n                </li>\n                <li><a v-on:click=\"logout()\"><i class=\"fa fa-sign-out pull-right\"></i> Log Out</a>\n                </li>\n              </ul>\n            </li>\n            <!-- <li role=\"presentation\" class=\"dropdown\">\n              <messages :gravatar=\"gravatar_link\"></messages>\n            </li> -->\n          </ul>\n        </nav>\n      </div>\n    </div>\n    <!-- /top navigation -->\n    <!-- page content -->\n    <div class=\"right_col\" role=\"main\">\n      <div class=\"page-title\">\n        <div class=\"title_left\">\n          <h3>{{ $route.title }}</h3>\n        </div>\n      </div>\n      <div class=\"row\">\n        <div class=\"col-md-12 col-sm-12 col-xs-12\">\n          <div class=\"x_panel\" v-if=\"$route.path == '/dashboard'\">\n            <div class=\"x_title\">\n              <h2>\n                <span v-if=\"!currentRepo.selected\">Start by choosing a repo on the left.</span>\n                <span v-if=\"currentRepo.selected\">{{ currentRepo.name }}</span>\n                <!-- <div class=\"pack-url\">\n                  <input type=\"text\" v-model=\"pack_url\" class=\"pack-url-input form-control\">\n                </div> -->\n              </h2>\n              <div class=\"clearfix\"></div>\n            </div>\n            <div class=\"x_content\">\n              <repo-dashboard :repo=\"currentRepo\" v-if=\"currentRepo.selected\"></repo-dashboard>\n            </div>\n          </div>\n          <router-view></router-view>\n        </div>\n      </div>\n      <br>\n    </div>\n    <!-- /page content -->\n    <!-- footer content -->\n    <footer>\n      <div class=\"pull-right\">\n        Issue Packs Dashboard by <a href=\"https://govready.com\" target=\"_blank\">Govready</a>\n      </div>\n      <div class=\"clearfix\"></div>\n    </footer>\n    <!-- /footer content -->\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -48986,7 +48998,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":246,"./Messages.vue":240,"./RepoDashboard.vue":242,"./SidebarMenu.vue":245,"crypto":77,"github-api":111,"underscore":188,"vue":221,"vue-hot-reload-api":195}],237:[function(require,module,exports){
+},{"../services/github":247,"./Messages.vue":240,"./RepoDashboard.vue":243,"./SidebarMenu.vue":246,"crypto":77,"github-api":111,"underscore":188,"vue":221,"vue-hot-reload-api":195}],237:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49150,6 +49162,30 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":221,"vue-hot-reload-api":195}],241:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  ready: function ready() {
+    console.log('loading my packs');
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"my-packs\">\n  These would be my packs\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/MyPacks.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":221,"vue-hot-reload-api":195}],242:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -49162,7 +49198,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":221,"vue-hot-reload-api":195}],242:[function(require,module,exports){
+},{"vue":221,"vue-hot-reload-api":195}],243:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49307,7 +49343,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":246,"./FileUpload.vue":237,"github":122,"issue-pack":135,"underscore":188,"vue":221,"vue-hot-reload-api":195,"yamljs":231}],243:[function(require,module,exports){
+},{"../services/github":247,"./FileUpload.vue":237,"github":122,"issue-pack":135,"underscore":188,"vue":221,"vue-hot-reload-api":195,"yamljs":231}],244:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49337,7 +49373,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Repo.vue":241,"vue":221,"vue-hot-reload-api":195}],244:[function(require,module,exports){
+},{"./Repo.vue":242,"vue":221,"vue-hot-reload-api":195}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49367,7 +49403,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./RepoList.vue":243,"vue":221,"vue-hot-reload-api":195}],245:[function(require,module,exports){
+},{"./RepoList.vue":244,"vue":221,"vue-hot-reload-api":195}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49418,7 +49454,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"underscore":188,"vue":221,"vue-hot-reload-api":195}],246:[function(require,module,exports){
+},{"underscore":188,"vue":221,"vue-hot-reload-api":195}],247:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49550,6 +49586,13 @@ var GithubService = function () {
     key: 'getMilestones',
     value: function getMilestones(repo) {
       return http.get('https://api.github.com/repos/' + repo + '/milestones').then(function (res) {
+        return res.data;
+      });
+    }
+  }, {
+    key: 'getRepo',
+    value: function getRepo(repo) {
+      return http.get('https://api.github.com/repos/' + repo).then(function (res) {
         return res.data;
       });
     }

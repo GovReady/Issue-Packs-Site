@@ -18,6 +18,7 @@ import App from './components/App.vue';
 import HomeView from './components/HomeView.vue';
 import DashboardView from './components/DashboardView.vue';
 import ReposView from './components/ReposView.vue';
+import MyPacks from './components/MyPacks.vue';
 import Alerts from './components/Alerts.vue';
 
 // Configure debug mode
@@ -41,7 +42,15 @@ router.map({
   },
   '/dashboard': {
     component: DashboardView,
-    auth: true
+    auth: true,
+    title: 'Install Issue Packs',
+    subRoutes: {
+      '/my-packs': {
+        name: 'my-packs',
+        component: MyPacks,
+        title: 'My Issue Packs'
+      }
+    }
   }
 });
 

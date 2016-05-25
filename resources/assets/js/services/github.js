@@ -107,4 +107,11 @@ export default class GithubService {
         return res.data;
       });
   }
+
+  getRepo (repo) {
+    return http.get('https://api.github.com/repos/' + repo)
+      .then(function (res) {
+        return res.data;
+      })
+  }
 }
