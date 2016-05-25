@@ -23,4 +23,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     *  Return issue packs owned by this user
+     */
+    public function issue_packs() {
+
+    }
 }
