@@ -4,9 +4,8 @@
   overflow-y: scroll;
 }
 
-.top_nav .nav > li > a:hover {
+.top_nav .nav > li > a:focus {
   background: inherit;
-  cursor: default;
 }
 
 .main_container {

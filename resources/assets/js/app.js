@@ -26,44 +26,52 @@ Vue.config.debug = true;
 //Register global components
 Vue.component('alerts', Alerts);
 
-Vue.transition('expand', {
-  enter (el) {
-    el.style.height = 'auto';
-    var endHeight = getComputedStyle(el).height;
-    //el.style.height = '0px';
-    el.offsetHeight;
-    el.style.height = endHeight;
-  },
-  afterEnter (el) {
-    //el.style.height = 'auto';
-  },
-  beforeLeave (el) {
-    //el.style.height = getComputedStyle(el).height;
-    //el.offsetHeight;
-    //el.style.height = '0px';
-  }
-});
-
 export var router = new VueRouter({
   history: true,
 });
 
 export var lock = new Auth0Lock('pqbUxfLwW1UImYUUIe2qQbwCmByq41za', 'govready.auth0.com');
 
+/**
+ *  Set up application routes
+ */
 router.map({
   '/': {
     component: HomeView
   },
   '/dashboard': {
     component: DashboardView,
-    data (transition) {
-      //return
-    }
+    auth: true
   }
 });
 
+/**
+ *  Return whether a user is logged in
+ */
+function auth() {
+  if(localStorage.getItem('id_token')) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
+ *  Redirect routes requiring authentication when user not logged in
+ */
+router.beforeEach(function (transition) {
+  if(transition.to.auth && !auth()) {
+    transition.redirect('/');
+  } else {
+    transition.next();
+  }
+});
+
+/**
+ *  Redirect 404s to the dashboard
+ */
 router.redirect({
-  '*': '/'
+  '*': '/dashboard'
 });
 
 router.start(App, '#app');

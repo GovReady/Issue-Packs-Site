@@ -10804,9 +10804,8 @@ div#app {
   overflow: hidden;
   overflow-y: scroll; }
 
-.top_nav .nav > li > a:hover {
-  background: inherit;
-  cursor: default; }
+.top_nav .nav > li > a:focus {
+  background: inherit; }
 
 .main_container {
   background-color: #f1f1f1; }
