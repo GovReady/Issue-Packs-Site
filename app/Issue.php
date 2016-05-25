@@ -13,4 +13,12 @@ class Issue extends Model
     public function issue_packs () {
       return $this->belongsToMany('App\IssuePack')->withTimestamps();
     }
+
+    /**
+     * Return all labels associated with this issue
+     * @return type
+     */
+    public function labels () {
+      return $this->belongsToMany('App\Label')->withTimestamps();
+    }
 }
