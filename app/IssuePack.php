@@ -12,4 +12,12 @@ class IssuePack extends Model
     public function user () {
       return $this->belongsTo('App\User');
     }
+
+    /**
+     * Return issues for pack
+     * @return App\Issue
+     */
+    public function issues () {
+      return $this->belongsToMany('App\Issue')->withTimestamps();
+    }
 }

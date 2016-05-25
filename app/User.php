@@ -28,6 +28,6 @@ class User extends Authenticatable
      *  Return issue packs owned by this user
      */
     public function issue_packs() {
-
+      return $this->hasMany('App\IssuePack');
     }
 }
