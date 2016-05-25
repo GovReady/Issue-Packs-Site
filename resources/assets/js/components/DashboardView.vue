@@ -4,7 +4,7 @@
     <div class="col-md-3 left_col">
       <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-          <a href="index.html" class="site_title"><i class="fa fa-briefcase"></i> <span>Issue Packs</span></a>
+          <a v-link="'/dashboard'" class="site_title"><i class="fa fa-briefcase"></i> <span>Issue Packs</span></a>
         </div>
         <div class="clearfix"></div>
         <!-- menu prile quick info -->
@@ -69,29 +69,25 @@
     <!-- /top navigation -->
     <!-- page content -->
     <div class="right_col" role="main">
-      <div class="page-title">
+      <!-- <div class="page-title">
         <div class="title_left">
           <h3>{{ $route.title }}</h3>
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="x_panel" v-if="$route.path == '/dashboard'">
+          <div class="x_panel">
             <div class="x_title">
               <h2>
-                <span v-if="!currentRepo.selected">Start by choosing a repo on the left.</span>
-                <span v-if="currentRepo.selected">{{ currentRepo.name }}</span>
-                <!-- <div class="pack-url">
-                  <input type="text" v-model="pack_url" class="pack-url-input form-control">
-                </div> -->
+                {{ $route.title }}
               </h2>
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
-              <repo-dashboard :repo="currentRepo" v-if="currentRepo.selected"></repo-dashboard>
+              <router-view></router-view>
             </div>
           </div>
-          <router-view></router-view>
+
         </div>
       </div>
       <br />
@@ -114,6 +110,7 @@ import Github from 'github-api';
 import GithubService from '../services/github';
 
 import _ from 'underscore';
+import {router} from '../app.js';
 
 import Messages from './Messages.vue';
 import RepoDashboard from './RepoDashboard.vue';
@@ -154,8 +151,13 @@ export default {
       org.show = !org.show;
     },
     loadRepo (repo) {
-      this.currentRepo = repo;
-      this.currentRepo.selected = true;
+      router.go({
+        name: 'repo-dashboard',
+        params: {
+          org: repo.owner.login,
+          repo: repo.name
+        }
+      });
     },
     logout () {
       this.$dispatch('logout');

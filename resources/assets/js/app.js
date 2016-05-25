@@ -18,6 +18,7 @@ import App from './components/App.vue';
 import HomeView from './components/HomeView.vue';
 import DashboardView from './components/DashboardView.vue';
 import ReposView from './components/ReposView.vue';
+import RepoDashboard from './components/RepoDashboard.vue';
 import MyPacks from './components/MyPacks.vue';
 import Alerts from './components/Alerts.vue';
 
@@ -49,6 +50,10 @@ router.map({
         name: 'my-packs',
         component: MyPacks,
         title: 'My Issue Packs'
+      },
+      '/repos/:org/:repo': {
+        name: 'repo-dashboard',
+        component: RepoDashboard,
       }
     }
   }

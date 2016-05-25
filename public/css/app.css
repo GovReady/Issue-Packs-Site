@@ -10874,6 +10874,9 @@ div#app {
   .dropzone-text span {
     display: block; }
 
+.repo-name {
+  margin-left: 10px; }
+
 .issue-role {
   margin: 0 2px; }
 

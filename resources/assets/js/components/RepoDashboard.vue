@@ -1,6 +1,9 @@
 <template>
 <div class="repo-dashboard">
   <div class="row">
+    <div class="repo-name">
+      <h3>{{ repo.name }}</h3>
+    </div>
     <div v-for="pack in issuePacks" class="issue-pack">
       <div class="x_panel">
         <div class="x_title">
@@ -65,8 +68,56 @@
   import _ from 'underscore';
 
   export default {
-    props: ['repo'],
+    props: [],
     components: { FileUpload },
+    route: {
+      data: function (transition) {
+        var profile = JSON.parse(localStorage.getItem('profile'));
+
+        var github = new GithubService({
+          profile: profile
+        });
+
+        var packsPromise = github.getIssuePacks(this.pack_url)
+          .then(function (packs) {
+            var packObjects = [];
+
+            packs.forEach(function (pack) {
+              var parsed = YAML.parse(pack);
+              parsed.installed = false;
+              parsed.installExisting = false;
+              parsed.installTo = {};
+              packObjects.push(parsed);
+            });
+
+            return packObjects;
+          });
+
+        var repoPromise = new Promise(function (resolve, reject) {
+          github.getRepo(transition.to.params.org + '/' + transition.to.params.repo)
+            .then(function (repo) {
+              github.getMilestones(repo.full_name)
+                .then(function (milestones) {
+                  resolve({
+                    repo: repo,
+                    milestones: milestones
+                  });
+                });
+            });
+        });
+
+        return Promise.all([
+          repoPromise,
+          packsPromise
+        ]).then(function (response) {
+          return {
+            repo: response[0].repo,
+            milestones: response[0].milestones,
+            issuePacks: response[1]
+          };
+        });
+      }
+    },
     events: {
       'create-pack': function (pack) {
         var parsed = YAML.parse(pack);
@@ -123,42 +174,9 @@
         issuePacks: [],
         milestones: [],
         pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples",
-        profile: JSON.parse(localStorage.getItem('profile'))
+        profile: JSON.parse(localStorage.getItem('profile')),
+        repo: {}
       }
-    },
-    asyncData: function (resolve, reject) {
-      var profile = this.profile;
-
-      var github = new GithubService({
-        profile: profile
-      });
-
-      var milestonesPromise = github.getMilestones(this.repo.full_name)
-        .then(function (milestones) {
-          return milestones;
-        });
-
-
-
-      var packsPromise = github.getIssuePacks(this.pack_url)
-        .then(function (packs) {
-          var packObjects = [];
-
-          packs.forEach(function (pack) {
-            var parsed = YAML.parse(pack);
-            parsed.installed = false;
-            parsed.installExisting = false;
-            parsed.installTo = {};
-            packObjects.push(parsed);
-          });
-
-          return packObjects;
-        });
-
-      return Promise.all([
-        milestonesPromise,
-        packsPromise
-      ]).then(([milestones, issuePacks]) => ({milestones, issuePacks}));
     }
   }
 </script>
