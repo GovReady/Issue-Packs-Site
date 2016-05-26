@@ -15,6 +15,7 @@ Route::any('{slug}', function ($slug) {
   return view('welcome');
 })->where('slug', '^(?!(api)/)(.*)$');
 
-Route::get('/api/protected', array('middleware' => 'auth0.jwt', function () {
-  return "Hello " . Auth0::jwtuser()->name;
-}));
+Route::group(['prefix' => 'api', 'middleware' => 'auth0.jwt'], function () {
+  Route::get('my-packs', 'PackController@getMyPacks');
+});
+
