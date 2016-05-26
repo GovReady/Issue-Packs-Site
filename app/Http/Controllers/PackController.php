@@ -10,6 +10,6 @@ use App\IssuePack;
 class PackController extends Controller
 {
     public function getMyPacks() {
-      return IssuePack::all();
+      return IssuePack::with('issues.labels')->get();
     }
 }
