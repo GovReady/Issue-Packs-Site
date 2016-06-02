@@ -11,7 +11,7 @@
             <li v-for="issue in pack.issues">
               <p>
                 <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>
-                <span v-for="label in issue.labels" class="issue-role">{{ label }}</span>
+                <span v-for="label in issue.labels" class="issue-role">{{ label.name }}</span>
               </p>
             </li>
           </ul>

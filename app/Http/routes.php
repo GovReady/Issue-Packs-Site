@@ -19,6 +19,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function () {
   Route::post('login', 'UserController@login');
   Route::get('logout', 'UserController@logout');
   Route::get('my-packs', 'PackController@getMyPacks');
+  Route::post('packs', 'PackController@createPack');
   Route::delete('packs/{id}', 'PackController@deletePack');
 });
 
