@@ -54,6 +54,14 @@ class PackController extends Controller
     }
 
     public function deletePack($id) {
-      return 'Deleting ' . $id;
+      $user_id = Auth::id();
+
+      $pack = IssuePack::find($id);
+
+      if($pack->user_id == $user_id) {
+        return response()->json($pack->delete());
+      } else {
+        return response()->json('You are not authorized to delete that pack', 401);
+      }
     }
 }
