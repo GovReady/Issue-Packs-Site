@@ -53,14 +53,18 @@
     props: ['pack', 'type'],
     data: () => {
       return {
-        jwtHeader: { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') }
+        jwtHeader: { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') },
+        csrfHeader: {'X-CSRF-TOKEN' : document.querySelector('#token').getAttribute('value') }
       };
     },
     methods: {
       deletePack (pack) {
 
         var packPromise = this.$http.delete('/api/packs/' + pack.id,{}, {
-          headers: this.jwtHeader
+          headers: [
+            this.jwtHeader,
+            this.csrfHeader
+          ]
         }).then(
           (response) => {
             console.log(response);

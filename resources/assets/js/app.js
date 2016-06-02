@@ -34,6 +34,15 @@ export var router = new VueRouter({
 
 export var lock = new Auth0Lock('pqbUxfLwW1UImYUUIe2qQbwCmByq41za', 'govready.auth0.com');
 
+Vue.http.interceptors.push({
+  request: function (request) {
+    request.headers['Authorization'] = 'Bearer ' + localStorage.getItem('id_token');
+    request.headers['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('value');
+
+    return request;
+  }
+});
+
 /**
  *  Set up application routes
  */

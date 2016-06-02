@@ -48663,6 +48663,15 @@ var router = exports.router = new _vueRouter2.default({
 
 var lock = exports.lock = new Auth0Lock('pqbUxfLwW1UImYUUIe2qQbwCmByq41za', 'govready.auth0.com');
 
+_vue2.default.http.interceptors.push({
+  request: function request(_request) {
+    _request.headers['Authorization'] = 'Bearer ' + localStorage.getItem('id_token');
+    _request.headers['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('value');
+
+    return _request;
+  }
+});
+
 /**
  *  Set up application routes
  */
@@ -49097,14 +49106,15 @@ exports.default = {
   props: ['pack', 'type'],
   data: function data() {
     return {
-      jwtHeader: { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') }
+      jwtHeader: { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') },
+      csrfHeader: { 'X-CSRF-TOKEN': document.querySelector('#token').getAttribute('value') }
     };
   },
   methods: {
     deletePack: function deletePack(pack) {
 
       var packPromise = this.$http.delete('/api/packs/' + pack.id, {}, {
-        headers: this.jwtHeader
+        headers: [this.jwtHeader, this.csrfHeader]
       }).then(function (response) {
         console.log(response);
 
