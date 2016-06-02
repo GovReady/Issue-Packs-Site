@@ -6,7 +6,7 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <div>
+        <div class="issue-pack-body">
           <ul class="to_do">
             <li v-for="issue in pack.issues">
               <p>
@@ -16,26 +16,28 @@
             </li>
           </ul>
         </div>
-        <div class="pack-install" v-show="!pack.installed">
-          <button class="btn btn-primary"v-on:click="install(pack)" v-show="!pack.installExisting">Create Milestone &amp; Issues</button>
-        </div>
-        <div class="pack-install-existing" v-show="!pack.installed">
-          <a v-on:click="showMilestones(pack)" v-show="!pack.installExisting">Or install issues in existing milestone</a>
-          <a v-on:click="hideMilestones(pack)" v-show="pack.installExisting">Nevermind, install new milestone</a>
-          <div class="existing-milestones" v-show="pack.installExisting">
-            <select v-model="pack.installTo">
-              <option selected>Select Milestone</option>
-              <option v-for="milestone in milestones" v-bind:value="milestone">{{ milestone.title }}</option>
-            </select>
-            <button v-on:click="install(pack)"class="btn btn-primary install-existing-btn" v-if="pack.installTo != 'Select Milestone'">Install to {{ pack.installTo.title }}</button>
+        <div class="issue-pack-install" v-if="type == 'install'">
+          <div class="pack-install" v-show="!pack.installed">
+            <button class="btn btn-primary"v-on:click="install(pack)" v-show="!pack.installExisting">Create Milestone &amp; Issues</button>
           </div>
-        </div>
-        <div class="pack-installed-messages" v-if="pack.installed">
-          <span>
-            Pack installed successfully to
-            <br>
-            <a href="{{ pack.installedTo.html_url }}" target="_blank">{{ pack.installedTo.html_url }}</a>
-            </span>
+          <div class="pack-install-existing" v-show="!pack.installed">
+            <a v-on:click="showMilestones(pack)" v-show="!pack.installExisting">Or install issues in existing milestone</a>
+            <a v-on:click="hideMilestones(pack)" v-show="pack.installExisting">Nevermind, install new milestone</a>
+            <div class="existing-milestones" v-show="pack.installExisting">
+              <select v-model="pack.installTo">
+                <option selected>Select Milestone</option>
+                <option v-for="milestone in milestones" v-bind:value="milestone">{{ milestone.title }}</option>
+              </select>
+              <button v-on:click="install(pack)"class="btn btn-primary install-existing-btn" v-if="pack.installTo != 'Select Milestone'">Install to {{ pack.installTo.title }}</button>
+            </div>
+          </div>
+          <div class="pack-installed-messages" v-if="pack.installed">
+            <span>
+              Pack installed successfully to
+              <br>
+              <a href="{{ pack.installedTo.html_url }}" target="_blank">{{ pack.installedTo.html_url }}</a>
+              </span>
+          </div>
         </div>
       </div>
     </div>

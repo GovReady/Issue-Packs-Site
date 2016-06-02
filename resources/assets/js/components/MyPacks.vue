@@ -1,6 +1,6 @@
 <template>
   <div class="my-packs">
-    <issue-pack v-for="pack in myPacks" :pack="pack"></issue-pack>
+    <issue-pack v-for="pack in myPacks" :pack="pack" type="manage"></issue-pack>
   </div>
 </template>
 <script>
