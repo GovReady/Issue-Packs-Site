@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class IssuePack extends Model
 {
+    public static function boot() {
+      parent::boot();
+
+      IssuePack::deleting(function ($issuePack) {
+        $issuePack->issues()->delete();
+      });
+    }
+
     /**
      *  Return the user who created the pack
      */

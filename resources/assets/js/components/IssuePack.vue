@@ -60,17 +60,10 @@
     methods: {
       deletePack (pack) {
 
-        var packPromise = this.$http.delete('/api/packs/' + pack.id,{}, {
-          headers: [
-            this.jwtHeader,
-            this.csrfHeader
-          ]
-        }).then(
-          (response) => {
-            console.log(response);
-
-            return response.data;
-          },
+        var packPromise = this.$http.delete('/api/packs/' + pack.id).then(
+          function (response) {
+            this.$dispatch('delete-pack', pack);
+          }.bind(this),
           (err) => console.error(err));
 
         return packPromise;

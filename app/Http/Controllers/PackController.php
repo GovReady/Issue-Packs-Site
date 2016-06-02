@@ -55,7 +55,6 @@ class PackController extends Controller
 
     public function deletePack($id) {
       $user_id = Auth::id();
-
       $pack = IssuePack::find($id);
 
       if($pack->user_id == $user_id) {

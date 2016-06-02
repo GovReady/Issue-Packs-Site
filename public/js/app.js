@@ -49116,13 +49116,9 @@ exports.default = {
   methods: {
     deletePack: function deletePack(pack) {
 
-      var packPromise = this.$http.delete('/api/packs/' + pack.id, {}, {
-        headers: [this.jwtHeader, this.csrfHeader]
-      }).then(function (response) {
-        console.log(response);
-
-        return response.data;
-      }, function (err) {
+      var packPromise = this.$http.delete('/api/packs/' + pack.id).then(function (response) {
+        this.$dispatch('delete-pack', pack);
+      }.bind(this), function (err) {
         return console.error(err);
       });
 
@@ -49253,6 +49249,10 @@ var _IssuePack = require('./IssuePack.vue');
 
 var _IssuePack2 = _interopRequireDefault(_IssuePack);
 
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
@@ -49280,18 +49280,18 @@ exports.default = {
     };
   },
   events: {
-    'create-pack': function createPack(pack, event) {
+    'create-pack': function createPack(pack) {
       var parsed = YAML.parse(pack);
       this.$http.post('/api/packs', { pack: parsed }).then(function (response) {
-        console.log(response);
-        //TODO: Going to need response to use pack id
-        parsed.installed = false;
-        parsed.installExisting = false;
-        parsed.installTo = {};
-        //this.myPacks.push(parsed);
-      }, function (error) {
+        this.$dispatch('new-alert', { message: 'Pack uploaded successfully.', type: 'success' });
+        this.myPacks.push(response.data);
+      }.bind(this), function (error) {
         console.error(error);
       });
+    },
+    'delete-pack': function deletePack(pack) {
+      console.log("Deleting id: ", pack.id);
+      this.myPacks.splice(_underscore2.default.indexOf(this.myPacks, _underscore2.default.findWhere(this.MyPacks, { id: pack.id })), 1);
     }
   }
 };
@@ -49308,7 +49308,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./FileUpload.vue":237,"./IssuePack.vue":239,"vue":221,"vue-hot-reload-api":195}],243:[function(require,module,exports){
+},{"./FileUpload.vue":237,"./IssuePack.vue":239,"underscore":188,"vue":221,"vue-hot-reload-api":195}],243:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")

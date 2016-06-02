@@ -18,6 +18,8 @@
 import FileUpload from './FileUpload.vue';
 import IssuePack from './IssuePack.vue';
 
+import _ from 'underscore';
+
 export default {
   components: { FileUpload, IssuePack },
   route: {
@@ -41,19 +43,19 @@ export default {
     };
   },
   events: {
-    'create-pack': function (pack, event) {
+    'create-pack': function (pack) {
       var parsed = YAML.parse(pack);
       this.$http.post('/api/packs', {pack: parsed})
         .then(function (response) {
-          console.log(response);
-          //TODO: Going to need response to use pack id
-          parsed.installed = false;
-          parsed.installExisting = false;
-          parsed.installTo = {};
-          //this.myPacks.push(parsed);
-        }, function (error) {
+          this.$dispatch('new-alert', {message: 'Pack uploaded successfully.', type: 'success'});
+          this.myPacks.push(response.data);
+        }.bind(this), function (error) {
           console.error(error);
         });
+    },
+    'delete-pack': function (pack) {
+      console.log("Deleting id: ", pack.id);
+      this.myPacks.splice(_.indexOf(this.myPacks, _.findWhere(this.MyPacks, {id: pack.id})), 1);
     }
   }
 }
