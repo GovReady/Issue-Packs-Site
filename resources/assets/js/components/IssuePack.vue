@@ -16,9 +16,14 @@
             </li>
           </ul>
         </div>
+        <div class="issue-pack-manage" v-if="type == 'manage'">
+          <div class="pack-delete">
+            <button class="btn btn-danger" v-on:click="deletePack(pack)">Delete Pack</button>
+          </div>
+        </div>
         <div class="issue-pack-install" v-if="type == 'install'">
           <div class="pack-install" v-show="!pack.installed">
-            <button class="btn btn-primary"v-on:click="install(pack)" v-show="!pack.installExisting">Create Milestone &amp; Issues</button>
+            <button class="btn btn-primary" v-on:click="install(pack)" v-show="!pack.installExisting">Create Milestone &amp; Issues</button>
           </div>
           <div class="pack-install-existing" v-show="!pack.installed">
             <a v-on:click="showMilestones(pack)" v-show="!pack.installExisting">Or install issues in existing milestone</a>
@@ -48,8 +53,24 @@
     props: ['pack', 'type'],
     data: () => {
       return {
-
+        jwtHeader: { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') }
       };
+    },
+    methods: {
+      deletePack (pack) {
+
+        var packPromise = this.$http.delete('/api/packs/' + pack.id,{}, {
+          headers: this.jwtHeader
+        }).then(
+          (response) => {
+            console.log(response);
+
+            return response.data;
+          },
+          (err) => console.error(err));
+
+        return packPromise;
+      }
     }
   }
 </script>

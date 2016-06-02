@@ -12,4 +12,8 @@ class PackController extends Controller
     public function getMyPacks() {
       return IssuePack::with('issues.labels')->get();
     }
+
+    public function deletePack($id) {
+      return 'Deleting ' . $id;
+    }
 }

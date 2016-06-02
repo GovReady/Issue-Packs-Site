@@ -17,5 +17,6 @@ Route::any('{slug}', function ($slug) {
 
 Route::group(['prefix' => 'api', 'middleware' => 'auth0.jwt'], function () {
   Route::get('my-packs', 'PackController@getMyPacks');
+  Route::delete('packs/{id}', 'PackController@deletePack');
 });
 

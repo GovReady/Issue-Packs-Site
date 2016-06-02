@@ -49096,11 +49096,29 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   props: ['pack', 'type'],
   data: function data() {
-    return {};
+    return {
+      jwtHeader: { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') }
+    };
+  },
+  methods: {
+    deletePack: function deletePack(pack) {
+
+      var packPromise = this.$http.delete('/api/packs/' + pack.id, {}, {
+        headers: this.jwtHeader
+      }).then(function (response) {
+        console.log(response);
+
+        return response.data;
+      }, function (err) {
+        return console.error(err);
+      });
+
+      return packPromise;
+    }
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"issue-pack\">\n  <div class=\"x_panel\">\n    <div class=\"x_title\">\n      <h2>{{ pack.name }}</h2>\n      <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"x_content\">\n      <div class=\"issue-pack-body\">\n        <ul class=\"to_do\">\n          <li v-for=\"issue in pack.issues\">\n            <p>\n              <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n              <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label }}</span>\n            </p>\n          </li>\n        </ul>\n      </div>\n      <div class=\"issue-pack-install\" v-if=\"type == 'install'\">\n        <div class=\"pack-install\" v-show=\"!pack.installed\">\n          <button class=\"btn btn-primary\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">Create Milestone &amp; Issues</button>\n        </div>\n        <div class=\"pack-install-existing\" v-show=\"!pack.installed\">\n          <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n          <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n          <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n            <select v-model=\"pack.installTo\">\n              <option selected=\"\">Select Milestone</option>\n              <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n            </select>\n            <button v-on:click=\"install(pack)\" class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n          </div>\n        </div>\n        <div class=\"pack-installed-messages\" v-if=\"pack.installed\">\n          <span>\n            Pack installed successfully to\n            <br>\n            <a href=\"{{ pack.installedTo.html_url }}\" target=\"_blank\">{{ pack.installedTo.html_url }}</a>\n            </span>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"issue-pack\">\n  <div class=\"x_panel\">\n    <div class=\"x_title\">\n      <h2>{{ pack.name }}</h2>\n      <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"x_content\">\n      <div class=\"issue-pack-body\">\n        <ul class=\"to_do\">\n          <li v-for=\"issue in pack.issues\">\n            <p>\n              <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n              <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label }}</span>\n            </p>\n          </li>\n        </ul>\n      </div>\n      <div class=\"issue-pack-manage\" v-if=\"type == 'manage'\">\n        <div class=\"pack-delete\">\n          <button class=\"btn btn-danger\" v-on:click=\"deletePack(pack)\">Delete Pack</button>\n        </div>\n      </div>\n      <div class=\"issue-pack-install\" v-if=\"type == 'install'\">\n        <div class=\"pack-install\" v-show=\"!pack.installed\">\n          <button class=\"btn btn-primary\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">Create Milestone &amp; Issues</button>\n        </div>\n        <div class=\"pack-install-existing\" v-show=\"!pack.installed\">\n          <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n          <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n          <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n            <select v-model=\"pack.installTo\">\n              <option selected=\"\">Select Milestone</option>\n              <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n            </select>\n            <button v-on:click=\"install(pack)\" class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n          </div>\n        </div>\n        <div class=\"pack-installed-messages\" v-if=\"pack.installed\">\n          <span>\n            Pack installed successfully to\n            <br>\n            <a href=\"{{ pack.installedTo.html_url }}\" target=\"_blank\">{{ pack.installedTo.html_url }}</a>\n            </span>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
