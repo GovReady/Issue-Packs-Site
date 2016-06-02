@@ -48719,7 +48719,7 @@ router.redirect({
 
 router.start(_App2.default, '#app');
 
-},{"./components/Alerts.vue":234,"./components/App.vue":235,"./components/DashboardView.vue":236,"./components/HomeView.vue":238,"./components/MyPacks.vue":241,"./components/RepoDashboard.vue":243,"./components/ReposView.vue":245,"vue":221,"vue-async-data":194,"vue-resource":209,"vue-router":220}],233:[function(require,module,exports){
+},{"./components/Alerts.vue":234,"./components/App.vue":235,"./components/DashboardView.vue":236,"./components/HomeView.vue":238,"./components/MyPacks.vue":242,"./components/RepoDashboard.vue":244,"./components/ReposView.vue":246,"vue":221,"vue-async-data":194,"vue-resource":209,"vue-router":220}],233:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49013,7 +49013,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app.js":232,"../services/github":247,"./Messages.vue":240,"./RepoDashboard.vue":243,"./SidebarMenu.vue":246,"crypto":77,"github-api":111,"underscore":188,"vue":221,"vue-hot-reload-api":195}],237:[function(require,module,exports){
+},{"../app.js":232,"../services/github":248,"./Messages.vue":241,"./RepoDashboard.vue":244,"./SidebarMenu.vue":247,"crypto":77,"github-api":111,"underscore":188,"vue":221,"vue-hot-reload-api":195}],237:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49087,7 +49087,32 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Login.vue":239,"vue":221,"vue-hot-reload-api":195}],239:[function(require,module,exports){
+},{"./Login.vue":240,"vue":221,"vue-hot-reload-api":195}],239:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  props: ['pack', 'type'],
+  data: function data() {
+    return {};
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"issue-pack\">\n  <div class=\"x_panel\">\n    <div class=\"x_title\">\n      <h2>{{ pack.name }}</h2>\n      <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"x_content\">\n      <div>\n        <ul class=\"to_do\">\n          <li v-for=\"issue in pack.issues\">\n            <p>\n              <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n              <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label }}</span>\n            </p>\n          </li>\n        </ul>\n      </div>\n      <div class=\"pack-install\" v-show=\"!pack.installed\">\n        <button class=\"btn btn-primary\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">Create Milestone &amp; Issues</button>\n      </div>\n      <div class=\"pack-install-existing\" v-show=\"!pack.installed\">\n        <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n        <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n        <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n          <select v-model=\"pack.installTo\">\n            <option selected=\"\">Select Milestone</option>\n            <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n          </select>\n          <button v-on:click=\"install(pack)\" class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n        </div>\n      </div>\n      <div class=\"pack-installed-messages\" v-if=\"pack.installed\">\n        <span>\n          Pack installed successfully to\n          <br>\n          <a href=\"{{ pack.installedTo.html_url }}\" target=\"_blank\">{{ pack.installedTo.html_url }}</a>\n          </span>\n      </div>\n    </div>\n  </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/IssuePack.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":221,"vue-hot-reload-api":195}],240:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49134,7 +49159,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app":232,"vue":221,"vue-hot-reload-api":195}],240:[function(require,module,exports){
+},{"../app":232,"vue":221,"vue-hot-reload-api":195}],241:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49176,19 +49201,46 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":221,"vue-hot-reload-api":195}],241:[function(require,module,exports){
+},{"vue":221,"vue-hot-reload-api":195}],242:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _IssuePack = require('./IssuePack.vue');
+
+var _IssuePack2 = _interopRequireDefault(_IssuePack);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
-  ready: function ready() {
-    console.log('loading my packs');
+  components: { IssuePack: _IssuePack2.default },
+  route: {
+    data: function data(transition) {
+      var _this = this;
+
+      var jwtHeader = { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') };
+      var packPromise = this.$http.get('/api/my-packs', {}, {
+        headers: jwtHeader
+      }).then(function (response) {
+        _this.myPacks = response.data;
+        return response.data;
+      }, function (err) {
+        return console.error(err);
+      });
+
+      return packPromise;
+    }
+  },
+  data: function data() {
+    return {
+      myPacks: []
+    };
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"my-packs\">\n  These would be my packs\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"my-packs\">\n  <issue-pack v-for=\"pack in myPacks\" :pack=\"pack\"></issue-pack>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49200,7 +49252,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":221,"vue-hot-reload-api":195}],242:[function(require,module,exports){
+},{"./IssuePack.vue":239,"vue":221,"vue-hot-reload-api":195}],243:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -49213,7 +49265,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":221,"vue-hot-reload-api":195}],243:[function(require,module,exports){
+},{"vue":221,"vue-hot-reload-api":195}],244:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49365,7 +49417,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":247,"./FileUpload.vue":237,"github":122,"issue-pack":135,"underscore":188,"vue":221,"vue-hot-reload-api":195,"yamljs":231}],244:[function(require,module,exports){
+},{"../services/github":248,"./FileUpload.vue":237,"github":122,"issue-pack":135,"underscore":188,"vue":221,"vue-hot-reload-api":195,"yamljs":231}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49395,7 +49447,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Repo.vue":242,"vue":221,"vue-hot-reload-api":195}],245:[function(require,module,exports){
+},{"./Repo.vue":243,"vue":221,"vue-hot-reload-api":195}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49425,7 +49477,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./RepoList.vue":244,"vue":221,"vue-hot-reload-api":195}],246:[function(require,module,exports){
+},{"./RepoList.vue":245,"vue":221,"vue-hot-reload-api":195}],247:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49476,7 +49528,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"underscore":188,"vue":221,"vue-hot-reload-api":195}],247:[function(require,module,exports){
+},{"underscore":188,"vue":221,"vue-hot-reload-api":195}],248:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
