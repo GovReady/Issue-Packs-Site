@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
+
 use App\Http\Requests;
 use App\IssuePack;
 
 class PackController extends Controller
 {
     public function getMyPacks() {
-      return IssuePack::with('issues.labels')->get();
+      $user_id = Auth::id();
+
+      return response()->json(IssuePack::where('user_id', '=', $user_id)->with('issues.labels')->get());
     }
 
     public function deletePack($id) {

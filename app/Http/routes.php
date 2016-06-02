@@ -15,7 +15,9 @@ Route::any('{slug}', function ($slug) {
   return view('welcome');
 })->where('slug', '^(?!(api)/)(.*)$');
 
-Route::group(['prefix' => 'api', 'middleware' => 'auth0.jwt'], function () {
+Route::group(['prefix' => 'api', 'middleware' => ['web']], function () {
+  Route::post('login', 'UserController@login');
+  Route::get('logout', 'UserController@logout');
   Route::get('my-packs', 'PackController@getMyPacks');
   Route::delete('packs/{id}', 'PackController@deletePack');
 });

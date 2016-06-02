@@ -26,11 +26,16 @@ export default {
       this.authenticated = true;
     },
     'logout': function () {
-      localStorage.removeItem('id_token');
-      localStorage.removeItem('profile');
-      this.authenticated = false;
-
-      this.$dispatch('go', '/');
+      this.$http.get('/api/logout')
+        .then(function (response) {
+          localStorage.removeItem('id_token');
+          localStorage.removeItem('profile');
+          this.authenticated = false;
+          this.$dispatch('go', '/');
+        }.bind(this),
+        function (error) {
+          console.error(error);
+        });
     },
     'navbar-toggle': function (toggle) {
       this.navbarToggle = toggle;

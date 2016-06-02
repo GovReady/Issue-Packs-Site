@@ -48843,11 +48843,14 @@ exports.default = {
       this.authenticated = true;
     },
     'logout': function logout() {
-      localStorage.removeItem('id_token');
-      localStorage.removeItem('profile');
-      this.authenticated = false;
-
-      this.$dispatch('go', '/');
+      this.$http.get('/api/logout').then(function (response) {
+        localStorage.removeItem('id_token');
+        localStorage.removeItem('profile');
+        this.authenticated = false;
+        this.$dispatch('go', '/');
+      }.bind(this), function (error) {
+        console.error(error);
+      });
     },
     'navbar-toggle': function navbarToggle(toggle) {
       this.navbarToggle = toggle;
@@ -49167,8 +49170,14 @@ exports.default = {
           localStorage.setItem('profile', profile);
           localStorage.setItem('id_token', token);
 
-          _this.$dispatch('go', '/dashboard');
-          _this.$dispatch('login', profile);
+          _this.$http.post('/api/login', { profile: profile }).then(function (response) {
+            console.log(response);
+            this.$dispatch('go', '/dashboard');
+            this.$dispatch('login', profile);
+          }.bind(_this), function (error) {
+            console.log(error);
+            this.$dispatch('logout');
+          }.bind(_this));
         }
       });
     }
