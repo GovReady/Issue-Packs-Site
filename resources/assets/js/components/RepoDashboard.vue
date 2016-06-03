@@ -4,47 +4,7 @@
     <div class="repo-name">
       <h3>{{ repo.name }}</h3>
     </div>
-    <div v-for="pack in issuePacks" class="issue-pack">
-      <div class="x_panel">
-        <div class="x_title">
-          <h2>{{ pack.name }}</h2>
-          <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-          <div>
-            <ul class="to_do">
-              <li v-for="issue in pack.issues">
-                <p>
-                  <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>
-                  <span v-for="label in issue.labels" class="issue-role">{{ label }}</span>
-                </p>
-              </li>
-            </ul>
-          </div>
-          <div class="pack-install" v-show="!pack.installed">
-            <button class="btn btn-primary"v-on:click="install(pack)" v-show="!pack.installExisting">Create Milestone &amp; Issues</button>
-          </div>
-          <div class="pack-install-existing" v-show="!pack.installed">
-            <a v-on:click="showMilestones(pack)" v-show="!pack.installExisting">Or install issues in existing milestone</a>
-            <a v-on:click="hideMilestones(pack)" v-show="pack.installExisting">Nevermind, install new milestone</a>
-            <div class="existing-milestones" v-show="pack.installExisting">
-              <select v-model="pack.installTo">
-                <option selected>Select Milestone</option>
-                <option v-for="milestone in milestones" v-bind:value="milestone">{{ milestone.title }}</option>
-              </select>
-              <button v-on:click="install(pack)"class="btn btn-primary install-existing-btn" v-if="pack.installTo != 'Select Milestone'">Install to {{ pack.installTo.title }}</button>
-            </div>
-          </div>
-          <div class="pack-installed-messages" v-if="pack.installed">
-            <span>
-              Pack installed successfully to
-              <br>
-              <a href="{{ pack.installedTo.html_url }}" target="_blank">{{ pack.installedTo.html_url }}</a>
-              </span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <issue-pack v-for="pack in issuePacks" :pack="pack" type="install" :milestones="milestones"></issue-pack>
     <div class="issue-pack-upload">
       <div class="x_panel">
         <div class="x_title">
@@ -61,7 +21,8 @@
 </template>
 <script>
   import FileUpload from './FileUpload.vue';
-  import IssuePack from 'issue-pack';
+  import IssuePackService from 'issue-pack';
+  import IssuePack from './IssuePack.vue';
   import GithubService from '../services/github';
   import YAML from 'yamljs';
   import Github from 'github';
@@ -69,7 +30,7 @@
 
   export default {
     props: [],
-    components: { FileUpload },
+    components: { FileUpload, IssuePack },
     route: {
       data: function (transition) {
         var profile = JSON.parse(localStorage.getItem('profile'));
@@ -126,6 +87,9 @@
         parsed.installTo = {};
 
         this.issuePacks.push(parsed);
+      },
+      'install-pack': function (pack) {
+        this.install(pack);
       }
     },
     methods: {
@@ -136,7 +100,7 @@
 
         var github_identity = _.findWhere(this.profile.identities, { provider: "github" });
 
-        var issuePack = new IssuePack({
+        var issuePack = new IssuePackService({
           auth: {
             token: github_identity.access_token
           }
@@ -161,12 +125,6 @@
             pack.installed = true;
           }.bind(this));
         }
-      },
-      showMilestones(pack) {
-        pack.installExisting = true;
-      },
-      hideMilestones(pack) {
-        pack.installExisting = false;
       }
     },
     data () {

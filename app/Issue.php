@@ -6,14 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Issue extends Model
 {
-    public static function boot() {
-      parent::boot();
-
-      Issue::deleting(function ($issue) {
-        $issue->labels()->delete();
-      });
-    }
-
     /**
      * Return issue packs this issue belongs to
      * @return App\IssuePack

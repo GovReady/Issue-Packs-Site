@@ -50,7 +50,7 @@
 </template>
 <script>
   export default {
-    props: ['pack', 'type'],
+    props: ['pack', 'type', 'milestones'],
     data: () => {
       return {
         jwtHeader: { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') },
@@ -67,6 +67,15 @@
           (err) => console.error(err));
 
         return packPromise;
+      },
+      install (pack) {
+        this.$dispatch('install-pack', pack);
+      },
+      showMilestones(pack) {
+        pack.installExisting = true;
+      },
+      hideMilestones(pack) {
+        pack.installExisting = false;
       }
     }
   }

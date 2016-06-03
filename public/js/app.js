@@ -49106,7 +49106,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  props: ['pack', 'type'],
+  props: ['pack', 'type', 'milestones'],
   data: function data() {
     return {
       jwtHeader: { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') },
@@ -49123,6 +49123,15 @@ exports.default = {
       });
 
       return packPromise;
+    },
+    install: function install(pack) {
+      this.$dispatch('install-pack', pack);
+    },
+    showMilestones: function showMilestones(pack) {
+      pack.installExisting = true;
+    },
+    hideMilestones: function hideMilestones(pack) {
+      pack.installExisting = false;
     }
   }
 };
@@ -49336,6 +49345,10 @@ var _issuePack = require('issue-pack');
 
 var _issuePack2 = _interopRequireDefault(_issuePack);
 
+var _IssuePack = require('./IssuePack.vue');
+
+var _IssuePack2 = _interopRequireDefault(_IssuePack);
+
 var _github = require('../services/github');
 
 var _github2 = _interopRequireDefault(_github);
@@ -49356,7 +49369,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   props: [],
-  components: { FileUpload: _FileUpload2.default },
+  components: { FileUpload: _FileUpload2.default, IssuePack: _IssuePack2.default },
   route: {
     data: function data(transition) {
       var profile = JSON.parse(localStorage.getItem('profile'));
@@ -49407,6 +49420,9 @@ exports.default = {
       parsed.installTo = {};
 
       this.issuePacks.push(parsed);
+    },
+    'install-pack': function installPack(pack) {
+      this.install(pack);
     }
   },
   methods: {
@@ -49442,12 +49458,6 @@ exports.default = {
           pack.installed = true;
         }.bind(this));
       }
-    },
-    showMilestones: function showMilestones(pack) {
-      pack.installExisting = true;
-    },
-    hideMilestones: function hideMilestones(pack) {
-      pack.installExisting = false;
     }
   },
   data: function data() {
@@ -49461,7 +49471,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div class=\"repo-name\">\n      <h3>{{ repo.name }}</h3>\n    </div>\n    <div v-for=\"pack in issuePacks\" class=\"issue-pack\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>{{ pack.name }}</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <div>\n            <ul class=\"to_do\">\n              <li v-for=\"issue in pack.issues\">\n                <p>\n                  <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n                  <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label }}</span>\n                </p>\n              </li>\n            </ul>\n          </div>\n          <div class=\"pack-install\" v-show=\"!pack.installed\">\n            <button class=\"btn btn-primary\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">Create Milestone &amp; Issues</button>\n          </div>\n          <div class=\"pack-install-existing\" v-show=\"!pack.installed\">\n            <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n            <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n            <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n              <select v-model=\"pack.installTo\">\n                <option selected=\"\">Select Milestone</option>\n                <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n              </select>\n              <button v-on:click=\"install(pack)\" class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n            </div>\n          </div>\n          <div class=\"pack-installed-messages\" v-if=\"pack.installed\">\n            <span>\n              Pack installed successfully to\n              <br>\n              <a href=\"{{ pack.installedTo.html_url }}\" target=\"_blank\">{{ pack.installedTo.html_url }}</a>\n              </span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div class=\"repo-name\">\n      <h3>{{ repo.name }}</h3>\n    </div>\n    <issue-pack v-for=\"pack in issuePacks\" :pack=\"pack\" type=\"install\" :milestones=\"milestones\"></issue-pack>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49473,7 +49483,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":248,"./FileUpload.vue":237,"github":122,"issue-pack":135,"underscore":188,"vue":221,"vue-hot-reload-api":195,"yamljs":231}],245:[function(require,module,exports){
+},{"../services/github":248,"./FileUpload.vue":237,"./IssuePack.vue":239,"github":122,"issue-pack":135,"underscore":188,"vue":221,"vue-hot-reload-api":195,"yamljs":231}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
