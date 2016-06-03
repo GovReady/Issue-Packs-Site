@@ -48917,10 +48917,6 @@ var _githubApi = require('github-api');
 
 var _githubApi2 = _interopRequireDefault(_githubApi);
 
-var _github = require('../services/github');
-
-var _github2 = _interopRequireDefault(_github);
-
 var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
@@ -48995,25 +48991,10 @@ exports.default = {
     'repo-selected': function repoSelected(repo) {
       this.loadRepo(repo);
     }
-  },
-  asyncData: function asyncData(resolve, reject) {
-    var self = this;
-
-    var githubService = new _github2.default({
-      profile: this.profile
-    });
-
-    return githubService.getOrgs().then(function (orgs) {
-
-      _underscore2.default.each(orgs, function (org) {
-        org.repoFilter = '';
-      });
-      return { orgs: orgs };
-    });
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container body\">\n  <div class=\"main_container\">\n    <div class=\"col-md-3 left_col\">\n      <div class=\"left_col scroll-view\">\n        <div class=\"navbar nav_title\" style=\"border: 0;\">\n          <a v-link=\"'/dashboard'\" class=\"site_title\"><i class=\"fa fa-briefcase\"></i> <span>Issue Packs</span></a>\n        </div>\n        <div class=\"clearfix\"></div>\n        <!-- menu prile quick info -->\n        <div class=\"profile\">\n          <div class=\"profile_pic\">\n            <img v-bind:src=\"gravatar_link\" alt=\"...\" class=\"img-circle profile_img\">\n          </div>\n          <div class=\"profile_info\">\n            <span>Welcome,</span>\n            <h2>{{ profile.name }}</h2>\n          </div>\n          <div class=\"clearfix\"></div>\n        </div>\n        <!-- /menu profile quick info -->\n        <!-- sidebar menu -->\n        <sidebar-menu wait-for=\"async-data\" :orgs=\"orgs\" :toggled=\"sidebarToggle\"></sidebar-menu>\n        <!-- /sidebar menu -->\n\n        <!-- /menu footer buttons -->\n        <div class=\"sidebar-footer hidden-small\">\n          <a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Logout\" v-on:click=\"logout()\">\n            <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span>\n          </a>\n        </div>\n        <!-- /menu footer buttons -->\n      </div>\n    </div>\n\n    <!-- top navigation -->\n    <div class=\"top_nav\">\n      <div class=\"nav_menu\">\n        <nav class=\"\" role=\"navigation\">\n          <div class=\"nav toggle\">\n            <a id=\"menu_toggle\" v-on:click=\"toggleSidebar()\"><i class=\"fa fa-bars\"></i></a>\n          </div>\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li class=\"\">\n              <a href=\"javascript:;\" class=\"user-profile dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                <img v-bind:src=\"gravatar_link\" alt=\"\">{{ profile.name }}\n                <span class=\" fa fa-angle-down\"></span>\n              </a>\n              <ul class=\"dropdown-menu dropdown-usermenu pull-right\">\n                <li>\n                  <a href=\"javascript:;\">  Profile</a>\n                </li>\n                <li>\n                  <a v-link=\"{name: 'my-packs'}\">\n                    <span>My Packs</span>\n                  </a>\n                </li>\n                <li><a v-on:click=\"logout()\"><i class=\"fa fa-sign-out pull-right\"></i> Log Out</a>\n                </li>\n              </ul>\n            </li>\n            <!-- <li role=\"presentation\" class=\"dropdown\">\n              <messages :gravatar=\"gravatar_link\"></messages>\n            </li> -->\n          </ul>\n        </nav>\n      </div>\n    </div>\n    <!-- /top navigation -->\n    <!-- page content -->\n    <div class=\"right_col\" role=\"main\">\n      <!-- <div class=\"page-title\">\n        <div class=\"title_left\">\n          <h3>{{ $route.title }}</h3>\n        </div>\n      </div> -->\n      <div class=\"row\">\n        <div class=\"col-md-12 col-sm-12 col-xs-12\">\n          <div class=\"x_panel\">\n            <div class=\"x_title\">\n              <h2>\n                {{ $route.title }}\n              </h2>\n              <div class=\"clearfix\"></div>\n            </div>\n            <div class=\"x_content\">\n              <router-view></router-view>\n            </div>\n          </div>\n\n        </div>\n      </div>\n      <br>\n    </div>\n    <!-- /page content -->\n    <!-- footer content -->\n    <footer>\n      <div class=\"pull-right\">\n        Issue Packs Dashboard by <a href=\"https://govready.com\" target=\"_blank\">Govready</a>\n      </div>\n      <div class=\"clearfix\"></div>\n    </footer>\n    <!-- /footer content -->\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container body\">\n  <div class=\"main_container\">\n    <div class=\"col-md-3 left_col\">\n      <div class=\"left_col scroll-view\">\n        <div class=\"navbar nav_title\" style=\"border: 0;\">\n          <a v-link=\"'/dashboard'\" class=\"site_title\"><i class=\"fa fa-briefcase\"></i> <span>Issue Packs</span></a>\n        </div>\n        <div class=\"clearfix\"></div>\n        <!-- menu prile quick info -->\n        <div class=\"profile\">\n          <div class=\"profile_pic\">\n            <img v-bind:src=\"gravatar_link\" alt=\"...\" class=\"img-circle profile_img\">\n          </div>\n          <div class=\"profile_info\">\n            <span>Welcome,</span>\n            <h2>{{ profile.name }}</h2>\n          </div>\n          <div class=\"clearfix\"></div>\n        </div>\n        <!-- /menu profile quick info -->\n        <!-- sidebar menu -->\n        <sidebar-menu wait-for=\"async-data\" :toggled=\"sidebarToggle\"></sidebar-menu>\n        <!-- /sidebar menu -->\n\n        <!-- /menu footer buttons -->\n        <div class=\"sidebar-footer hidden-small\">\n          <a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Logout\" v-on:click=\"logout()\">\n            <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span>\n          </a>\n        </div>\n        <!-- /menu footer buttons -->\n      </div>\n    </div>\n\n    <!-- top navigation -->\n    <div class=\"top_nav\">\n      <div class=\"nav_menu\">\n        <nav class=\"\" role=\"navigation\">\n          <div class=\"nav toggle\">\n            <a id=\"menu_toggle\" v-on:click=\"toggleSidebar()\"><i class=\"fa fa-bars\"></i></a>\n          </div>\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li class=\"\">\n              <a href=\"javascript:;\" class=\"user-profile dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                <img v-bind:src=\"gravatar_link\" alt=\"\">{{ profile.name }}\n                <span class=\" fa fa-angle-down\"></span>\n              </a>\n              <ul class=\"dropdown-menu dropdown-usermenu pull-right\">\n                <li>\n                  <a href=\"javascript:;\">  Profile</a>\n                </li>\n                <li>\n                  <a v-link=\"{name: 'my-packs'}\">\n                    <span>My Packs</span>\n                  </a>\n                </li>\n                <li><a v-on:click=\"logout()\"><i class=\"fa fa-sign-out pull-right\"></i> Log Out</a>\n                </li>\n              </ul>\n            </li>\n            <!-- <li role=\"presentation\" class=\"dropdown\">\n              <messages :gravatar=\"gravatar_link\"></messages>\n            </li> -->\n          </ul>\n        </nav>\n      </div>\n    </div>\n    <!-- /top navigation -->\n    <!-- page content -->\n    <div class=\"right_col\" role=\"main\">\n      <!-- <div class=\"page-title\">\n        <div class=\"title_left\">\n          <h3>{{ $route.title }}</h3>\n        </div>\n      </div> -->\n      <div class=\"row\">\n        <div class=\"col-md-12 col-sm-12 col-xs-12\">\n          <div class=\"x_panel\">\n            <div class=\"x_title\">\n              <h2>\n                {{ $route.title }}\n              </h2>\n              <div class=\"clearfix\"></div>\n            </div>\n            <div class=\"x_content\">\n              <router-view></router-view>\n            </div>\n          </div>\n\n        </div>\n      </div>\n      <br>\n    </div>\n    <!-- /page content -->\n    <!-- footer content -->\n    <footer>\n      <div class=\"pull-right\">\n        Issue Packs Dashboard by <a href=\"https://govready.com\" target=\"_blank\">Govready</a>\n      </div>\n      <div class=\"clearfix\"></div>\n    </footer>\n    <!-- /footer content -->\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49025,7 +49006,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app.js":232,"../services/github":248,"./Messages.vue":241,"./RepoDashboard.vue":244,"./SidebarMenu.vue":247,"crypto":77,"github-api":111,"underscore":188,"vue":221,"vue-hot-reload-api":195}],237:[function(require,module,exports){
+},{"../app.js":232,"./Messages.vue":241,"./RepoDashboard.vue":244,"./SidebarMenu.vue":247,"crypto":77,"github-api":111,"underscore":188,"vue":221,"vue-hot-reload-api":195}],237:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49189,7 +49170,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"login\" class=\"animate form\">\n  <section class=\"login_content\">\n    <form>\n      <h1>Issue Packs</h1>\n      <div>\n        <a class=\"btn btn-default\" v-on:click=\"login()\"><i class=\"fa fa-github\"></i> Log In With Github</a>\n      </div>\n      <!-- <div class=\"clearfix\"></div> -->\n      <div class=\"separator\">\n        <div class=\"clearfix\"></div>\n      </div>\n    </form>\n    <!-- form -->\n  </section>\n  <!-- content -->\n</div>\n  <!-- <button class=\"btn btn-primary btn-lg\" v-on:click=\"login()\">Log in with Github</button> -->\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"login\" class=\"animate form\">\n  <section class=\"login_content\">\n    <form>\n      <h1>Issue Packs</h1>\n      <div>\n        <a class=\"btn btn-default\" v-on:click=\"login()\">Log In</a>\n      </div>\n      <!-- <div class=\"clearfix\"></div> -->\n      <div class=\"separator\">\n        <div class=\"clearfix\"></div>\n      </div>\n    </form>\n    <!-- form -->\n  </section>\n  <!-- content -->\n</div>\n  <!-- <button class=\"btn btn-primary btn-lg\" v-on:click=\"login()\">Log in with Github</button> -->\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49550,6 +49531,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _github = require('../services/github');
+
+var _github2 = _interopRequireDefault(_github);
+
 var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
@@ -49560,11 +49545,13 @@ exports.default = {
   ready: function ready() {},
   data: function data() {
     return {
-      orgFilter: ''
+      orgs: [],
+      orgFilter: '',
+      profile: JSON.parse(localStorage.getItem('profile'))
     };
   },
 
-  props: ['orgs'],
+  props: [],
   methods: {
     show: function show(org) {
       _underscore2.default.each(this.orgs, function (otherOrg) {
@@ -49578,6 +49565,23 @@ exports.default = {
     },
     loadRepo: function loadRepo(repo) {
       this.$dispatch('repo-selected', repo);
+    }
+  },
+  asyncData: function asyncData() {
+    //Check if it's a github login first
+    var github_identity = _underscore2.default.findWhere(this.profile.identities, { provider: "github" });
+    if (github_identity !== undefined) {
+      var githubService = new _github2.default({
+        profile: this.profile
+      });
+
+      return githubService.getOrgs().then(function (orgs) {
+
+        _underscore2.default.each(orgs, function (org) {
+          org.repoFilter = '';
+        });
+        return { orgs: orgs };
+      });
     }
   }
 };
@@ -49594,7 +49598,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"underscore":188,"vue":221,"vue-hot-reload-api":195}],248:[function(require,module,exports){
+},{"../services/github":248,"underscore":188,"vue":221,"vue-hot-reload-api":195}],248:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

@@ -20,7 +20,7 @@
         </div>
         <!-- /menu profile quick info -->
         <!-- sidebar menu -->
-        <sidebar-menu wait-for="async-data" :orgs="orgs" :toggled="sidebarToggle"></sidebar-menu>
+        <sidebar-menu wait-for="async-data" :toggled="sidebarToggle"></sidebar-menu>
         <!-- /sidebar menu -->
 
         <!-- /menu footer buttons -->
@@ -107,7 +107,6 @@
 <script>
 import Crypto from 'crypto';
 import Github from 'github-api';
-import GithubService from '../services/github';
 
 import _ from 'underscore';
 import {router} from '../app.js';
@@ -171,22 +170,6 @@ export default {
     'repo-selected': function (repo) {
       this.loadRepo(repo);
     }
-  },
-  asyncData: function (resolve, reject) {
-    var self = this;
-
-    var githubService = new GithubService({
-      profile: this.profile
-    });
-
-    return githubService.getOrgs()
-      .then(function (orgs) {
-
-        _.each(orgs, function (org) {
-          org.repoFilter = ''
-        });
-        return {orgs: orgs};
-      });
   }
 }
 </script>

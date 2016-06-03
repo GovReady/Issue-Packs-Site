@@ -28,6 +28,7 @@
   </div>
 </template>
 <script>
+import GithubService from '../services/github';
 import _ from 'underscore';
 
   export default {
@@ -36,10 +37,12 @@ import _ from 'underscore';
     },
     data () {
       return {
-        orgFilter: ''
+        orgs: [],
+        orgFilter: '',
+        profile: JSON.parse(localStorage.getItem('profile'))
       }
     },
-    props: ['orgs'],
+    props: [],
     methods: {
       show (org) {
         _.each(this.orgs, function (otherOrg) {
@@ -53,6 +56,24 @@ import _ from 'underscore';
       },
       loadRepo (repo) {
         this.$dispatch('repo-selected', repo);
+      }
+    },
+    asyncData: function () {
+      //Check if it's a github login first
+      var github_identity = _.findWhere(this.profile.identities, {provider: "github"});
+      if(github_identity !== undefined) {
+        var githubService = new GithubService({
+          profile: this.profile
+        });
+
+        return githubService.getOrgs()
+          .then(function (orgs) {
+
+            _.each(orgs, function (org) {
+              org.repoFilter = ''
+            });
+            return {orgs: orgs};
+          });
       }
     }
   }
