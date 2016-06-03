@@ -21,7 +21,6 @@ class UserController extends Controller
         $user->name = $profile->name;
         $user->email = $profile->email;
         $user->save();
-
       }
 
       return response()->json(Auth::login($user));
