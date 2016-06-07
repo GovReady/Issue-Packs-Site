@@ -79,4 +79,10 @@ class PackController extends Controller
         return response()->json('You are not authorized to publish that pack', 401);
       }
     }
+
+    public function searchPacks () {
+      $packs = IssuePack::where('public', '=', true)->with('user', 'issues.labels')->get();
+
+      return response()->json($packs);
+    }
 }

@@ -20,6 +20,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function () {
   Route::get('logout', 'UserController@logout');
   Route::get('my-packs', 'PackController@getMyPacks');
   Route::post('packs', 'PackController@createPack');
+  Route::get('packs/search', 'PackController@searchPacks');
   Route::delete('packs/{id}', 'PackController@deletePack');
   Route::post('packs/{id}/publish', 'PackController@publishPack');
 });

@@ -40,12 +40,11 @@ export default {
           this.$http.post('/api/login', {profile: profile})
             .then(
               function (response) {
-                console.log(response);
                 this.$dispatch('go', '/dashboard');
                 this.$dispatch('login', profile);
               }.bind(this),
               function (error) {
-                console.log(error);
+                console.error(error);
                 this.$dispatch('logout');
               }.bind(this));
 

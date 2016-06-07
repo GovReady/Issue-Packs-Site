@@ -55,6 +55,9 @@
                     <span>My Packs</span>
                   </a>
                 </li>
+                <li>
+                  <a v-link="{name: 'search-packs'}">Search Packs</a>
+                </li>
                 <li><a v-on:click="logout()"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                 </li>
               </ul>

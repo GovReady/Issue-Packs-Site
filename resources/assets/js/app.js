@@ -20,6 +20,7 @@ import DashboardView from './components/DashboardView.vue';
 import ReposView from './components/ReposView.vue';
 import RepoDashboard from './components/RepoDashboard.vue';
 import MyPacks from './components/MyPacks.vue';
+import PackSearch from './components/PackSearch.vue';
 import Alerts from './components/Alerts.vue';
 
 // Configure debug mode
@@ -55,6 +56,11 @@ router.map({
     auth: true,
     title: 'Install Issue Packs',
     subRoutes: {
+      '/search-packs': {
+        name: 'search-packs',
+        component: PackSearch,
+        title: 'Search Packs'
+      },
       '/my-packs': {
         name: 'my-packs',
         component: MyPacks,
