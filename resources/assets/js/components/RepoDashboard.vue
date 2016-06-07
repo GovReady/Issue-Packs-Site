@@ -48,6 +48,7 @@
               parsed.installed = false;
               parsed.installExisting = false;
               parsed.installTo = {};
+              parsed.label = 'Official GovReady Pack';
               packObjects.push(parsed);
             });
 

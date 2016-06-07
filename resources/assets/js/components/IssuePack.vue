@@ -2,7 +2,12 @@
   <div class="issue-pack">
     <div class="x_panel">
       <div class="x_title">
-        <h2>{{ pack.name }}</h2>
+        <h2>{{ pack.name }}
+          <small v-if="pack.label">
+            <i class="fa fa-check-circle" v-if="pack.label == 'Official GovReady Pack'"></i>
+            {{ pack.label }}
+          </small>
+        </h2>
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
@@ -54,7 +59,7 @@ import InputSwitch from './InputSwitch.vue';
 
   export default {
     components: { InputSwitch },
-    props: ['pack', 'type', 'milestones'],
+    props: ['pack', 'type', 'milestones', 'label'],
     data: () => {
       return {
         jwtHeader: { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') },
@@ -90,8 +95,6 @@ import InputSwitch from './InputSwitch.vue';
           }, function (error) {
             console.error(error);
           });
-
-
       }
     }
   }
