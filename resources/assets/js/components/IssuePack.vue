@@ -3,8 +3,8 @@
     <div class="x_panel">
       <div class="x_title">
         <h2>{{ pack.name }}
-          <small v-if="pack.label">
-            <i class="fa fa-check-circle" v-if="pack.label == 'Official GovReady Pack'"></i>
+          <small v-if="pack.label" v-bind:class="{'official-pack-label': pack.listPriority == 0 }">
+            <i class="fa fa-check-circle" v-if="pack.listPriority == 0"></i>
             {{ pack.label }}
           </small>
         </h2>

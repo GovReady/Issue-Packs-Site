@@ -10916,6 +10916,9 @@ div#app {
       transition: background-color 0.4s, left 0.2s;
       background-color: #fff; }
 
+.official-pack-label {
+  color: green; }
+
 .pack-public {
   position: absolute;
   right: 0px;

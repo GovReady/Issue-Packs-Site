@@ -49146,7 +49146,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"issue-pack\">\n  <div class=\"x_panel\">\n    <div class=\"x_title\">\n      <h2>{{ pack.name }}\n        <small v-if=\"pack.label\">\n          <i class=\"fa fa-check-circle\" v-if=\"pack.label == 'Official GovReady Pack'\"></i>\n          {{ pack.label }}\n        </small>\n      </h2>\n      <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"x_content\">\n      <div class=\"issue-pack-body\">\n        <ul class=\"to_do\">\n          <li v-for=\"issue in pack.issues\">\n            <p>\n              <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n              <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label.name }}</span>\n            </p>\n          </li>\n        </ul>\n      </div>\n      <div class=\"issue-pack-manage\" v-if=\"type == 'manage'\">\n        <div class=\"pack-delete\">\n          <button class=\"btn btn-danger\" v-on:click=\"deletePack(pack)\">Delete Pack</button>\n          <input-switch :id=\"pack.id\" :selected=\"pack.public\"></input-switch>\n        </div>\n      </div>\n      <div class=\"issue-pack-install\" v-if=\"type == 'install'\">\n        <div class=\"pack-install\" v-show=\"!pack.installed\">\n          <button class=\"btn btn-primary\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">Create Milestone &amp; Issues</button>\n        </div>\n        <div class=\"pack-install-existing\" v-show=\"!pack.installed\">\n          <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n          <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n          <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n            <select v-model=\"pack.installTo\">\n              <option selected=\"\">Select Milestone</option>\n              <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n            </select>\n            <button v-on:click=\"install(pack)\" class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n          </div>\n        </div>\n        <div class=\"pack-installed-messages\" v-if=\"pack.installed\">\n          <span>\n            Pack installed successfully to\n            <br>\n            <a href=\"{{ pack.installedTo.html_url }}\" target=\"_blank\">{{ pack.installedTo.html_url }}</a>\n            </span>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"issue-pack\">\n  <div class=\"x_panel\">\n    <div class=\"x_title\">\n      <h2>{{ pack.name }}\n        <small v-if=\"pack.label\" v-bind:class=\"{'official-pack-label': pack.listPriority == 0 }\">\n          <i class=\"fa fa-check-circle\" v-if=\"pack.listPriority == 0\"></i>\n          {{ pack.label }}\n        </small>\n      </h2>\n      <div class=\"clearfix\"></div>\n    </div>\n    <div class=\"x_content\">\n      <div class=\"issue-pack-body\">\n        <ul class=\"to_do\">\n          <li v-for=\"issue in pack.issues\">\n            <p>\n              <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>\n              <span v-for=\"label in issue.labels\" class=\"issue-role\">{{ label.name }}</span>\n            </p>\n          </li>\n        </ul>\n      </div>\n      <div class=\"issue-pack-manage\" v-if=\"type == 'manage'\">\n        <div class=\"pack-delete\">\n          <button class=\"btn btn-danger\" v-on:click=\"deletePack(pack)\">Delete Pack</button>\n          <input-switch :id=\"pack.id\" :selected=\"pack.public\"></input-switch>\n        </div>\n      </div>\n      <div class=\"issue-pack-install\" v-if=\"type == 'install'\">\n        <div class=\"pack-install\" v-show=\"!pack.installed\">\n          <button class=\"btn btn-primary\" v-on:click=\"install(pack)\" v-show=\"!pack.installExisting\">Create Milestone &amp; Issues</button>\n        </div>\n        <div class=\"pack-install-existing\" v-show=\"!pack.installed\">\n          <a v-on:click=\"showMilestones(pack)\" v-show=\"!pack.installExisting\">Or install issues in existing milestone</a>\n          <a v-on:click=\"hideMilestones(pack)\" v-show=\"pack.installExisting\">Nevermind, install new milestone</a>\n          <div class=\"existing-milestones\" v-show=\"pack.installExisting\">\n            <select v-model=\"pack.installTo\">\n              <option selected=\"\">Select Milestone</option>\n              <option v-for=\"milestone in milestones\" v-bind:value=\"milestone\">{{ milestone.title }}</option>\n            </select>\n            <button v-on:click=\"install(pack)\" class=\"btn btn-primary install-existing-btn\" v-if=\"pack.installTo != 'Select Milestone'\">Install to {{ pack.installTo.title }}</button>\n          </div>\n        </div>\n        <div class=\"pack-installed-messages\" v-if=\"pack.installed\">\n          <span>\n            Pack installed successfully to\n            <br>\n            <a href=\"{{ pack.installedTo.html_url }}\" target=\"_blank\">{{ pack.installedTo.html_url }}</a>\n            </span>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49383,12 +49383,13 @@ exports.default = {
   route: {
     data: function data(transition) {
       var profile = JSON.parse(localStorage.getItem('profile'));
+      var loadedPacks = [];
 
       var github = new _github2.default({
         profile: profile
       });
 
-      var packsPromise = github.getIssuePacks(this.pack_url).then(function (packs) {
+      var officialPacksPromise = github.getIssuePacks(this.pack_url).then(function (packs) {
         var packObjects = [];
 
         packs.forEach(function (pack) {
@@ -49397,10 +49398,27 @@ exports.default = {
           parsed.installExisting = false;
           parsed.installTo = {};
           parsed.label = 'Official GovReady Pack';
-          packObjects.push(parsed);
+          parsed.listPriority = 0;
+          loadedPacks.push(parsed);
         });
 
         return packObjects;
+      });
+
+      var userPacksPromise = this.$http.get('/api/my-packs', {}).then(function (response) {
+        var packs = response.data;
+        packs.forEach(function (pack) {
+          pack.installed = false;
+          pack.installExisting = false;
+          pack.installTo = {};
+          pack.label = 'User Owned Pack';
+          pack.listPriority = 1;
+          loadedPacks.push(pack);
+        });
+
+        return response.data;
+      }, function (err) {
+        return console.error(err);
       });
 
       var repoPromise = new Promise(function (resolve, reject) {
@@ -49414,11 +49432,11 @@ exports.default = {
         });
       });
 
-      return Promise.all([repoPromise, packsPromise]).then(function (response) {
+      return Promise.all([repoPromise, officialPacksPromise]).then(function (response) {
         return {
           repo: response[0].repo,
           milestones: response[0].milestones,
-          issuePacks: response[1]
+          issuePacks: loadedPacks
         };
       });
     }
@@ -49482,7 +49500,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div class=\"repo-name\">\n      <h3>{{ repo.name }}</h3>\n    </div>\n    <issue-pack v-for=\"pack in issuePacks\" :pack=\"pack\" type=\"install\" :milestones=\"milestones\"></issue-pack>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div class=\"repo-name\">\n      <h3>{{ repo.name }}</h3>\n    </div>\n    <issue-pack v-for=\"pack in issuePacks | orderBy 'listPriority'\" :pack=\"pack\" type=\"install\" :milestones=\"milestones\"></issue-pack>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

@@ -4,7 +4,7 @@
     <div class="repo-name">
       <h3>{{ repo.name }}</h3>
     </div>
-    <issue-pack v-for="pack in issuePacks" :pack="pack" type="install" :milestones="milestones"></issue-pack>
+    <issue-pack v-for="pack in issuePacks | orderBy 'listPriority'" :pack="pack" type="install" :milestones="milestones"></issue-pack>
     <div class="issue-pack-upload">
       <div class="x_panel">
         <div class="x_title">
@@ -34,12 +34,13 @@
     route: {
       data: function (transition) {
         var profile = JSON.parse(localStorage.getItem('profile'));
+        var loadedPacks = [];
 
         var github = new GithubService({
           profile: profile
         });
 
-        var packsPromise = github.getIssuePacks(this.pack_url)
+        var officialPacksPromise = github.getIssuePacks(this.pack_url)
           .then(function (packs) {
             var packObjects = [];
 
@@ -49,11 +50,28 @@
               parsed.installExisting = false;
               parsed.installTo = {};
               parsed.label = 'Official GovReady Pack';
-              packObjects.push(parsed);
+              parsed.listPriority = 0;
+              loadedPacks.push(parsed);
             });
 
             return packObjects;
           });
+
+        var userPacksPromise = this.$http.get('/api/my-packs',{}).then(
+          function (response) {
+            var packs = response.data;
+            packs.forEach(function (pack) {
+              pack.installed = false;
+              pack.installExisting = false;
+              pack.installTo = {};
+              pack.label = 'User Owned Pack';
+              pack.listPriority = 1;
+              loadedPacks.push(pack);
+            });
+
+            return response.data;
+          },
+          (err) => console.error(err));
 
         var repoPromise = new Promise(function (resolve, reject) {
           github.getRepo(transition.to.params.org + '/' + transition.to.params.repo)
@@ -70,12 +88,12 @@
 
         return Promise.all([
           repoPromise,
-          packsPromise
+          officialPacksPromise
         ]).then(function (response) {
           return {
             repo: response[0].repo,
             milestones: response[0].milestones,
-            issuePacks: response[1]
+            issuePacks: loadedPacks
           };
         });
       }
