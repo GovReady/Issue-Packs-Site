@@ -48868,25 +48868,6 @@ exports.default = {
   // Include custom components
   components: { Alerts: _Alerts2.default },
 
-  methods: {
-    getSecretThing: function getSecretThing() {
-      var jwtHeader = { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') };
-
-      this.$http.get('http://localhost:3001/secured/ping', {}, {
-        // Send the JWT as a header
-        headers: jwtHeader
-      }).then(
-      //successfull callback
-      function (response) {
-        // Handle data returned
-        console.log(response.data);
-      },
-      //error callback
-      function (err) {
-        return console.log(err);
-      });
-    }
-  },
   replace: false
 };
 if (module.exports.__esModule) module.exports = module.exports.default
