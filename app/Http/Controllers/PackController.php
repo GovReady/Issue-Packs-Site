@@ -63,4 +63,20 @@ class PackController extends Controller
         return response()->json('You are not authorized to delete that pack', 401);
       }
     }
+
+    public function publishPack($id, Request $request) {
+      $user_id = Auth::id();
+      $pack = IssuePack::find($id);
+
+      //If the logged in user owns the pack
+      if($pack->user_id == $user_id) {
+        //Publish / unpublish
+        $public = $request->get('public');
+        $pack->public = $public;
+
+        return response()->json($pack->save());
+      } else { //Otherwise return error
+        return response()->json('You are not authorized to publish that pack', 401);
+      }
+    }
 }

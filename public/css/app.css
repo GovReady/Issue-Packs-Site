@@ -10874,6 +10874,53 @@ div#app {
   .dropzone-text span {
     display: block; }
 
+.input-switch {
+  display: none; }
+
+.input-switch-control {
+  background-color: #fff;
+  border: 1px solid #dfdfdf;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  box-sizing: content-box;
+  background-clip: content-box;
+  width: 32px;
+  height: 20px;
+  box-shadow: #dfdfdf 0px 0px 0px 0px inset;
+  border-color: #dfdfdf;
+  -webkit-transition: border 0.4s, box-shadow 0.4s;
+  transition: border 0.4s, box-shadow 0.4s; }
+  .input-switch-control .input-switch-indicator {
+    left: 0px;
+    -webkit-transition: background-color 0.4s, left 0.2s;
+    transition: background-color 0.4s, left 0.2s;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 100%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0; }
+  .input-switch-control.selected {
+    border-color: #26b99a;
+    box-shadow: #26b99a 0px 0px 0px 11px inset;
+    -webkit-transition: border 0.4s, box-shadow 0.4s, background-color 1.2s;
+    transition: border 0.4s, box-shadow 0.4s, background-color 1.2s;
+    background-color: #26b99a; }
+    .input-switch-control.selected .input-switch-indicator {
+      left: 12px;
+      -webkit-transition: background-color 0.4s, left 0.2s;
+      transition: background-color 0.4s, left 0.2s;
+      background-color: #fff; }
+
+.pack-public {
+  position: absolute;
+  right: 0px;
+  bottom: 5px; }
+
 .repo-name {
   margin-left: 10px; }
 

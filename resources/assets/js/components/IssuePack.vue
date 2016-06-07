@@ -19,6 +19,7 @@
         <div class="issue-pack-manage" v-if="type == 'manage'">
           <div class="pack-delete">
             <button class="btn btn-danger" v-on:click="deletePack(pack)">Delete Pack</button>
+            <input-switch :id="pack.id" :selected="pack.public"></input-switch>
           </div>
         </div>
         <div class="issue-pack-install" v-if="type == 'install'">
@@ -49,7 +50,10 @@
   </div>
 </template>
 <script>
+import InputSwitch from './InputSwitch.vue';
+
   export default {
+    components: { InputSwitch },
     props: ['pack', 'type', 'milestones'],
     data: () => {
       return {
@@ -76,6 +80,18 @@
       },
       hideMilestones(pack) {
         pack.installExisting = false;
+      }
+    },
+    events: {
+      'input-toggled': function (selected) {
+        this.$http.post('/api/packs/' + this.pack.id + '/publish', { public: selected })
+          .then(function (result) {
+            console.log(result);
+          }, function (error) {
+            console.error(error);
+          });
+
+
       }
     }
   }
