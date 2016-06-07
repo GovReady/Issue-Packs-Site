@@ -49444,11 +49444,20 @@ exports.default = {
   events: {
     'create-pack': function createPack(pack) {
       var parsed = _yamljs2.default.parse(pack);
-      parsed.installed = false;
-      parsed.installExisting = false;
-      parsed.installTo = {};
 
-      this.issuePacks.push(parsed);
+      this.$http.post('/api/packs', { pack: parsed }).then(function (response) {
+        var newPack = response.data;
+        this.$dispatch('new-alert', { message: 'Pack uploaded successfully.', type: 'success' });
+
+        newPack.installed = false;
+        newPack.installExisting = false;
+        newPack.installTo = {};
+        newPack.label = 'User Owned Pack';
+
+        this.issuePacks.push(newPack);
+      }.bind(this), function (error) {
+        console.error(error);
+      });
     },
     'install-pack': function installPack(pack) {
       this.install(pack);
