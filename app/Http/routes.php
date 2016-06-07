@@ -22,6 +22,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function () {
   Route::post('packs', 'PackController@createPack');
   Route::get('packs/search', 'PackController@searchPacks');
   Route::delete('packs/{id}', 'PackController@deletePack');
+  Route::post('packs/{id}/copy', 'PackController@copyPack');
   Route::post('packs/{id}/publish', 'PackController@publishPack');
 });
 

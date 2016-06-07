@@ -64,6 +64,39 @@ class PackController extends Controller
       }
     }
 
+    public function copyPack($id) {
+      $user_id = Auth::id();
+      $pack = IssuePack::with('issues.labels')->find($id);
+
+      $newPack = new IssuePack();
+      $newPack->name = $pack->name;
+      $newPack->user_id = $user_id;
+      $newPack->save();
+
+      foreach($pack->issues as $issue) {
+        $newIssue = new Issue();
+        $newIssue->title = $issue->title;
+        $newIssue->body = $issue->body;
+        $newIssue->save();
+
+        if(isset($issue->labels)) {
+          foreach($issue->labels as $label) {
+            $newLabel = new Label();
+            $newLabel->name = $label->name;
+            $newLabel->save();
+
+            $newIssue->labels()->attach($newLabel);
+          }
+        }
+
+        $newPack->issues()->attach($newIssue);
+      }
+
+      $newPack->load('issues.labels');
+
+      return response()->json($newPack);
+    }
+
     public function publishPack($id, Request $request) {
       $user_id = Auth::id();
       $pack = IssuePack::find($id);

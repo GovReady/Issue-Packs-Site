@@ -50,6 +50,10 @@
               </span>
           </div>
         </div>
+        <div class="issue-pack-search" v-if="type == 'search'">
+          <button v-on:click="copyPack(pack)" v-if="copyable" class="btn btn-primary copy-pack-btn">Copy To My Account</button>
+          <small v-if="!copyable">Cannot copy your own packs.</small>
+        </div>
       </div>
     </div>
   </div>
@@ -60,10 +64,18 @@ import InputSwitch from './InputSwitch.vue';
   export default {
     components: { InputSwitch },
     props: ['pack', 'type', 'milestones', 'label'],
-    data: () => {
+    data: function () {
+      var copyable;
+      var profile = JSON.parse(localStorage.getItem('profile'));
+
+      if(this.pack.user) {
+        copyable = (this.type == 'search') && (this.pack.user.email !== profile.email);
+      } else {
+        copyable = false;
+      }
+
       return {
-        jwtHeader: { 'Authorization': 'Bearer ' + localStorage.getItem('id_token') },
-        csrfHeader: {'X-CSRF-TOKEN' : document.querySelector('#token').getAttribute('value') }
+        copyable: copyable
       };
     },
     methods: {
@@ -85,6 +97,9 @@ import InputSwitch from './InputSwitch.vue';
       },
       hideMilestones(pack) {
         pack.installExisting = false;
+      },
+      copyPack(pack) {
+        this.$dispatch('copy-pack', pack);
       }
     },
     events: {
