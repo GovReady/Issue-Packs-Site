@@ -15,8 +15,10 @@ class CreatePackSyncsTable extends Migration
         Schema::create('pack_syncs', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('pack_id')->unsigned();
-            $table->foreign('pack_id')->references('id')->on('issue_packs')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+
+            $table->integer('issue_pack_id')->unsigned();
+            $table->foreign('issue_pack_id')->references('id')->on('issue_packs')->onDelete('cascade');
 
             $table->string('application');
             $table->string('repo');
