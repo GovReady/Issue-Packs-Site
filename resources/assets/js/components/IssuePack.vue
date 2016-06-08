@@ -26,6 +26,16 @@
             <button class="btn btn-danger" v-on:click="deletePack(pack)">Delete Pack</button>
             <input-switch :id="pack.id" :selected="pack.public"></input-switch>
           </div>
+          <div class="pack-sync-log">
+            <a v-on:click="toggleSyncLog()">Show Installation Log <i class="fa" v-bind:class="{'fa-caret-down': !showSyncLog, 'fa-caret-up': showSyncLog}"></i></a>
+            <div class="pack-sync-list" v-show="showSyncLog">
+              <ul>
+                <li v-for="sync in pack.syncs">
+                  <span>{{ sync.user.name }} synced this pack to <a href="{{sync.url}}" target="_blank">{{sync.repo}}</a> {{ sync.created_at | timeago }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         <div class="issue-pack-install" v-if="type == 'install'">
           <div class="pack-install" v-show="!pack.installed">
@@ -75,7 +85,8 @@ import InputSwitch from './InputSwitch.vue';
       }
 
       return {
-        copyable: copyable
+        copyable: copyable,
+        showSyncLog: false
       };
     },
     methods: {
@@ -100,6 +111,9 @@ import InputSwitch from './InputSwitch.vue';
       },
       copyPack(pack) {
         this.$dispatch('copy-pack', pack);
+      },
+      toggleSyncLog() {
+        this.showSyncLog = !this.showSyncLog;
       }
     },
     events: {

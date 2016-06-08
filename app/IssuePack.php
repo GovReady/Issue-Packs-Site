@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class IssuePack extends Model
 {
     protected $fillable = array('id', 'name', 'public');
-    protected $with = array('issues.labels', 'user', 'syncs');
+    protected $with = array('issues.labels', 'user', 'syncs.user');
 
     public static function boot() {
       parent::boot();

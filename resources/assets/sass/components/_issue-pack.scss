@@ -2,8 +2,18 @@
   color: green;
 }
 
+.pack-delete {
+  position:relative;
+}
+
 .pack-public {
   position: absolute;
   right: 0px;
   bottom: 5px;
+}
+
+.pack-sync-log {
+  a {
+    cursor: pointer;
+  }
 }

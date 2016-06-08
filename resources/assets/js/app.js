@@ -23,6 +23,8 @@ import MyPacks from './components/MyPacks.vue';
 import PackSearch from './components/PackSearch.vue';
 import Alerts from './components/Alerts.vue';
 
+import moment from 'moment';
+
 // Configure debug mode
 Vue.config.debug = true;
 
@@ -42,6 +44,12 @@ Vue.http.interceptors.push({
 
     return request;
   }
+});
+
+Vue.filter('timeago', function (value) {
+  var date = moment.utc(value);
+
+  return date.fromNow();
 });
 
 /**

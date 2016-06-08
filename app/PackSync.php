@@ -13,4 +13,12 @@ class PackSync extends Model
     public function pack () {
       return $this->belongsTo('App\IssuePack');
     }
+
+    /**
+     * Return user who synced the pack
+     * @return App\User
+     */
+    public function user() {
+      return $this->belongsTo('App\User');
+    }
 }
