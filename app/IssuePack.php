@@ -28,4 +28,12 @@ class IssuePack extends Model
     public function issues () {
       return $this->belongsToMany('App\Issue')->withTimestamps();
     }
+
+    /**
+     * Return sync records for a pack
+     * @return App\PackSync
+     */
+    public function syncs () {
+      return $this->hasMany('App\PackSync')->withTimestamps();
+    }
 }
