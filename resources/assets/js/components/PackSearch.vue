@@ -1,5 +1,6 @@
 <template>
   <div class="search-packs">
+    <small v-if="searchPacks.length == 0">No public packs found.</small>
     <issue-pack v-for="pack in searchPacks" :pack="pack" type="search"></issue-pack>
   </div>
 </template>

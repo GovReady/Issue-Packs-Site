@@ -53455,7 +53455,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"search-packs\">\n  <issue-pack v-for=\"pack in searchPacks\" :pack=\"pack\" type=\"search\"></issue-pack>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"search-packs\">\n  <small v-if=\"searchPacks.length == 0\">No public packs found.</small>\n  <issue-pack v-for=\"pack in searchPacks\" :pack=\"pack\" type=\"search\"></issue-pack>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
