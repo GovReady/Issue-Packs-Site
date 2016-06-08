@@ -122,7 +122,7 @@
       }
     },
     methods: {
-      install (pack) {
+      install: function (pack) {
         if(!pack.installed) {
           this.$dispatch('new-alert', {'message': 'Installing ' + pack.name, 'type': 'success'});
         }
@@ -141,18 +141,43 @@
           var ret = issuePack.push(this.repo.full_name, pack.installTo.number);
 
           ret.then(function (milestone) {
-            this.$dispatch('new-alert', {'message': 'Pack installed successfully', 'type': 'success'});
-            pack.installedTo = pack.installTo;
-            pack.installed = true;
+            this.saveSync(pack, pack.installTo.html_url)
+              .then(function (response) {
+                this.$dispatch('new-alert', {'message': 'Pack installed successfully', 'type': 'success'});
+                pack.installedTo = pack.installTo;
+                pack.installed = true;
+              }.bind(this), function (error) {
+                console.error(error);
+              });
+
           }.bind(this));
         } else {
           var ret = issuePack.push(this.repo.full_name);
 
           ret.then(function (milestone) {
-            this.$dispatch('new-alert', {'message': 'Pack installed successfully', 'type': 'success'});
-            pack.installedTo = milestone;
-            pack.installed = true;
+            this.saveSync(pack, milestone.html_url).then(function (response) {
+              this.$dispatch('new-alert', {'message': 'Pack installed successfully', 'type': 'success'});
+              pack.installedTo = milestone;
+              pack.installed = true;
+            }.bind(this), function (error) {
+              console.error(error);
+            });
           }.bind(this));
+        }
+      },
+      saveSync: function (pack, url) {
+        if(pack.id) {
+          return this.$http.post('/api/packs/' + pack.id + '/sync', {
+            application: 'github',
+            repo: this.repo.full_name,
+            url: url
+          });
+        } else {
+          return new Promise(function (resolve, reject) {
+            console.info('Cannot save sync for packs not stored in the database.');
+            resolve();
+          });
+
         }
       }
     },

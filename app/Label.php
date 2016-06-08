@@ -13,4 +13,12 @@ class Label extends Model
     public function issues () {
       return $this->belongsToMany('App\Issue')->withTimestamps();
     }
+
+    /**
+     * Array serialization
+     * @return string
+     */
+    public function toArray() {
+      return (string)$this->name;
+    }
 }

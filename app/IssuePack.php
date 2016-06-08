@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class IssuePack extends Model
 {
+    protected $fillable = array('id', 'name', 'public');
+    protected $with = array('issues.labels', 'user', 'syncs');
+
     public static function boot() {
       parent::boot();
 
@@ -34,6 +37,6 @@ class IssuePack extends Model
      * @return App\PackSync
      */
     public function syncs () {
-      return $this->hasMany('App\PackSync')->withTimestamps();
+      return $this->hasMany('App\PackSync');
     }
 }

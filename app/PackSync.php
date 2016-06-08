@@ -11,6 +11,6 @@ class PackSync extends Model
      * @return App\IssuePack
      */
     public function pack () {
-      return $this->belongsTo('App\IssuePack')->withTimestamps();
+      return $this->belongsTo('App\IssuePack');
     }
 }

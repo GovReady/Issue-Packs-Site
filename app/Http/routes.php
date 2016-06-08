@@ -24,5 +24,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function () {
   Route::delete('packs/{id}', 'PackController@deletePack');
   Route::post('packs/{id}/copy', 'PackController@copyPack');
   Route::post('packs/{id}/publish', 'PackController@publishPack');
+  Route::post('packs/{id}/sync', 'PackController@saveSync');
 });
 

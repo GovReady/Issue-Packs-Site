@@ -11,13 +11,22 @@ use App\Http\Requests;
 use App\Issue;
 use App\IssuePack;
 use App\Label;
+use App\PackSync;
 
 class PackController extends Controller
 {
     public function getMyPacks() {
       $user_id = Auth::id();
 
-      return response()->json(IssuePack::where('user_id', '=', $user_id)->with('issues.labels')->get());
+      $packs = IssuePack::where('user_id', '=', $user_id)->get();
+
+      foreach($packs as $pack) {
+        foreach($pack->issues as $issue) {
+          $issue->labels = $issue->labels->toArray();
+        }
+      }
+
+      return $packs;
     }
 
     public function createPack(Request $request) {
@@ -113,8 +122,23 @@ class PackController extends Controller
       }
     }
 
+    public function saveSync($id, Request $request) {
+      $user_id = Auth::id();
+
+      $input = $request->all();
+
+      $sync = new PackSync();
+      $sync->user_id = $user_id;
+      $sync->issue_pack_id = $id;
+      $sync->application = $input['application'];
+      $sync->repo = $input['repo'];
+      $sync->url = $input['url'];
+
+      return response()->json($sync->save());
+    }
+
     public function searchPacks () {
-      $packs = IssuePack::where('public', '=', true)->with('user', 'issues.labels')->get();
+      $packs = IssuePack::where('public', '=', true)->get();
 
       return response()->json($packs);
     }
