@@ -20,6 +20,7 @@ class CreatePackSyncsTable extends Migration
 
             $table->string('application');
             $table->string('repo');
+            $table->string('url');
             $table->timestamps();
         });
     }
