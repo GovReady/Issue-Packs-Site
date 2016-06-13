@@ -75,19 +75,24 @@ import InputSwitch from './InputSwitch.vue';
     components: { InputSwitch },
     props: ['pack', 'type', 'milestones', 'label'],
     data: function () {
-      var copyable;
-      var profile = JSON.parse(localStorage.getItem('profile'));
-
-      if(this.pack.user) {
-        copyable = (this.type == 'search') && (this.pack.user.email !== profile.email);
-      } else {
-        copyable = false;
-      }
-
       return {
-        copyable: copyable,
         showSyncLog: false
       };
+    },
+    computed: {
+      copyable: function () {
+        if(this.pack.listPriority === 0) {
+          return true;
+        }
+
+        var profile = JSON.parse(localStorage.getItem('profile'));
+
+        if(this.pack.user) {
+          return ((this.type == 'search') && (this.pack.user.email !== profile.email));
+        } else {
+          return false;
+        }
+      }
     },
     methods: {
       deletePack (pack) {

@@ -53686,19 +53686,24 @@ exports.default = {
   components: { InputSwitch: _InputSwitch2.default },
   props: ['pack', 'type', 'milestones', 'label'],
   data: function data() {
-    var copyable;
-    var profile = JSON.parse(localStorage.getItem('profile'));
-
-    if (this.pack.user) {
-      copyable = this.type == 'search' && this.pack.user.email !== profile.email;
-    } else {
-      copyable = false;
-    }
-
     return {
-      copyable: copyable,
       showSyncLog: false
     };
+  },
+  computed: {
+    copyable: function copyable() {
+      if (this.pack.listPriority === 0) {
+        return true;
+      }
+
+      var profile = JSON.parse(localStorage.getItem('profile'));
+
+      if (this.pack.user) {
+        return this.type == 'search' && this.pack.user.email !== profile.email;
+      } else {
+        return false;
+      }
+    }
   },
   methods: {
     deletePack: function deletePack(pack) {
@@ -53929,6 +53934,10 @@ var _IssuePack = require('./IssuePack.vue');
 
 var _IssuePack2 = _interopRequireDefault(_IssuePack);
 
+var _github = require('../services/github');
+
+var _github2 = _interopRequireDefault(_github);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
@@ -53937,13 +53946,34 @@ exports.default = {
     data: function data(transition) {
       var _this = this;
 
+      var profile = JSON.parse(localStorage.getItem('profile'));
+
+      var github = new _github2.default({
+        profile: profile
+      });
+
+      var officialPacksPromise = github.getIssuePacks(this.pack_url).then(function (packs) {
+
+        packs.forEach(function (pack) {
+          var parsed = YAML.parse(pack);
+
+          parsed.listPriority = 0;
+          parsed.label = "Official GovReady Issue Pack";
+          parsed.copyable = true;
+          this.searchPacks.push(parsed);
+        }.bind(this));
+
+        return packs;
+      }.bind(this));
+
       var packPromise = this.$http.get('/api/packs/search').then(function (response) {
         var packs = response.data;
         packs.forEach(function (pack) {
           pack.label = "Owned by " + pack.user.name;
-        });
+          pack.listPriority = 1;
+          this.searchPacks.push(pack);
+        }.bind(_this));
 
-        _this.searchPacks = packs;
         return response.data;
       }, function (err) {
         return console.error(err);
@@ -53954,7 +53984,8 @@ exports.default = {
   },
   data: function data() {
     return {
-      searchPacks: []
+      searchPacks: [],
+      pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples"
     };
   },
   events: {
@@ -53972,7 +54003,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"search-packs\">\n  <small v-if=\"searchPacks.length == 0\">No public packs found.</small>\n  <issue-pack v-for=\"pack in searchPacks\" :pack=\"pack\" type=\"search\"></issue-pack>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"search-packs\">\n  <small v-if=\"searchPacks.length == 0\">No public packs found.</small>\n  <issue-pack v-for=\"pack in searchPacks | orderBy 'listPriority'\" :pack=\"pack\" type=\"search\"></issue-pack>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -53984,7 +54015,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./IssuePack.vue":258,"vue":239,"vue-hot-reload-api":213}],263:[function(require,module,exports){
+},{"../services/github":268,"./IssuePack.vue":258,"vue":239,"vue-hot-reload-api":213}],263:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -54046,22 +54077,6 @@ exports.default = {
         profile: profile
       });
 
-      var officialPacksPromise = github.getIssuePacks(this.pack_url).then(function (packs) {
-        var packObjects = [];
-
-        packs.forEach(function (pack) {
-          var parsed = _yamljs2.default.parse(pack);
-          parsed.installed = false;
-          parsed.installExisting = false;
-          parsed.installTo = {};
-          parsed.label = 'Official GovReady Pack';
-          parsed.listPriority = 0;
-          loadedPacks.push(parsed);
-        });
-
-        return packObjects;
-      });
-
       var userPacksPromise = this.$http.get('/api/my-packs', {}).then(function (response) {
         var packs = response.data;
         packs.forEach(function (pack) {
@@ -54089,7 +54104,9 @@ exports.default = {
         });
       });
 
-      return Promise.all([repoPromise, officialPacksPromise]).then(function (response) {
+      return Promise.all([repoPromise, userPacksPromise
+      //officialPacksPromise
+      ]).then(function (response) {
         return {
           repo: response[0].repo,
           milestones: response[0].milestones,

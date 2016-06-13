@@ -40,23 +40,6 @@
           profile: profile
         });
 
-        var officialPacksPromise = github.getIssuePacks(this.pack_url)
-          .then(function (packs) {
-            var packObjects = [];
-
-            packs.forEach(function (pack) {
-              var parsed = YAML.parse(pack);
-              parsed.installed = false;
-              parsed.installExisting = false;
-              parsed.installTo = {};
-              parsed.label = 'Official GovReady Pack';
-              parsed.listPriority = 0;
-              loadedPacks.push(parsed);
-            });
-
-            return packObjects;
-          });
-
         var userPacksPromise = this.$http.get('/api/my-packs',{}).then(
           function (response) {
             var packs = response.data;
@@ -88,7 +71,8 @@
 
         return Promise.all([
           repoPromise,
-          officialPacksPromise
+          userPacksPromise
+          //officialPacksPromise
         ]).then(function (response) {
           return {
             repo: response[0].repo,
