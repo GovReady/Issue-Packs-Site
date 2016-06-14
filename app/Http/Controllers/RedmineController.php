@@ -20,7 +20,7 @@ class RedmineController extends Controller
       $connection = Connection::where('user_id', '=', $user_id)->where('provider', '=', 'redmine')->first();
 
       if(!$connection) {
-        return response()->json('Redmine connection not found.', 400);
+        return response()->json('Redmine connection not found.');
       }
 
       $client = new \GuzzleHttp\Client();

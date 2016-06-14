@@ -108,7 +108,10 @@ import _ from 'underscore';
       var redminePromise = this.$http.get('/api/redmine')
         .then(function (response) {
           var projects = response.data.projects;
-          this.showGithub = false;
+
+          if(projects !== undefined) {
+            this.showGithub = false;
+          }
 
           return projects
         });
@@ -116,10 +119,17 @@ import _ from 'underscore';
       promises.push(redminePromise);
 
       return Promise.all(promises).then(function (response) {
-        return {
-          orgs: response[0].orgs,
-          projects: response[1]
-        };
+        if(response[1] !== undefined) {
+          return {
+            orgs: response[0].orgs,
+            projects: response[1]
+          };
+        } else {
+          return {
+            orgs: response[0].orgs,
+            projects: []
+          }
+        }
       });
     }
   }
