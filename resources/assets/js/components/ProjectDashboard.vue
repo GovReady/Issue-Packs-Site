@@ -16,12 +16,29 @@
           </div>
         </div>
       </div>
+      <div class="issue-pack-officials">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>
+              ...Or Copy An Official Pack
+            </h2>
+            <span class="fa fa-question-circle-o tooltip_trigger official_pack_help">
+              <p class="tooltip">These are official issue packs from GovReady.  Copy them to your account to use them for your own projects.</p>
+            </span>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <official-packs></official-packs>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import FileUpload from './FileUpload.vue';
 import IssuePack from './IssuePack.vue';
+import OfficialPacks from './OfficialPacks.vue';
 import {store} from '../app';
 
   export default {
@@ -43,9 +60,37 @@ import {store} from '../app';
         }, function (error) {
           console.error(error);
         });
+      },
+      'copy-pack': function (pack) {
+        this.$http.post('/api/packs', {pack: pack})
+          .then(function (response) {
+            var newPack = response.data;
+            this.$dispatch('new-alert', {message: 'Pack uploaded successfully.', type: 'success'});
+
+            newPack.label = 'User Owned Pack';
+
+            this.loadedPacks.push(newPack);
+          }.bind(this), function (error) {
+            console.error(error);
+          });
+      },
+      'create-pack': function (pack) {
+        var parsed = YAML.parse(pack);
+
+        this.$http.post('/api/packs', {pack: parsed})
+          .then(function (response) {
+            var newPack = response.data;
+            this.$dispatch('new-alert', {message: 'Pack uploaded successfully.', type: 'success'});
+
+            newPack.label = 'User Owned Pack';
+
+            this.loadedPacks.push(newPack);
+          }.bind(this), function (error) {
+            console.error(error);
+          });
       }
     },
-    components: { FileUpload, IssuePack },
+    components: { FileUpload, IssuePack, OfficialPacks },
     route: {
       data: function (transition) {
         var id = transition.to.params.id;

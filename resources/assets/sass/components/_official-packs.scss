@@ -1,0 +1,25 @@
+.issue-pack-officials {
+  @extend .col-md-6;
+  @extend .col-sm-6;
+  @extend .col-xs-12;
+
+  .official_pack_help {
+    top:7px;
+    left:5px;
+    font-size: 1.3em;
+  }
+}
+
+.official-pack {
+  border-radius: 5px;
+
+  a {
+    cursor: pointer;
+  }
+
+  .official-pack-body {
+    border: 1px solid #F2F5F7;
+  }
+}
+
+

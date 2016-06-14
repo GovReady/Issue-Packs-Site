@@ -55940,7 +55940,7 @@ router.redirect({
 
 router.start(_App2.default, '#app');
 
-},{"./components/Alerts.vue":253,"./components/App.vue":254,"./components/Connections.vue":255,"./components/DashboardView.vue":256,"./components/HomeView.vue":258,"./components/MyPacks.vue":263,"./components/PackSearch.vue":264,"./components/ProjectDashboard.vue":265,"./components/RepoDashboard.vue":268,"./components/ReposView.vue":270,"moment":161,"vue":240,"vue-async-data":212,"vue-resource":227,"vue-router":238,"vue-validator":239}],252:[function(require,module,exports){
+},{"./components/Alerts.vue":253,"./components/App.vue":254,"./components/Connections.vue":255,"./components/DashboardView.vue":256,"./components/HomeView.vue":258,"./components/MyPacks.vue":263,"./components/PackSearch.vue":265,"./components/ProjectDashboard.vue":266,"./components/RepoDashboard.vue":269,"./components/ReposView.vue":271,"moment":161,"vue":240,"vue-async-data":212,"vue-resource":227,"vue-router":238,"vue-validator":239}],252:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56194,7 +56194,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./RedmineSettings.vue":266,"underscore":206,"vue":240,"vue-hot-reload-api":213}],256:[function(require,module,exports){
+},{"./RedmineSettings.vue":267,"underscore":206,"vue":240,"vue-hot-reload-api":213}],256:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56298,7 +56298,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app.js":251,"./Messages.vue":262,"./RepoDashboard.vue":268,"./SidebarMenu.vue":271,"crypto":77,"github-api":111,"underscore":206,"vue":240,"vue-hot-reload-api":213}],257:[function(require,module,exports){
+},{"../app.js":251,"./Messages.vue":262,"./RepoDashboard.vue":269,"./SidebarMenu.vue":272,"crypto":77,"github-api":111,"underscore":206,"vue":240,"vue-hot-reload-api":213}],257:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56664,6 +56664,81 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _github = require('../services/github');
+
+var _github2 = _interopRequireDefault(_github);
+
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  data: function data() {
+    return {
+      packs: [],
+      pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples"
+    };
+  },
+  methods: {
+    expand: function expand(pack) {
+      _underscore2.default.each(this.packs, function (otherPack) {
+        //Don't change clicked org's status
+        if (!_underscore2.default.isEqual(otherPack, pack)) {
+          otherPack.expanded = false;
+        }
+      });
+
+      pack.expanded = !pack.expanded;
+    },
+    copyPack: function copyPack(pack) {
+      this.$dispatch('copy-pack', pack);
+    }
+  },
+  asyncData: function asyncData() {
+    var profile = JSON.parse(localStorage.getItem('profile'));
+
+    var github = new _github2.default({
+      profile: profile
+    });
+
+    var officialPacksPromise = github.getIssuePacks(this.pack_url).then(function (packs) {
+      var loadedPacks = [];
+
+      packs.forEach(function (pack) {
+        var parsed = YAML.parse(pack);
+        parsed.expanded = false;
+
+        loadedPacks.push(parsed);
+      }.bind(this));
+
+      return { packs: loadedPacks };
+    }.bind(this));
+
+    return officialPacksPromise;
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"official-packs accordion\">\n  <div class=\"official-pack panel\" v-for=\"pack in packs\">\n    <a class=\"panel-heading\" v-on:click=\"expand(pack)\">\n      <h4>{{ pack.name }}</h4>\n    </a>\n    <div class=\"panel-collapse\" v-bind:class=\"{ 'collapse-in': pack.expanded, 'collapse': !pack.expanded}\">\n      <div class=\"official-pack-body panel-body\">\n        <table class=\"table table-bordered\">\n          <thead>\n            <tr>\n              <th>Issue Title</th>\n              <th>Issue Body</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr v-for=\"issue in pack.issues\">\n              <td>{{ issue.title }}</td>\n              <td>{{ issue.body }}</td>\n            </tr>\n          </tbody>\n        </table>\n        <button class=\"btn btn-primary\" v-on:click=\"copyPack(pack)\">Copy To My Account</button>\n      </div>\n    </div>\n  </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/OfficialPacks.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../services/github":273,"underscore":206,"vue":240,"vue-hot-reload-api":213}],265:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _IssuePack = require('./IssuePack.vue');
 
 var _IssuePack2 = _interopRequireDefault(_IssuePack);
@@ -56685,20 +56760,6 @@ exports.default = {
       var github = new _github2.default({
         profile: profile
       });
-
-      var officialPacksPromise = github.getIssuePacks(this.pack_url).then(function (packs) {
-
-        packs.forEach(function (pack) {
-          var parsed = YAML.parse(pack);
-
-          parsed.listPriority = 0;
-          parsed.label = "Official GovReady Issue Pack";
-          parsed.copyable = true;
-          this.searchPacks.push(parsed);
-        }.bind(this));
-
-        return packs;
-      }.bind(this));
 
       var packPromise = this.$http.get('/api/packs/search').then(function (response) {
         var packs = response.data;
@@ -56749,7 +56810,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":272,"./IssuePack.vue":260,"vue":240,"vue-hot-reload-api":213}],265:[function(require,module,exports){
+},{"../services/github":273,"./IssuePack.vue":260,"vue":240,"vue-hot-reload-api":213}],266:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56763,6 +56824,10 @@ var _FileUpload2 = _interopRequireDefault(_FileUpload);
 var _IssuePack = require('./IssuePack.vue');
 
 var _IssuePack2 = _interopRequireDefault(_IssuePack);
+
+var _OfficialPacks = require('./OfficialPacks.vue');
+
+var _OfficialPacks2 = _interopRequireDefault(_OfficialPacks);
 
 var _app = require('../app');
 
@@ -56787,9 +56852,35 @@ exports.default = {
       }, function (error) {
         console.error(error);
       });
+    },
+    'copy-pack': function copyPack(pack) {
+      this.$http.post('/api/packs', { pack: pack }).then(function (response) {
+        var newPack = response.data;
+        this.$dispatch('new-alert', { message: 'Pack uploaded successfully.', type: 'success' });
+
+        newPack.label = 'User Owned Pack';
+
+        this.loadedPacks.push(newPack);
+      }.bind(this), function (error) {
+        console.error(error);
+      });
+    },
+    'create-pack': function createPack(pack) {
+      var parsed = YAML.parse(pack);
+
+      this.$http.post('/api/packs', { pack: parsed }).then(function (response) {
+        var newPack = response.data;
+        this.$dispatch('new-alert', { message: 'Pack uploaded successfully.', type: 'success' });
+
+        newPack.label = 'User Owned Pack';
+
+        this.loadedPacks.push(newPack);
+      }.bind(this), function (error) {
+        console.error(error);
+      });
     }
   },
-  components: { FileUpload: _FileUpload2.default, IssuePack: _IssuePack2.default },
+  components: { FileUpload: _FileUpload2.default, IssuePack: _IssuePack2.default, OfficialPacks: _OfficialPacks2.default },
   route: {
     data: function data(transition) {
       var id = transition.to.params.id;
@@ -56827,7 +56918,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"project-dashboard\">\n  <div class=\"row\">\n    <div class=\"project-name\">\n      <h3>{{ project.name }}</h3>\n    </div>\n    <issue-pack v-for=\"pack in loadedPacks | orderBy 'listPriority'\" :pack=\"pack\" type=\"install\" :project=\"project\"></issue-pack>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"project-dashboard\">\n  <div class=\"row\">\n    <div class=\"project-name\">\n      <h3>{{ project.name }}</h3>\n    </div>\n    <issue-pack v-for=\"pack in loadedPacks | orderBy 'listPriority'\" :pack=\"pack\" type=\"install\" :project=\"project\"></issue-pack>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n    <div class=\"issue-pack-officials\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>\n            ...Or Copy An Official Pack\n          </h2>\n          <span class=\"fa fa-question-circle-o tooltip_trigger official_pack_help\">\n            <p class=\"tooltip\">These are official issue packs from GovReady.  Copy them to your account to use them for your own projects.</p>\n          </span>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <official-packs></official-packs>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -56839,7 +56930,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app":251,"./FileUpload.vue":257,"./IssuePack.vue":260,"vue":240,"vue-hot-reload-api":213}],266:[function(require,module,exports){
+},{"../app":251,"./FileUpload.vue":257,"./IssuePack.vue":260,"./OfficialPacks.vue":264,"vue":240,"vue-hot-reload-api":213}],267:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56886,7 +56977,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":240,"vue-hot-reload-api":213}],267:[function(require,module,exports){
+},{"vue":240,"vue-hot-reload-api":213}],268:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -56899,7 +56990,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":240,"vue-hot-reload-api":213}],268:[function(require,module,exports){
+},{"vue":240,"vue-hot-reload-api":213}],269:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -57088,7 +57179,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":272,"./FileUpload.vue":257,"./IssuePack.vue":260,"github":139,"issue-pack":152,"underscore":206,"vue":240,"vue-hot-reload-api":213,"yamljs":250}],269:[function(require,module,exports){
+},{"../services/github":273,"./FileUpload.vue":257,"./IssuePack.vue":260,"github":139,"issue-pack":152,"underscore":206,"vue":240,"vue-hot-reload-api":213,"yamljs":250}],270:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -57118,7 +57209,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Repo.vue":267,"vue":240,"vue-hot-reload-api":213}],270:[function(require,module,exports){
+},{"./Repo.vue":268,"vue":240,"vue-hot-reload-api":213}],271:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -57148,7 +57239,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./RepoList.vue":269,"vue":240,"vue-hot-reload-api":213}],271:[function(require,module,exports){
+},{"./RepoList.vue":270,"vue":240,"vue-hot-reload-api":213}],272:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -57281,7 +57372,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app":251,"../services/github":272,"underscore":206,"vue":240,"vue-hot-reload-api":213}],272:[function(require,module,exports){
+},{"../app":251,"../services/github":273,"underscore":206,"vue":240,"vue-hot-reload-api":213}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

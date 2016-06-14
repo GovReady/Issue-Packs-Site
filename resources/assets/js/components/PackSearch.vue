@@ -18,21 +18,6 @@ export default {
         profile: profile
       });
 
-      var officialPacksPromise = github.getIssuePacks(this.pack_url)
-          .then(function (packs) {
-
-            packs.forEach(function (pack) {
-              var parsed = YAML.parse(pack);
-
-              parsed.listPriority = 0;
-              parsed.label = "Official GovReady Issue Pack";
-              parsed.copyable = true;
-              this.searchPacks.push(parsed);
-            }.bind(this));
-
-            return packs;
-          }.bind(this));
-
       var packPromise = this.$http.get('/api/packs/search').then(
           (response) => {
             var packs = response.data;
