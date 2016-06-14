@@ -57009,6 +57009,10 @@ var _IssuePack = require('./IssuePack.vue');
 
 var _IssuePack2 = _interopRequireDefault(_IssuePack);
 
+var _OfficialPacks = require('./OfficialPacks.vue');
+
+var _OfficialPacks2 = _interopRequireDefault(_OfficialPacks);
+
 var _github = require('../services/github');
 
 var _github2 = _interopRequireDefault(_github);
@@ -57029,7 +57033,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   props: [],
-  components: { FileUpload: _FileUpload2.default, IssuePack: _IssuePack2.default },
+  components: { FileUpload: _FileUpload2.default, IssuePack: _IssuePack2.default, OfficialPacks: _OfficialPacks2.default },
   route: {
     data: function data(transition) {
       var profile = JSON.parse(localStorage.getItem('profile'));
@@ -57078,6 +57082,18 @@ exports.default = {
     }
   },
   events: {
+    'copy-pack': function copyPack(pack) {
+      this.$http.post('/api/packs', { pack: pack }).then(function (response) {
+        var newPack = response.data;
+        this.$dispatch('new-alert', { message: 'Pack uploaded successfully.', type: 'success' });
+
+        newPack.label = 'User Owned Pack';
+
+        this.issuePacks.push(newPack);
+      }.bind(this), function (error) {
+        console.error(error);
+      });
+    },
     'create-pack': function createPack(pack) {
       var parsed = _yamljs2.default.parse(pack);
 
@@ -57167,7 +57183,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div class=\"repo-name\">\n      <h3>{{ repo.name }}</h3>\n    </div>\n    <issue-pack v-for=\"pack in issuePacks | orderBy 'listPriority'\" :pack=\"pack\" type=\"install\" :milestones=\"milestones\"></issue-pack>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div class=\"repo-name\">\n      <h3>{{ repo.name }}</h3>\n    </div>\n    <issue-pack v-for=\"pack in issuePacks | orderBy 'listPriority'\" :pack=\"pack\" type=\"install\" :milestones=\"milestones\"></issue-pack>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n    <div class=\"issue-pack-officials\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>\n            ...Or Copy An Official Pack\n          </h2>\n          <span class=\"fa fa-question-circle-o tooltip_trigger official_pack_help\">\n            <p class=\"tooltip\">These are official issue packs from GovReady.  Copy them to your account to use them for your own projects.</p>\n          </span>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <official-packs></official-packs>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -57179,7 +57195,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":273,"./FileUpload.vue":257,"./IssuePack.vue":260,"github":139,"issue-pack":152,"underscore":206,"vue":240,"vue-hot-reload-api":213,"yamljs":250}],270:[function(require,module,exports){
+},{"../services/github":273,"./FileUpload.vue":257,"./IssuePack.vue":260,"./OfficialPacks.vue":264,"github":139,"issue-pack":152,"underscore":206,"vue":240,"vue-hot-reload-api":213,"yamljs":250}],270:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
