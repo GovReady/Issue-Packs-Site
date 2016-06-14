@@ -35,6 +35,12 @@ import {store} from '../app';
         loadedPacks: []
       }
     },
+    events: {
+      'install-pack': function (pack) {
+        console.log('installing');
+        console.log(pack);
+      }
+    },
     components: { FileUpload, IssuePack },
     route: {
       data: function (transition) {
