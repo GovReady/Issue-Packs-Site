@@ -59,6 +59,20 @@ class ConnectionController extends Controller
         $connection->auth_user_id = $input['auth_user_id'];
       }
 
-      return response()->json($connection->save());
+      $connection->save();
+
+      return response()->json($connection);
+    }
+
+    public function deleteConnection ($id) {
+      $user_id = Auth::id();
+
+      $connection = Connection::find($id);
+
+      if($connection->user_id !== $user_id) {
+        return response()->json('You are not authorized to delete that connection', 401);
+      }
+
+      return response()->json($connection->delete());
     }
 }

@@ -31,7 +31,7 @@
           <h4>Connection Installed:</h4>
           <p>URL: {{ connection.url }}</p>
         </div>
-        <button class="btn btn-danger delete-connection">Delete Connection</button>
+        <button class="btn btn-danger delete-connection" v-on:click="deleteConnection()">Delete Connection</button>
       </div>
 
     </div>
@@ -53,6 +53,9 @@
           url: this.url,
           token: this.token
         });
+      },
+      deleteConnection: function () {
+        this.$dispatch('delete-connection', this.connection);
       }
     },
     validators: {

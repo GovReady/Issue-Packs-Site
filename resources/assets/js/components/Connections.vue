@@ -45,7 +45,9 @@ export default {
         url: connection.url,
         access_token: connection.token
       }).then(function (result) {
-        console.log(result.data);
+        var connection = result.data;
+        this.connections.push(connection);
+
         this.$dispatch('new-alert', {
           message: 'Connection Saved',
           type: 'success'
@@ -53,8 +55,19 @@ export default {
       }, function (error) {
         console.error(error);
       });
-      console.log('saving');
-      console.log(connection);
+    },
+    'delete-connection': function (connection) {
+      this.$http.delete('/api/connections/' + connection.id)
+        .then(function (result) {
+          this.connections.splice(_.indexOf(this.connections, _.findWhere(this.connections, {id: connection.id})), 1);
+
+          this.$dispatch('new-alert', {
+            message: 'Connection Deleted',
+            type: 'success'
+          });
+        }, function (error) {
+          console.error(error);
+        });
     }
   }
 }

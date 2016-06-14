@@ -29,6 +29,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function () {
   Route::group(['prefix' => 'connections'], function () {
     Route::get('/', 'ConnectionController@getConnections');
     Route::post('/', 'ConnectionController@saveConnection');
+    Route::delete('/{id}', 'ConnectionController@deleteConnection');
   });
 });
 

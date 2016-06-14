@@ -56125,7 +56125,9 @@ exports.default = {
         url: connection.url,
         access_token: connection.token
       }).then(function (result) {
-        console.log(result.data);
+        var connection = result.data;
+        this.connections.push(connection);
+
         this.$dispatch('new-alert', {
           message: 'Connection Saved',
           type: 'success'
@@ -56133,8 +56135,18 @@ exports.default = {
       }, function (error) {
         console.error(error);
       });
-      console.log('saving');
-      console.log(connection);
+    },
+    'delete-connection': function deleteConnection(connection) {
+      this.$http.delete('/api/connections/' + connection.id).then(function (result) {
+        this.connections.splice(_underscore2.default.indexOf(this.connections, _underscore2.default.findWhere(this.connections, { id: connection.id })), 1);
+
+        this.$dispatch('new-alert', {
+          message: 'Connection Deleted',
+          type: 'success'
+        });
+      }, function (error) {
+        console.error(error);
+      });
     }
   }
 };
@@ -56727,6 +56739,9 @@ exports.default = {
         url: this.url,
         token: this.token
       });
+    },
+    deleteConnection: function deleteConnection() {
+      this.$dispatch('delete-connection', this.connection);
     }
   },
   validators: {
@@ -56737,7 +56752,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"redmine-settings\">\n  <div class=\"connection-header\">\n    <img src=\"/img/redmine.png\">\n    <h4>Redmine</h4>\n  </div>\n  <div class=\"connection-body\">\n    <validator name=\"validation\" v-if=\"connection === undefined\">\n      <form class=\"form-horizontal form-label-left\" v-on:submit.prevent=\"\" novalidate=\"\">\n        <div class=\"form-group\">\n          <label for=\"url\" class=\"control-label connection-label\">URL:</label>\n          <div class=\"connection-input\">\n            <input type=\"url\" class=\"form-control\" v-model=\"url\" placeholder=\"Redmine URL\" name=\"url\" v-validate:url=\"['required', 'url']\">\n            <p v-if=\"$validation.url.required\"><small>Required*</small></p>\n            <p v-if=\"url &amp;&amp; $validation.url.url\"><small>Invalid Site URL</small></p>\n\n          </div>\n        </div>\n        <div class=\"form-group\">\n          <label for=\"token\" class=\"control-label connection-label\">Token:</label>\n          <div class=\"connection-input\">\n            <input type=\"text\" class=\"form-control\" v-model=\"token\" v-validate:token=\"['required']\" placeholder=\"Redmine API Token\" name=\"token\">\n            <p v-if=\"$validation.token.required\"><small>Required*</small></p>\n          </div>\n        </div>\n        <button class=\"btn btn-primary pull-right\" v-on:click=\"saveConnection()\" v-if=\"$validation.valid\">Save Connection</button>\n      </form>\n    </validator>\n    <div class=\"connection-installed\" v-if=\"connection !== undefined\">\n      <div class=\"connection-settings\">\n        <h4>Connection Installed:</h4>\n        <p>URL: {{ connection.url }}</p>\n      </div>\n      <button class=\"btn btn-danger delete-connection\">Delete Connection</button>\n    </div>\n\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"redmine-settings\">\n  <div class=\"connection-header\">\n    <img src=\"/img/redmine.png\">\n    <h4>Redmine</h4>\n  </div>\n  <div class=\"connection-body\">\n    <validator name=\"validation\" v-if=\"connection === undefined\">\n      <form class=\"form-horizontal form-label-left\" v-on:submit.prevent=\"\" novalidate=\"\">\n        <div class=\"form-group\">\n          <label for=\"url\" class=\"control-label connection-label\">URL:</label>\n          <div class=\"connection-input\">\n            <input type=\"url\" class=\"form-control\" v-model=\"url\" placeholder=\"Redmine URL\" name=\"url\" v-validate:url=\"['required', 'url']\">\n            <p v-if=\"$validation.url.required\"><small>Required*</small></p>\n            <p v-if=\"url &amp;&amp; $validation.url.url\"><small>Invalid Site URL</small></p>\n\n          </div>\n        </div>\n        <div class=\"form-group\">\n          <label for=\"token\" class=\"control-label connection-label\">Token:</label>\n          <div class=\"connection-input\">\n            <input type=\"text\" class=\"form-control\" v-model=\"token\" v-validate:token=\"['required']\" placeholder=\"Redmine API Token\" name=\"token\">\n            <p v-if=\"$validation.token.required\"><small>Required*</small></p>\n          </div>\n        </div>\n        <button class=\"btn btn-primary pull-right\" v-on:click=\"saveConnection()\" v-if=\"$validation.valid\">Save Connection</button>\n      </form>\n    </validator>\n    <div class=\"connection-installed\" v-if=\"connection !== undefined\">\n      <div class=\"connection-settings\">\n        <h4>Connection Installed:</h4>\n        <p>URL: {{ connection.url }}</p>\n      </div>\n      <button class=\"btn btn-danger delete-connection\" v-on:click=\"deleteConnection()\">Delete Connection</button>\n    </div>\n\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
