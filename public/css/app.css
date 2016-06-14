@@ -10830,9 +10830,6 @@ div#app {
 .nav-sm ul.nav.child_menu {
   display: block; }
 
-.nav-sm .org-name {
-  display: none; }
-
 .nav-sm .menu-search {
   display: none; }
 
@@ -10970,6 +10967,11 @@ div#app {
   .nav-sm .menu-header h3.show_small {
     display: block; }
 
+.nav-sm li li span.fa {
+  position: absolute;
+  right: 5px;
+  top: 20px; }
+
 .menu-header h3 {
   display: inline-block; }
 
@@ -11003,18 +11005,14 @@ div#app {
     margin: 0 auto; }
   .main_menu_side .menu_section {
     margin-bottom: 0px;
-    background: #2A3F54;
-    max-height: 0;
-    overflow: hidden; }
-    .main_menu_side .menu_section.active {
-      max-height: 999px;
-      margin-top: 10px; }
+    background: #2A3F54; }
+    .main_menu_side .menu_section .nav.child_menu {
+      max-height: 0;
+      overflow: hidden; }
+    .main_menu_side .menu_section li.active > .nav.child_menu {
+      max-height: 999px; }
   .main_menu_side .sidebar-footer a {
     padding: 14px 0 14px; }
-  .main_menu_side .child_menu {
-    max-height: 0; }
-  .main_menu_side .nav.side-menu .active .child_menu {
-    max-height: 999px; }
 
 .expand-transition {
   -webkit-transition: max-height 1s;

@@ -1,51 +1,42 @@
 <template>
   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-    <div class="sidebar-github-orgs" v-show="orgs.length > 0">
-      <div class="menu-header">
-        <a v-on:click="showGithub = !showGithub">
-          <h3>Github Organizations</h3>
-          <h3 class="show_small">GH</h3>
-          <i class="fa" v-bind:class="{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }"></i>
-        </a>
-      </div>
-      <div class="menu_section" v-bind:class="{ 'active': showGithub }">
-        <div class="menu-search">
-          <input type="text" v-model="orgFilter" class="form-control" placeholder="Filter Organizations">
-        </div>
-        <ul class="nav side-menu">
-          <li v-for="org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'" v-bind:class="{'active': org.show}">
-            <a v-on:click="show(org)">
-              <img v-bind:src="org.avatar_url" class="org-avatar">
-              <span class="org-name">{{ org.name || org.login }}</span>
-              <span class="fa" v-bind:class="{'fa-chevron-down': !org.show, 'fa-chevron-up': org.show}"></span>
-            </a>
-            <ul class="nav child_menu" transition="expand">
-              <div class="repo-filter">
-                <input v-model="org.repoFilter" type="text" class="form-control" placeholder="Filter Repos">
-              </div>
-              <li v-for="repo in org.repos | filterBy org.repoFilter in 'name' | orderBy 'name'">
-                <a v-on:click="loadRepo(repo)">{{ repo.name }}</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="sidebar-redmine-projects" v-show="projects.length > 0">
-      <div class="menu-header">
-        <a v-on:click="showRedmine = !showRedmine">
-          <h3>Redmine Projects</h3>
-          <h3 class="show_small">RM</h3>
-          <i class="fa" v-bind:class="{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine}"></i>
-        </a>
-      </div>
-      <div class="menu_section" v-bind:class="{ 'active': showRedmine }">
-        <ul class="nav side-menu">
-          <li v-for="project in projects">
-            <a v-link="{name: 'project-dashboard', params: { id: project.id }}">{{ project.name }}</a>
-          </li>
-        </ul>
-      </div>
+    <div class="menu_section" v-show="orgs.length > 0">
+      <ul class="nav side-menu">
+        <li v-bind:class="{ 'active': showGithub }" v-if="orgs.length > 0">
+          <a v-on:click="showGithub = !showGithub">
+            GitHub
+            <i class="fa" v-bind:class="{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }"></i>
+          </a>
+          <ul class="nav child_menu">
+            <li v-for="org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'" v-bind:class="{'active': org.show}">
+              <a v-on:click="show(org)">
+                <img v-bind:src="org.avatar_url" class="org-avatar">
+                <span class="org-name">{{ org.name || org.login }}</span>
+                <span class="fa" v-bind:class="{'fa-chevron-down': !org.show, 'fa-chevron-up': org.show}"></span>
+              </a>
+              <ul class="nav child_menu" transition="expand">
+                <!-- <div class="repo-filter">
+                  <input v-model="org.repoFilter" type="text" class="form-control" placeholder="Filter Repos">
+                </div> -->
+                <li v-for="repo in org.repos | filterBy org.repoFilter in 'name' | orderBy 'name'">
+                  <a v-on:click="loadRepo(repo)">{{ repo.name }}</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li v-bind:class="{ 'active': showRedmine }" v-if="projects.length > 0">
+          <a v-on:click="showRedmine = !showRedmine">
+            Redmine
+            <i class="fa" v-bind:class="{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine }"></i>
+          </a>
+          <ul class="nav child_menu">
+            <li v-for="project in projects">
+              <a v-link="{name: 'project-dashboard', params: { id: project.id }}">{{ project.name }}</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
 </template>

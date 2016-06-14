@@ -12,6 +12,12 @@
   }
 }
 
+.nav-sm li li span.fa {
+  position:absolute;
+  right:5px;
+  top:20px;
+}
+
 .menu-header {
   h3 {
     display:inline-block;
@@ -30,7 +36,6 @@
   border-top:1px dotted #425668;
   margin-top:10px;
   background:#2A3F54;
-
 
   .main_menu {
     span.fa {
@@ -65,28 +70,23 @@
   .menu_section {
     margin-bottom:0px;
     background:#2A3F54;
-    max-height: 0;
-    overflow:hidden;
 
-    &.active {
-      max-height: 999px;
-      margin-top:10px;
+
+    .nav.child_menu {
+      max-height: 0;
+      overflow:hidden;
+    }
+
+    li.active {
+      & > .nav.child_menu {
+        max-height:999px;
+      }
     }
   }
 
   .sidebar-footer{
     a{
       padding:14px 0 14px;
-    }
-  }
-
-  .child_menu {
-    max-height:0;
-  }
-
-  .nav.side-menu {
-    .active .child_menu {
-      max-height:999px;
     }
   }
 }
