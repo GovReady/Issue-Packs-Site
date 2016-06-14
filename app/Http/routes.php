@@ -25,5 +25,10 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function () {
   Route::post('packs/{id}/copy', 'PackController@copyPack');
   Route::post('packs/{id}/publish', 'PackController@publishPack');
   Route::post('packs/{id}/sync', 'PackController@saveSync');
+
+  Route::group(['prefix' => 'connections'], function () {
+    Route::get('/', 'ConnectionController@getConnections');
+    Route::post('/', 'ConnectionController@saveConnection');
+  });
 });
 
