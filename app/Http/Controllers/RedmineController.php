@@ -30,4 +30,17 @@ class RedmineController extends Controller
 
       return $res->getBody();
     }
+
+    public function getProject($id) {
+      $user_id = Auth::id();
+
+      $connection = Connection::where('user_id', '=', $user_id)->where('provider', '=', 'redmine')->first();
+
+      $client = new \GuzzleHttp\Client();
+      $url = $connection->url . '/projects/' . $id . '.json?key=' . Crypt::decrypt($connection->access_token);
+
+      $res = $client->request('GET', $url);
+
+      return $res->getBody();
+    }
 }

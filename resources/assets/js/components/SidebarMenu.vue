@@ -40,7 +40,7 @@
       <div class="menu_section" v-bind:class="{ 'active': showRedmine }">
         <ul class="nav side-menu">
           <li v-for="project in projects">
-            <a>{{ project.name }}</a>
+            <a v-link="{name: 'project-dashboard', params: { id: project.id }}">{{ project.name }}</a>
           </li>
         </ul>
       </div>

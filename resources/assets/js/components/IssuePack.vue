@@ -73,7 +73,7 @@ import InputSwitch from './InputSwitch.vue';
 
   export default {
     components: { InputSwitch },
-    props: ['pack', 'type', 'milestones', 'label'],
+    props: ['pack', 'type', 'milestones', 'label', 'project'],
     data: function () {
       return {
         showSyncLog: false

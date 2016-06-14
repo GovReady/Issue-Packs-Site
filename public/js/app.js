@@ -55804,6 +55804,10 @@ var _PackSearch = require('./components/PackSearch.vue');
 
 var _PackSearch2 = _interopRequireDefault(_PackSearch);
 
+var _ProjectDashboard = require('./components/ProjectDashboard.vue');
+
+var _ProjectDashboard2 = _interopRequireDefault(_ProjectDashboard);
+
 var _Alerts = require('./components/Alerts.vue');
 
 var _Alerts2 = _interopRequireDefault(_Alerts);
@@ -55883,6 +55887,10 @@ router.map({
       '/repos/:org/:repo': {
         name: 'repo-dashboard',
         component: _RepoDashboard2.default
+      },
+      '/projects/:id': {
+        name: 'project-dashboard',
+        component: _ProjectDashboard2.default
       }
     }
   }
@@ -55919,7 +55927,7 @@ router.redirect({
 
 router.start(_App2.default, '#app');
 
-},{"./components/Alerts.vue":253,"./components/App.vue":254,"./components/Connections.vue":255,"./components/DashboardView.vue":256,"./components/HomeView.vue":258,"./components/MyPacks.vue":263,"./components/PackSearch.vue":264,"./components/RepoDashboard.vue":267,"./components/ReposView.vue":269,"moment":161,"vue":240,"vue-async-data":212,"vue-resource":227,"vue-router":238,"vue-validator":239}],252:[function(require,module,exports){
+},{"./components/Alerts.vue":253,"./components/App.vue":254,"./components/Connections.vue":255,"./components/DashboardView.vue":256,"./components/HomeView.vue":258,"./components/MyPacks.vue":263,"./components/PackSearch.vue":264,"./components/ProjectDashboard.vue":265,"./components/RepoDashboard.vue":268,"./components/ReposView.vue":270,"moment":161,"vue":240,"vue-async-data":212,"vue-resource":227,"vue-router":238,"vue-validator":239}],252:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56163,7 +56171,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./RedmineSettings.vue":265,"underscore":206,"vue":240,"vue-hot-reload-api":213}],256:[function(require,module,exports){
+},{"./RedmineSettings.vue":266,"underscore":206,"vue":240,"vue-hot-reload-api":213}],256:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56267,7 +56275,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app.js":251,"./Messages.vue":262,"./RepoDashboard.vue":267,"./SidebarMenu.vue":270,"crypto":77,"github-api":111,"underscore":206,"vue":240,"vue-hot-reload-api":213}],257:[function(require,module,exports){
+},{"../app.js":251,"./Messages.vue":262,"./RepoDashboard.vue":268,"./SidebarMenu.vue":271,"crypto":77,"github-api":111,"underscore":206,"vue":240,"vue-hot-reload-api":213}],257:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56387,7 +56395,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   components: { InputSwitch: _InputSwitch2.default },
-  props: ['pack', 'type', 'milestones', 'label'],
+  props: ['pack', 'type', 'milestones', 'label', 'project'],
   data: function data() {
     return {
       showSyncLog: false
@@ -56718,7 +56726,81 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":271,"./IssuePack.vue":260,"vue":240,"vue-hot-reload-api":213}],265:[function(require,module,exports){
+},{"../services/github":272,"./IssuePack.vue":260,"vue":240,"vue-hot-reload-api":213}],265:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _FileUpload = require('./FileUpload.vue');
+
+var _FileUpload2 = _interopRequireDefault(_FileUpload);
+
+var _IssuePack = require('./IssuePack.vue');
+
+var _IssuePack2 = _interopRequireDefault(_IssuePack);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  data: function data() {
+    return {
+      project: {},
+      loadedPacks: []
+    };
+  },
+  components: { FileUpload: _FileUpload2.default, IssuePack: _IssuePack2.default },
+  route: {
+    data: function data(transition) {
+      var id = transition.to.params.id;
+
+      var redminePromise = this.$http.get('/api/redmine/' + id).then(function (response) {
+        var project = response.data.project;
+
+        return { project: project };
+      }, function (error) {
+        console.error(error);
+      });
+
+      var userPacksPromise = this.$http.get('/api/my-packs', {}).then(function (response) {
+        var packs = response.data;
+        packs.forEach(function (pack) {
+          pack.installed = false;
+          pack.installExisting = false;
+          pack.installTo = {};
+          pack.label = 'User Owned Pack';
+          pack.listPriority = 1;
+          this.loadedPacks.push(pack);
+        }.bind(this));
+
+        return response.data;
+      }.bind(this), function (err) {
+        return console.error(err);
+      });
+
+      return Promise.all([redminePromise, userPacksPromise]).then(function (response) {
+        return {
+          project: response[0].project
+        };
+      });
+    }
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"project-dashboard\">\n  <div class=\"row\">\n    <div class=\"project-name\">\n      <h3>{{ project.name }}</h3>\n    </div>\n    <issue-pack v-for=\"pack in loadedPacks | orderBy 'listPriority'\" :pack=\"pack\" type=\"install\" :project=\"project\"></issue-pack>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/ProjectDashboard.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./FileUpload.vue":257,"./IssuePack.vue":260,"vue":240,"vue-hot-reload-api":213}],266:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56764,7 +56846,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":240,"vue-hot-reload-api":213}],266:[function(require,module,exports){
+},{"vue":240,"vue-hot-reload-api":213}],267:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -56777,7 +56859,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":240,"vue-hot-reload-api":213}],267:[function(require,module,exports){
+},{"vue":240,"vue-hot-reload-api":213}],268:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56966,7 +57048,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":271,"./FileUpload.vue":257,"./IssuePack.vue":260,"github":139,"issue-pack":152,"underscore":206,"vue":240,"vue-hot-reload-api":213,"yamljs":250}],268:[function(require,module,exports){
+},{"../services/github":272,"./FileUpload.vue":257,"./IssuePack.vue":260,"github":139,"issue-pack":152,"underscore":206,"vue":240,"vue-hot-reload-api":213,"yamljs":250}],269:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56996,7 +57078,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Repo.vue":266,"vue":240,"vue-hot-reload-api":213}],269:[function(require,module,exports){
+},{"./Repo.vue":267,"vue":240,"vue-hot-reload-api":213}],270:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -57026,7 +57108,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./RepoList.vue":268,"vue":240,"vue-hot-reload-api":213}],270:[function(require,module,exports){
+},{"./RepoList.vue":269,"vue":240,"vue-hot-reload-api":213}],271:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -57123,7 +57205,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"sidebar-menu\" class=\"main_menu_side hidden-print main_menu\">\n  <div class=\"sidebar-github-orgs\" v-show=\"orgs.length > 0\">\n    <div class=\"menu-header\">\n      <a v-on:click=\"showGithub = !showGithub\">\n        <h3>Github Organizations</h3>\n        <i class=\"fa\" v-bind:class=\"{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }\"></i>\n      </a>\n    </div>\n    <div class=\"menu_section\" v-bind:class=\"{ 'active': showGithub }\">\n      <div class=\"menu-search\">\n        <input type=\"text\" v-model=\"orgFilter\" class=\"form-control\" placeholder=\"Filter Organizations\">\n      </div>\n      <ul class=\"nav side-menu\">\n        <li v-for=\"org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'\" v-bind:class=\"{'active': org.show}\">\n          <a v-on:click=\"show(org)\">\n            <img v-bind:src=\"org.avatar_url\" class=\"org-avatar\">\n            <span class=\"org-name\">{{ org.name || org.login }}</span>\n            <span class=\"fa\" v-bind:class=\"{'fa-chevron-down': !org.show, 'fa-chevron-up': org.show}\"></span>\n          </a>\n          <ul class=\"nav child_menu\" transition=\"expand\">\n            <div class=\"repo-filter\">\n              <input v-model=\"org.repoFilter\" type=\"text\" class=\"form-control\" placeholder=\"Filter Repos\">\n            </div>\n            <li v-for=\"repo in org.repos | filterBy org.repoFilter in 'name' | orderBy 'name'\">\n              <a v-on:click=\"loadRepo(repo)\">{{ repo.name }}</a>\n            </li>\n          </ul>\n        </li>\n      </ul>\n    </div>\n  </div>\n  <div class=\"sidebar-redmine-projects\" v-show=\"projects.length > 0\">\n    <div class=\"menu-header\">\n      <a v-on:click=\"showRedmine = !showRedmine\">\n        <h3>Redmine Projects</h3>\n        <i class=\"fa\" v-bind:class=\"{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine}\"></i>\n      </a>\n    </div>\n    <div class=\"menu_section\" v-bind:class=\"{ 'active': showRedmine }\">\n      <ul class=\"nav side-menu\">\n        <li v-for=\"project in projects\">\n          <a>{{ project.name }}</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"sidebar-menu\" class=\"main_menu_side hidden-print main_menu\">\n  <div class=\"sidebar-github-orgs\" v-show=\"orgs.length > 0\">\n    <div class=\"menu-header\">\n      <a v-on:click=\"showGithub = !showGithub\">\n        <h3>Github Organizations</h3>\n        <i class=\"fa\" v-bind:class=\"{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }\"></i>\n      </a>\n    </div>\n    <div class=\"menu_section\" v-bind:class=\"{ 'active': showGithub }\">\n      <div class=\"menu-search\">\n        <input type=\"text\" v-model=\"orgFilter\" class=\"form-control\" placeholder=\"Filter Organizations\">\n      </div>\n      <ul class=\"nav side-menu\">\n        <li v-for=\"org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'\" v-bind:class=\"{'active': org.show}\">\n          <a v-on:click=\"show(org)\">\n            <img v-bind:src=\"org.avatar_url\" class=\"org-avatar\">\n            <span class=\"org-name\">{{ org.name || org.login }}</span>\n            <span class=\"fa\" v-bind:class=\"{'fa-chevron-down': !org.show, 'fa-chevron-up': org.show}\"></span>\n          </a>\n          <ul class=\"nav child_menu\" transition=\"expand\">\n            <div class=\"repo-filter\">\n              <input v-model=\"org.repoFilter\" type=\"text\" class=\"form-control\" placeholder=\"Filter Repos\">\n            </div>\n            <li v-for=\"repo in org.repos | filterBy org.repoFilter in 'name' | orderBy 'name'\">\n              <a v-on:click=\"loadRepo(repo)\">{{ repo.name }}</a>\n            </li>\n          </ul>\n        </li>\n      </ul>\n    </div>\n  </div>\n  <div class=\"sidebar-redmine-projects\" v-show=\"projects.length > 0\">\n    <div class=\"menu-header\">\n      <a v-on:click=\"showRedmine = !showRedmine\">\n        <h3>Redmine Projects</h3>\n        <i class=\"fa\" v-bind:class=\"{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine}\"></i>\n      </a>\n    </div>\n    <div class=\"menu_section\" v-bind:class=\"{ 'active': showRedmine }\">\n      <ul class=\"nav side-menu\">\n        <li v-for=\"project in projects\">\n          <a v-link=\"{name: 'project-dashboard', params: { id: project.id }}\">{{ project.name }}</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -57135,7 +57217,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":271,"underscore":206,"vue":240,"vue-hot-reload-api":213}],271:[function(require,module,exports){
+},{"../services/github":272,"underscore":206,"vue":240,"vue-hot-reload-api":213}],272:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
