@@ -15,7 +15,15 @@
 .nav-sm li li span.fa {
   position:absolute;
   right:5px;
-  top:20px;
+  top:10px;
+}
+
+.nav-sm li li.active span.fa {
+  right: 0;
+}
+
+.active a span.fa {
+  margin-right:0;
 }
 
 .org-avatar {
