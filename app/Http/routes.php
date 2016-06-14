@@ -31,5 +31,9 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function () {
     Route::post('/', 'ConnectionController@saveConnection');
     Route::delete('/{id}', 'ConnectionController@deleteConnection');
   });
+
+  Route::group(['prefix' => 'redmine'], function () {
+    Route::get('/', 'RedmineController@getProjects');
+  });
 });
 

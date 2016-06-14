@@ -42,6 +42,6 @@ class User extends Authenticatable
      * Return User's connections
      */
     public function connections () {
-      return $this->hasMany('App\Connections');
+      return $this->hasMany('App\Connection');
     }
 }

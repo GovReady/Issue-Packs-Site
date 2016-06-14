@@ -14,10 +14,10 @@
 
   .menu-header {
     text-align:center;
+    border-bottom: 1px dotted #425668;
 
     a {
       cursor: pointer;
-      border-bottom: 1px dotted #425668;
       padding-bottom: 10px;
     }
 
@@ -43,6 +43,7 @@
 
     &.active {
       max-height: 999px;
+      margin-top:10px;
     }
   }
 

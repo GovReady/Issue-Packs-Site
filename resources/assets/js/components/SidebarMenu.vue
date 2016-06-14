@@ -4,9 +4,8 @@
       <div class="menu-header">
         <a v-on:click="showGithub = !showGithub">
           <h3>Github Organizations</h3>
-          <i class="fa" v-bind:class="{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }""></i>
+          <i class="fa" v-bind:class="{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }"></i>
         </a>
-
       </div>
       <div class="menu_section" v-bind:class="{ 'active': showGithub }">
         <div class="menu-search">
@@ -31,6 +30,21 @@
         </ul>
       </div>
     </div>
+    <div class="sidebar-redmine-projects" v-show="projects.length > 0">
+      <div class="menu-header">
+        <a v-on:click="showRedmine = !showRedmine">
+          <h3>Redmine Projects</h3>
+          <i class="fa" v-bind:class="{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine}"></i>
+        </a>
+      </div>
+      <div class="menu_section" v-bind:class="{ 'active': showRedmine }">
+        <ul class="nav side-menu">
+          <li v-for="project in projects">
+            <a>{{ project.name }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -43,10 +57,13 @@ import _ from 'underscore';
     },
     data () {
       return {
+        connections: [],
         orgs: [],
         orgFilter: '',
         profile: JSON.parse(localStorage.getItem('profile')),
-        showGithub: true
+        projects: [],
+        showGithub: true,
+        showRedmine: false
       }
     },
     props: [],
@@ -68,12 +85,15 @@ import _ from 'underscore';
     asyncData: function () {
       //Check if it's a github login first
       var github_identity = _.findWhere(this.profile.identities, {provider: "github"});
+
+      var promises = [];
+
       if(github_identity !== undefined) {
         var githubService = new GithubService({
           profile: this.profile
         });
 
-        return githubService.getOrgs()
+        var githubPromise = githubService.getOrgs()
           .then(function (orgs) {
 
             _.each(orgs, function (org) {
@@ -81,7 +101,26 @@ import _ from 'underscore';
             });
             return {orgs: orgs};
           });
+
+        promises.push(githubPromise);
       }
+
+      var redminePromise = this.$http.get('/api/redmine')
+        .then(function (response) {
+          var projects = response.data.projects;
+          this.showGithub = false;
+
+          return projects
+        });
+
+      promises.push(redminePromise);
+
+      return Promise.all(promises).then(function (response) {
+        return {
+          orgs: response[0].orgs,
+          projects: response[1]
+        };
+      });
     }
   }
 

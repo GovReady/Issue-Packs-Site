@@ -57047,10 +57047,13 @@ exports.default = {
   ready: function ready() {},
   data: function data() {
     return {
+      connections: [],
       orgs: [],
       orgFilter: '',
       profile: JSON.parse(localStorage.getItem('profile')),
-      showGithub: true
+      projects: [],
+      showGithub: true,
+      showRedmine: false
     };
   },
 
@@ -57073,23 +57076,44 @@ exports.default = {
   asyncData: function asyncData() {
     //Check if it's a github login first
     var github_identity = _underscore2.default.findWhere(this.profile.identities, { provider: "github" });
+
+    var promises = [];
+
     if (github_identity !== undefined) {
       var githubService = new _github2.default({
         profile: this.profile
       });
 
-      return githubService.getOrgs().then(function (orgs) {
+      var githubPromise = githubService.getOrgs().then(function (orgs) {
 
         _underscore2.default.each(orgs, function (org) {
           org.repoFilter = '';
         });
         return { orgs: orgs };
       });
+
+      promises.push(githubPromise);
     }
+
+    var redminePromise = this.$http.get('/api/redmine').then(function (response) {
+      var projects = response.data.projects;
+      this.showGithub = false;
+
+      return projects;
+    });
+
+    promises.push(redminePromise);
+
+    return Promise.all(promises).then(function (response) {
+      return {
+        orgs: response[0].orgs,
+        projects: response[1]
+      };
+    });
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"sidebar-menu\" class=\"main_menu_side hidden-print main_menu\">\n  <div class=\"sidebar-github-orgs\" v-show=\"orgs.length > 0\">\n    <div class=\"menu-header\">\n      <a v-on:click=\"showGithub = !showGithub\">\n        <h3>Github Organizations</h3>\n        <i class=\"fa\" v-bind:class=\"{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }\" \"=\"\"></i>\n      </a>\n\n    </div>\n    <div class=\"menu_section\" v-bind:class=\"{ 'active': showGithub }\">\n      <div class=\"menu-search\">\n        <input type=\"text\" v-model=\"orgFilter\" class=\"form-control\" placeholder=\"Filter Organizations\">\n      </div>\n      <ul class=\"nav side-menu\">\n        <li v-for=\"org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'\" v-bind:class=\"{'active': org.show}\">\n          <a v-on:click=\"show(org)\">\n            <img v-bind:src=\"org.avatar_url\" class=\"org-avatar\">\n            <span class=\"org-name\">{{ org.name || org.login }}</span>\n            <span class=\"fa\" v-bind:class=\"{'fa-chevron-down': !org.show, 'fa-chevron-up': org.show}\"></span>\n          </a>\n          <ul class=\"nav child_menu\" transition=\"expand\">\n            <div class=\"repo-filter\">\n              <input v-model=\"org.repoFilter\" type=\"text\" class=\"form-control\" placeholder=\"Filter Repos\">\n            </div>\n            <li v-for=\"repo in org.repos | filterBy org.repoFilter in 'name' | orderBy 'name'\">\n              <a v-on:click=\"loadRepo(repo)\">{{ repo.name }}</a>\n            </li>\n          </ul>\n        </li>\n      </ul>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"sidebar-menu\" class=\"main_menu_side hidden-print main_menu\">\n  <div class=\"sidebar-github-orgs\" v-show=\"orgs.length > 0\">\n    <div class=\"menu-header\">\n      <a v-on:click=\"showGithub = !showGithub\">\n        <h3>Github Organizations</h3>\n        <i class=\"fa\" v-bind:class=\"{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }\"></i>\n      </a>\n    </div>\n    <div class=\"menu_section\" v-bind:class=\"{ 'active': showGithub }\">\n      <div class=\"menu-search\">\n        <input type=\"text\" v-model=\"orgFilter\" class=\"form-control\" placeholder=\"Filter Organizations\">\n      </div>\n      <ul class=\"nav side-menu\">\n        <li v-for=\"org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'\" v-bind:class=\"{'active': org.show}\">\n          <a v-on:click=\"show(org)\">\n            <img v-bind:src=\"org.avatar_url\" class=\"org-avatar\">\n            <span class=\"org-name\">{{ org.name || org.login }}</span>\n            <span class=\"fa\" v-bind:class=\"{'fa-chevron-down': !org.show, 'fa-chevron-up': org.show}\"></span>\n          </a>\n          <ul class=\"nav child_menu\" transition=\"expand\">\n            <div class=\"repo-filter\">\n              <input v-model=\"org.repoFilter\" type=\"text\" class=\"form-control\" placeholder=\"Filter Repos\">\n            </div>\n            <li v-for=\"repo in org.repos | filterBy org.repoFilter in 'name' | orderBy 'name'\">\n              <a v-on:click=\"loadRepo(repo)\">{{ repo.name }}</a>\n            </li>\n          </ul>\n        </li>\n      </ul>\n    </div>\n  </div>\n  <div class=\"sidebar-redmine-projects\" v-show=\"projects.length > 0\">\n    <div class=\"menu-header\">\n      <a v-on:click=\"showRedmine = !showRedmine\">\n        <h3>Redmine Projects</h3>\n        <i class=\"fa\" v-bind:class=\"{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine}\"></i>\n      </a>\n    </div>\n    <div class=\"menu_section\" v-bind:class=\"{ 'active': showRedmine }\">\n      <ul class=\"nav side-menu\">\n        <li v-for=\"project in projects\">\n          <a>{{ project.name }}</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

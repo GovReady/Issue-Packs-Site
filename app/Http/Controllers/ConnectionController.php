@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Auth;
 use Crypt;
+use Log;
 
 use App\Http\Requests;
 use App\Connection;

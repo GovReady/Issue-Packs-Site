@@ -10,7 +10,8 @@
         "laravel/socialite": "^2.0",
         "auth0/login": "~3.0",
         "doctrine/dbal": "^2.5",
-        "nicolaslopezj/searchable": "^1.8"
+        "nicolaslopezj/searchable": "^1.8",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
