@@ -43,6 +43,26 @@
           }
         }
       }
+      .instructions {
+        border-top: 1px dotted $lightgray;
+
+        h5 {
+          text-align:center;
+        }
+
+        a {
+          cursor:pointer;
+        }
+
+        .instructions-body {
+          max-height: 0;
+          overflow:hidden;
+
+          &.active {
+            max-height: 999px;
+          }
+        }
+      }
     }
   }
 }

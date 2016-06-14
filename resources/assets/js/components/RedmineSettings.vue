@@ -33,7 +33,23 @@
         </div>
         <button class="btn btn-danger delete-connection" v-on:click="deleteConnection()">Delete Connection</button>
       </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="instructions">
+      <h5>
+        Setting Up Redmine API
+        <a v-on:click="showInstructions = !showInstructions">
+          <small>
+            Show
+            <span v-if="!showInstructions">More</span>
+            <span v-if="showInstructions">Less</span>
+          </small>
+        </a>
+      </h3>
 
+      <div class="instructions-body" v-bind:class="{ 'active': showInstructions }">
+        Instructions Body
+      </div>
     </div>
   </div>
 </template>
@@ -43,7 +59,8 @@
     data: () => {
       return {
         url: '',
-        token: ''
+        token: '',
+        showInstructions: false
       };
     },
     methods: {

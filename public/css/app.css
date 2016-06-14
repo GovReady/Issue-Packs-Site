@@ -10815,6 +10815,17 @@ div#app {
       margin-left: 20px; }
     .connections ul .connection .connection-body .connection-label {
       padding-top: 5px; }
+    .connections ul .connection .instructions {
+      border-top: 1px dotted #ccc; }
+      .connections ul .connection .instructions h5 {
+        text-align: center; }
+      .connections ul .connection .instructions a {
+        cursor: pointer; }
+      .connections ul .connection .instructions .instructions-body {
+        max-height: 0;
+        overflow: hidden; }
+        .connections ul .connection .instructions .instructions-body.active {
+          max-height: 999px; }
 
 .nav-md .container.body .col-md-3.left_col, .nav-md .container.body .connections ul .connection .left_col.connection-header, .connections ul .connection .nav-md .container.body .left_col.connection-header, .nav-md .container.body .connections ul .connection .connection-body .left_col.connection-label, .connections ul .connection .connection-body .nav-md .container.body .left_col.connection-label {
   height: 100%;
