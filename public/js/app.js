@@ -55750,7 +55750,7 @@ module.exports = Yaml;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.lock = exports.router = undefined;
+exports.lock = exports.router = exports.store = undefined;
 
 var _vue = require('vue');
 
@@ -55835,6 +55835,19 @@ _vue2.default.config.debug = true;
 
 //Register global components
 _vue2.default.component('alerts', _Alerts2.default);
+
+var store = exports.store = {
+  state: {
+    orgs: [],
+    projects: []
+  },
+  setOrgs: function setOrgs(orgs) {
+    this.state.orgs = orgs;
+  },
+  setProjects: function setProjects(projects) {
+    this.state.projects = projects;
+  }
+};
 
 var router = exports.router = new _vueRouter2.default({
   history: true
@@ -56741,9 +56754,15 @@ var _IssuePack = require('./IssuePack.vue');
 
 var _IssuePack2 = _interopRequireDefault(_IssuePack);
 
+var _app = require('../app');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
+  ready: function ready() {
+    console.log('ready');
+    console.log(_app.store);
+  },
   data: function data() {
     return {
       project: {},
@@ -56800,7 +56819,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./FileUpload.vue":257,"./IssuePack.vue":260,"vue":240,"vue-hot-reload-api":213}],266:[function(require,module,exports){
+},{"../app":251,"./FileUpload.vue":257,"./IssuePack.vue":260,"vue":240,"vue-hot-reload-api":213}],266:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -57123,6 +57142,8 @@ var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
+var _app = require('../app');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
@@ -57191,6 +57212,9 @@ exports.default = {
 
     return Promise.all(promises).then(function (response) {
       if (response[1] !== undefined) {
+        _app.store.setOrgs(response[0].orgs);
+        _app.store.setProjects(response[1]);
+
         return {
           orgs: response[0].orgs,
           projects: response[1]
@@ -57217,7 +57241,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":272,"underscore":206,"vue":240,"vue-hot-reload-api":213}],272:[function(require,module,exports){
+},{"../app":251,"../services/github":272,"underscore":206,"vue":240,"vue-hot-reload-api":213}],272:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

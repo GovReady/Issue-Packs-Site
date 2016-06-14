@@ -22,8 +22,13 @@
 <script>
 import FileUpload from './FileUpload.vue';
 import IssuePack from './IssuePack.vue';
+import {store} from '../app';
 
   export default {
+    ready: function () {
+      console.log('ready');
+      console.log(store);
+    },
     data: function () {
       return {
         project: {},

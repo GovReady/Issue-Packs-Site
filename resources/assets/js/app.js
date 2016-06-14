@@ -35,6 +35,19 @@ Vue.config.debug = true;
 //Register global components
 Vue.component('alerts', Alerts);
 
+export var store = {
+  state: {
+    orgs: [],
+    projects: [],
+  },
+  setOrgs: function (orgs) {
+    this.state.orgs = orgs;
+  },
+  setProjects: function (projects) {
+    this.state.projects = projects;
+  }
+}
+
 export var router = new VueRouter({
   history: true,
 });

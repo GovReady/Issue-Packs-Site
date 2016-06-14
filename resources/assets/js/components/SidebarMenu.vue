@@ -51,6 +51,8 @@
 import GithubService from '../services/github';
 import _ from 'underscore';
 
+import {store} from '../app';
+
   export default {
     ready () {
 
@@ -120,6 +122,9 @@ import _ from 'underscore';
 
       return Promise.all(promises).then(function (response) {
         if(response[1] !== undefined) {
+          store.setOrgs(response[0].orgs);
+          store.setProjects(response[1]);
+
           return {
             orgs: response[0].orgs,
             projects: response[1]
