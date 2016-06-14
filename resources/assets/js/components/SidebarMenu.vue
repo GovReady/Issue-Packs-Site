@@ -58,7 +58,8 @@ import {store} from '../app';
         profile: JSON.parse(localStorage.getItem('profile')),
         projects: [],
         showGithub: true,
-        showRedmine: false
+        showRedmine: false,
+        state: store.state
       }
     },
     props: [],
@@ -75,6 +76,25 @@ import {store} from '../app';
       },
       loadRepo (repo) {
         this.$dispatch('repo-selected', repo);
+      }
+    },
+    events: {
+      'redmine-connected': function () {
+        this.$http.get('/api/redmine')
+          .then(function (response) {
+            var projects = response.data.projects;
+
+            if(projects !== undefined) {
+              this.showGithub = false;
+            }
+
+            this.projects = projects;
+
+            return projects
+          });
+      },
+      'redmine-deleted': function () {
+        this.projects = [];
       }
     },
     asyncData: function () {

@@ -55845,7 +55845,7 @@ var store = exports.store = {
     this.state.orgs = orgs;
   },
   setProjects: function setProjects(projects) {
-    this.state.projects = projects;
+    this.state.projects.push(projects);
   }
 };
 
@@ -56066,6 +56066,12 @@ exports.default = {
     },
     'navbar-toggle': function navbarToggle(toggle) {
       this.navbarToggle = toggle;
+    },
+    'redmine-connected': function redmineConnected() {
+      this.$broadcast('redmine-connected');
+    },
+    'redmine-deleted': function redmineDeleted() {
+      this.$broadcast('redmine-deleted');
     }
   },
 
@@ -56153,6 +56159,8 @@ exports.default = {
           message: 'Connection Saved',
           type: 'success'
         });
+
+        this.$dispatch('redmine-connected');
       }, function (error) {
         console.error(error);
       });
@@ -56165,6 +56173,8 @@ exports.default = {
           message: 'Connection Deleted',
           type: 'success'
         });
+
+        this.$dispatch('redmine-deleted');
       }, function (error) {
         console.error(error);
       });
@@ -57167,7 +57177,8 @@ exports.default = {
       profile: JSON.parse(localStorage.getItem('profile')),
       projects: [],
       showGithub: true,
-      showRedmine: false
+      showRedmine: false,
+      state: _app.store.state
     };
   },
 
@@ -57185,6 +57196,24 @@ exports.default = {
     },
     loadRepo: function loadRepo(repo) {
       this.$dispatch('repo-selected', repo);
+    }
+  },
+  events: {
+    'redmine-connected': function redmineConnected() {
+      this.$http.get('/api/redmine').then(function (response) {
+        var projects = response.data.projects;
+
+        if (projects !== undefined) {
+          this.showGithub = false;
+        }
+
+        this.projects = projects;
+
+        return projects;
+      });
+    },
+    'redmine-deleted': function redmineDeleted() {
+      this.projects = [];
     }
   },
   asyncData: function asyncData() {

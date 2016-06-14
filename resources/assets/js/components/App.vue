@@ -8,6 +8,7 @@
 <script>
 import Alerts from './Alerts.vue';
 import {router} from '../app';
+import {store} from '../app';
 
 export default {
   created () {
@@ -39,6 +40,12 @@ export default {
     },
     'navbar-toggle': function (toggle) {
       this.navbarToggle = toggle;
+    },
+    'redmine-connected': function () {
+      this.$broadcast('redmine-connected');
+    },
+    'redmine-deleted': function () {
+      this.$broadcast('redmine-deleted');
     }
   },
 

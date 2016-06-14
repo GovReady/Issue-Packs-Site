@@ -44,7 +44,7 @@ export var store = {
     this.state.orgs = orgs;
   },
   setProjects: function (projects) {
-    this.state.projects = projects;
+    this.state.projects.push(projects);
   }
 }
 

@@ -52,6 +52,8 @@ export default {
           message: 'Connection Saved',
           type: 'success'
         });
+
+        this.$dispatch('redmine-connected');
       }, function (error) {
         console.error(error);
       });
@@ -65,6 +67,8 @@ export default {
             message: 'Connection Deleted',
             type: 'success'
           });
+
+          this.$dispatch('redmine-deleted');
         }, function (error) {
           console.error(error);
         });
