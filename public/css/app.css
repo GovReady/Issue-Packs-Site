@@ -10963,6 +10963,22 @@ div#app {
   display: block;
   margin-top: 10px; }
 
+.nav-sm .menu-header {
+  display: block; }
+  .nav-sm .menu-header h3 {
+    display: none; }
+  .nav-sm .menu-header h3.show_small {
+    display: block; }
+
+.menu-header h3 {
+  display: inline-block; }
+
+.menu-header h3.show_small {
+  display: none; }
+
+.left_col {
+  height: 100%; }
+
 .main_menu_side {
   border-top: 1px dotted #425668;
   margin-top: 10px;
@@ -10980,8 +10996,7 @@ div#app {
     .main_menu_side .menu-header h3 {
       color: white;
       text-align: center;
-      font-size: 1.2em;
-      display: inline-block; }
+      font-size: 1.2em; }
   .main_menu_side .menu-search > input {
     border-radius: 4px;
     width: 75%;

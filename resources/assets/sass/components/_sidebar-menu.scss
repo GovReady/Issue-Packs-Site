@@ -1,3 +1,31 @@
+.nav-sm {
+  .menu-header {
+    display:block;
+
+    h3 {
+      display:none;
+    }
+
+    h3.show_small {
+      display:block;
+    }
+  }
+}
+
+.menu-header {
+  h3 {
+    display:inline-block;
+  }
+
+  h3.show_small {
+    display:none;
+  }
+}
+
+.left_col {
+  height: 100%;
+}
+
 .main_menu_side {
   border-top:1px dotted #425668;
   margin-top:10px;
@@ -25,7 +53,6 @@
       color:white;
       text-align:center;
       font-size:1.2em;
-      display:inline-block;
     }
   }
 

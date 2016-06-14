@@ -4,6 +4,7 @@
       <div class="menu-header">
         <a v-on:click="showGithub = !showGithub">
           <h3>Github Organizations</h3>
+          <h3 class="show_small">GH</h3>
           <i class="fa" v-bind:class="{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }"></i>
         </a>
       </div>
@@ -34,6 +35,7 @@
       <div class="menu-header">
         <a v-on:click="showRedmine = !showRedmine">
           <h3>Redmine Projects</h3>
+          <h3 class="show_small">RM</h3>
           <i class="fa" v-bind:class="{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine}"></i>
         </a>
       </div>
