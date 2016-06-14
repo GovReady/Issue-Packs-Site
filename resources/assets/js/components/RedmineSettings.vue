@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="clearfix"></div>
-    <div class="instructions">
+    <div class="instructions" v-if="connection == undefined">
       <h5>
         Setting Up Redmine API
         <a v-on:click="showInstructions = !showInstructions">
