@@ -2,12 +2,16 @@
   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="sidebar-github-orgs" v-show="orgs.length > 0">
       <div class="menu-header">
-        <h3>Organizations</h3>
+        <a v-on:click="showGithub = !showGithub">
+          <h3>Github Organizations</h3>
+          <i class="fa" v-bind:class="{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }""></i>
+        </a>
+
       </div>
-      <div class="menu-search">
-        <input type="text" v-model="orgFilter" class="form-control" placeholder="Filter Organizations">
-      </div>
-      <div class="menu_section">
+      <div class="menu_section" v-bind:class="{ 'active': showGithub }">
+        <div class="menu-search">
+          <input type="text" v-model="orgFilter" class="form-control" placeholder="Filter Organizations">
+        </div>
         <ul class="nav side-menu">
           <li v-for="org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'" v-bind:class="{'active': org.show}">
             <a v-on:click="show(org)">
@@ -41,7 +45,8 @@ import _ from 'underscore';
       return {
         orgs: [],
         orgFilter: '',
-        profile: JSON.parse(localStorage.getItem('profile'))
+        profile: JSON.parse(localStorage.getItem('profile')),
+        showGithub: true
       }
     },
     props: [],
