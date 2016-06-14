@@ -10836,13 +10836,6 @@ div#app {
 .nav-sm .menu-header {
   display: none; }
 
-.org-avatar {
-  display: inline-block;
-  height: 42px;
-  border-radius: 2px;
-  margin-right: 10px;
-  background: white; }
-
 .org-name {
   display: inline-block; }
 
@@ -10972,6 +10965,17 @@ div#app {
   right: 5px;
   top: 20px; }
 
+.org-avatar {
+  display: inline-block;
+  height: 20px;
+  border-radius: 2px;
+  margin-right: 5px;
+  background: white; }
+
+.main_menu span.fa {
+  position: absolute;
+  right: 5px; }
+
 .menu-header h3 {
   display: inline-block; }
 
@@ -10986,10 +10990,6 @@ div#app {
   border-top: 1px dotted #425668;
   margin-top: 10px;
   background: #2A3F54; }
-  .main_menu_side .main_menu span.fa {
-    position: absolute;
-    top: 33%;
-    right: 5px; }
   .main_menu_side .menu-header {
     text-align: center;
     border-bottom: 1px dotted #425668; }

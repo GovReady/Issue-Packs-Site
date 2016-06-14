@@ -18,6 +18,21 @@
   top:20px;
 }
 
+.org-avatar {
+  display:inline-block;
+  height:20px;
+  border-radius:2px;
+  margin-right:5px;
+  background: white;
+}
+
+.main_menu {
+  span.fa {
+    position: absolute;
+    right: 5px;
+  }
+}
+
 .menu-header {
   h3 {
     display:inline-block;
@@ -37,14 +52,6 @@
   border-top:1px dotted #425668;
   margin-top:10px;
   background:#2A3F54;
-
-  .main_menu {
-    span.fa {
-      position:absolute;
-      top:33%;
-      right:5px;
-    }
-  }
 
   .menu-header {
     text-align:center;
