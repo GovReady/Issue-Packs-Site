@@ -1,0 +1,36 @@
+.connections {
+  ul {
+    list-style: none;
+    padding-left: 0;
+
+    .connection {
+      @extend .row;
+      border: 1px solid $lightgray;
+      padding: 20px;
+
+      .connection-header {
+        @extend .col-md-3;
+        img {
+          max-height: 50px;
+        }
+
+        h4 {
+          display:inline-block;
+          margin-left: 20px;
+        }
+      }
+      .connection-body {
+        @extend .col-md-9;
+
+        .connection-label {
+          @extend .col-md-3;
+          padding-top:5px;
+        }
+
+        .connection-input {
+          @extend .col-md-9;
+        }
+      }
+    }
+  }
+}

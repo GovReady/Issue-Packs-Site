@@ -53170,6 +53170,10 @@ var _App = require('./components/App.vue');
 
 var _App2 = _interopRequireDefault(_App);
 
+var _Connections = require('./components/Connections.vue');
+
+var _Connections2 = _interopRequireDefault(_Connections);
+
 var _HomeView = require('./components/HomeView.vue');
 
 var _HomeView2 = _interopRequireDefault(_HomeView);
@@ -53256,6 +53260,11 @@ router.map({
     auth: true,
     title: 'Install Issue Packs',
     subRoutes: {
+      '/connections': {
+        name: 'connections',
+        component: _Connections2.default,
+        title: 'My Connections'
+      },
       '/search-packs': {
         name: 'search-packs',
         component: _PackSearch2.default,
@@ -53305,7 +53314,7 @@ router.redirect({
 
 router.start(_App2.default, '#app');
 
-},{"./components/Alerts.vue":252,"./components/App.vue":253,"./components/DashboardView.vue":254,"./components/HomeView.vue":256,"./components/MyPacks.vue":261,"./components/PackSearch.vue":262,"./components/RepoDashboard.vue":264,"./components/ReposView.vue":266,"moment":161,"vue":239,"vue-async-data":212,"vue-resource":227,"vue-router":238}],251:[function(require,module,exports){
+},{"./components/Alerts.vue":252,"./components/App.vue":253,"./components/Connections.vue":254,"./components/DashboardView.vue":255,"./components/HomeView.vue":257,"./components/MyPacks.vue":262,"./components/PackSearch.vue":263,"./components/RepoDashboard.vue":266,"./components/ReposView.vue":268,"moment":161,"vue":239,"vue-async-data":212,"vue-resource":227,"vue-router":238}],251:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53467,6 +53476,40 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _RedmineSettings = require('./RedmineSettings.vue');
+
+var _RedmineSettings2 = _interopRequireDefault(_RedmineSettings);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  components: { RedmineSettings: _RedmineSettings2.default },
+  data: function data() {
+    return {
+      connections: ['redmine']
+    };
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"connections\">\n  <ul>\n    <li class=\"connection\">\n      <redmine-settings></redmine-settings>\n    </li>\n  </ul>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/Connections.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./RedmineSettings.vue":264,"vue":239,"vue-hot-reload-api":213}],255:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _crypto = require('crypto');
 
 var _crypto2 = _interopRequireDefault(_crypto);
@@ -53552,7 +53595,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container body\">\n  <div class=\"main_container\">\n    <div class=\"col-md-3 left_col\">\n      <div class=\"left_col scroll-view\">\n        <div class=\"navbar nav_title\" style=\"border: 0;\">\n          <a v-link=\"'/dashboard'\" class=\"site_title\"><i class=\"fa fa-briefcase\"></i> <span>Issue Packs</span></a>\n        </div>\n        <div class=\"clearfix\"></div>\n        <!-- menu prile quick info -->\n        <div class=\"profile\">\n          <div class=\"profile_pic\">\n            <img v-bind:src=\"gravatar_link\" alt=\"...\" class=\"img-circle profile_img\">\n          </div>\n          <div class=\"profile_info\">\n            <span>Welcome,</span>\n            <h2>{{ profile.name }}</h2>\n          </div>\n          <div class=\"clearfix\"></div>\n        </div>\n        <!-- /menu profile quick info -->\n        <!-- sidebar menu -->\n        <sidebar-menu wait-for=\"async-data\" :toggled=\"sidebarToggle\"></sidebar-menu>\n        <!-- /sidebar menu -->\n\n        <!-- /menu footer buttons -->\n        <div class=\"sidebar-footer hidden-small\">\n          <a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Logout\" v-on:click=\"logout()\">\n            <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span>\n          </a>\n        </div>\n        <!-- /menu footer buttons -->\n      </div>\n    </div>\n\n    <!-- top navigation -->\n    <div class=\"top_nav\">\n      <div class=\"nav_menu\">\n        <nav class=\"\" role=\"navigation\">\n          <div class=\"nav toggle\">\n            <a id=\"menu_toggle\" v-on:click=\"toggleSidebar()\"><i class=\"fa fa-bars\"></i></a>\n          </div>\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li class=\"\">\n              <a href=\"javascript:;\" class=\"user-profile dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                <img v-bind:src=\"gravatar_link\" alt=\"\">{{ profile.name }}\n                <span class=\" fa fa-angle-down\"></span>\n              </a>\n              <ul class=\"dropdown-menu dropdown-usermenu pull-right\">\n                <li>\n                  <a href=\"javascript:;\">  Profile</a>\n                </li>\n                <li>\n                  <a v-link=\"{name: 'my-packs'}\">\n                    <span>My Packs</span>\n                  </a>\n                </li>\n                <li>\n                  <a v-link=\"{name: 'search-packs'}\">Search Packs</a>\n                </li>\n                <li><a v-on:click=\"logout()\"><i class=\"fa fa-sign-out pull-right\"></i> Log Out</a>\n                </li>\n              </ul>\n            </li>\n            <!-- <li role=\"presentation\" class=\"dropdown\">\n              <messages :gravatar=\"gravatar_link\"></messages>\n            </li> -->\n          </ul>\n        </nav>\n      </div>\n    </div>\n    <!-- /top navigation -->\n    <!-- page content -->\n    <div class=\"right_col\" role=\"main\">\n      <!-- <div class=\"page-title\">\n        <div class=\"title_left\">\n          <h3>{{ $route.title }}</h3>\n        </div>\n      </div> -->\n      <div class=\"row\">\n        <div class=\"col-md-12 col-sm-12 col-xs-12\">\n          <div class=\"x_panel\">\n            <div class=\"x_title\">\n              <h2>\n                {{ $route.title }}\n              </h2>\n              <div class=\"clearfix\"></div>\n            </div>\n            <div class=\"x_content\">\n              <router-view></router-view>\n            </div>\n          </div>\n\n        </div>\n      </div>\n      <br>\n    </div>\n    <!-- /page content -->\n    <!-- footer content -->\n    <footer>\n      <div class=\"pull-right\">\n        Issue Packs Dashboard by <a href=\"https://govready.com\" target=\"_blank\">Govready</a>\n      </div>\n      <div class=\"clearfix\"></div>\n    </footer>\n    <!-- /footer content -->\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container body\">\n  <div class=\"main_container\">\n    <div class=\"col-md-3 left_col\">\n      <div class=\"left_col scroll-view\">\n        <div class=\"navbar nav_title\" style=\"border: 0;\">\n          <a v-link=\"'/dashboard'\" class=\"site_title\"><i class=\"fa fa-briefcase\"></i> <span>Issue Packs</span></a>\n        </div>\n        <div class=\"clearfix\"></div>\n        <!-- menu prile quick info -->\n        <div class=\"profile\">\n          <div class=\"profile_pic\">\n            <img v-bind:src=\"gravatar_link\" alt=\"...\" class=\"img-circle profile_img\">\n          </div>\n          <div class=\"profile_info\">\n            <span>Welcome,</span>\n            <h2>{{ profile.name }}</h2>\n          </div>\n          <div class=\"clearfix\"></div>\n        </div>\n        <!-- /menu profile quick info -->\n        <!-- sidebar menu -->\n        <sidebar-menu wait-for=\"async-data\" :toggled=\"sidebarToggle\"></sidebar-menu>\n        <!-- /sidebar menu -->\n\n        <!-- /menu footer buttons -->\n        <div class=\"sidebar-footer hidden-small\">\n          <a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Logout\" v-on:click=\"logout()\">\n            <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span>\n          </a>\n        </div>\n        <!-- /menu footer buttons -->\n      </div>\n    </div>\n\n    <!-- top navigation -->\n    <div class=\"top_nav\">\n      <div class=\"nav_menu\">\n        <nav class=\"\" role=\"navigation\">\n          <div class=\"nav toggle\">\n            <a id=\"menu_toggle\" v-on:click=\"toggleSidebar()\"><i class=\"fa fa-bars\"></i></a>\n          </div>\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li class=\"\">\n              <a href=\"javascript:;\" class=\"user-profile dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                <img v-bind:src=\"gravatar_link\" alt=\"\">{{ profile.name }}\n                <span class=\" fa fa-angle-down\"></span>\n              </a>\n              <ul class=\"dropdown-menu dropdown-usermenu pull-right\">\n                <li>\n                  <a href=\"javascript:;\">  Profile</a>\n                </li>\n                <li><a v-link=\"{name: 'connections'}\">Connections</a></li>\n                <li>\n                  <a v-link=\"{name: 'my-packs'}\">\n                    <span>My Packs</span>\n                  </a>\n                </li>\n                <li>\n                  <a v-link=\"{name: 'search-packs'}\">Search Packs</a>\n                </li>\n                <li><a v-on:click=\"logout()\"><i class=\"fa fa-sign-out pull-right\"></i> Log Out</a>\n                </li>\n              </ul>\n            </li>\n            <!-- <li role=\"presentation\" class=\"dropdown\">\n              <messages :gravatar=\"gravatar_link\"></messages>\n            </li> -->\n          </ul>\n        </nav>\n      </div>\n    </div>\n    <!-- /top navigation -->\n    <!-- page content -->\n    <div class=\"right_col\" role=\"main\">\n      <!-- <div class=\"page-title\">\n        <div class=\"title_left\">\n          <h3>{{ $route.title }}</h3>\n        </div>\n      </div> -->\n      <div class=\"row\">\n        <div class=\"col-md-12 col-sm-12 col-xs-12\">\n          <div class=\"x_panel\">\n            <div class=\"x_title\">\n              <h2>\n                {{ $route.title }}\n              </h2>\n              <div class=\"clearfix\"></div>\n            </div>\n            <div class=\"x_content\">\n              <router-view></router-view>\n            </div>\n          </div>\n\n        </div>\n      </div>\n      <br>\n    </div>\n    <!-- /page content -->\n    <!-- footer content -->\n    <footer>\n      <div class=\"pull-right\">\n        Issue Packs Dashboard by <a href=\"https://govready.com\" target=\"_blank\">Govready</a>\n      </div>\n      <div class=\"clearfix\"></div>\n    </footer>\n    <!-- /footer content -->\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -53564,7 +53607,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app.js":250,"./Messages.vue":260,"./RepoDashboard.vue":264,"./SidebarMenu.vue":267,"crypto":77,"github-api":111,"underscore":206,"vue":239,"vue-hot-reload-api":213}],255:[function(require,module,exports){
+},{"../app.js":250,"./Messages.vue":261,"./RepoDashboard.vue":266,"./SidebarMenu.vue":269,"crypto":77,"github-api":111,"underscore":206,"vue":239,"vue-hot-reload-api":213}],256:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53609,7 +53652,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":239,"vue-hot-reload-api":213}],256:[function(require,module,exports){
+},{"vue":239,"vue-hot-reload-api":213}],257:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53638,7 +53681,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Login.vue":259,"vue":239,"vue-hot-reload-api":213}],257:[function(require,module,exports){
+},{"./Login.vue":260,"vue":239,"vue-hot-reload-api":213}],258:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53669,7 +53712,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":239,"vue-hot-reload-api":213}],258:[function(require,module,exports){
+},{"vue":239,"vue-hot-reload-api":213}],259:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53755,7 +53798,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./InputSwitch.vue":257,"vue":239,"vue-hot-reload-api":213}],259:[function(require,module,exports){
+},{"./InputSwitch.vue":258,"vue":239,"vue-hot-reload-api":213}],260:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53807,7 +53850,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../app":250,"vue":239,"vue-hot-reload-api":213}],260:[function(require,module,exports){
+},{"../app":250,"vue":239,"vue-hot-reload-api":213}],261:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53849,7 +53892,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":239,"vue-hot-reload-api":213}],261:[function(require,module,exports){
+},{"vue":239,"vue-hot-reload-api":213}],262:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53923,7 +53966,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./FileUpload.vue":255,"./IssuePack.vue":258,"underscore":206,"vue":239,"vue-hot-reload-api":213}],262:[function(require,module,exports){
+},{"./FileUpload.vue":256,"./IssuePack.vue":259,"underscore":206,"vue":239,"vue-hot-reload-api":213}],263:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54015,7 +54058,39 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":268,"./IssuePack.vue":258,"vue":239,"vue-hot-reload-api":213}],263:[function(require,module,exports){
+},{"../services/github":270,"./IssuePack.vue":259,"vue":239,"vue-hot-reload-api":213}],264:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  data: function data() {
+    return {
+      url: '',
+      token: ''
+    };
+  },
+  methods: {
+    saveConnection: function saveConnection() {
+      console.log('saving');
+    }
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"redmine-settings\">\n  <div class=\"connection-header\">\n    <img src=\"/img/redmine.png\">\n    <h4>Redmine</h4>\n  </div>\n  <div class=\"connection-body\">\n    <form class=\"form-horizontal form-label-left\" v-on:submit.prevent=\"\">\n      <div class=\"form-group\">\n        <label for=\"url\" class=\"control-label connection-label\">URL:</label>\n        <div class=\"connection-input\">\n          <input type=\"url\" class=\"form-control\" v-model=\"url\" placeholder=\"Redmine URL\" name=\"url\">\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"token\" class=\"control-label connection-label\">Token:</label>\n        <div class=\"connection-input\">\n          <input type=\"text\" class=\"form-control\" v-model=\"token\" placeholder=\"Redmine API Token\" name=\"token\">\n        </div>\n      </div>\n      <button class=\"btn btn-primary pull-right\" v-on:click=\"saveConnection()\">Save Connection</button>\n    </form>\n  </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/cmbirk/Sites/GovReady/Issue-Packs-Site/resources/assets/js/components/RedmineSettings.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":239,"vue-hot-reload-api":213}],265:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -54028,7 +54103,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":239,"vue-hot-reload-api":213}],264:[function(require,module,exports){
+},{"vue":239,"vue-hot-reload-api":213}],266:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54217,7 +54292,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":268,"./FileUpload.vue":255,"./IssuePack.vue":258,"github":139,"issue-pack":152,"underscore":206,"vue":239,"vue-hot-reload-api":213,"yamljs":249}],265:[function(require,module,exports){
+},{"../services/github":270,"./FileUpload.vue":256,"./IssuePack.vue":259,"github":139,"issue-pack":152,"underscore":206,"vue":239,"vue-hot-reload-api":213,"yamljs":249}],267:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54247,7 +54322,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Repo.vue":263,"vue":239,"vue-hot-reload-api":213}],266:[function(require,module,exports){
+},{"./Repo.vue":265,"vue":239,"vue-hot-reload-api":213}],268:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54277,7 +54352,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./RepoList.vue":265,"vue":239,"vue-hot-reload-api":213}],267:[function(require,module,exports){
+},{"./RepoList.vue":267,"vue":239,"vue-hot-reload-api":213}],269:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54351,7 +54426,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../services/github":268,"underscore":206,"vue":239,"vue-hot-reload-api":213}],268:[function(require,module,exports){
+},{"../services/github":270,"underscore":206,"vue":239,"vue-hot-reload-api":213}],270:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

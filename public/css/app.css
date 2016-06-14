@@ -1525,16 +1525,16 @@ pre {
   .container-fluid:after {
     clear: both; }
 
-.row {
+.row, .connections ul .connection {
   margin-left: -15px;
   margin-right: -15px; }
-  .row:before, .row:after {
+  .row:before, .connections ul .connection:before, .row:after, .connections ul .connection:after {
     content: " ";
     display: table; }
-  .row:after {
+  .row:after, .connections ul .connection:after {
     clear: both; }
 
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .issue-pack, .issue-pack-upload, .col-md-6, .issue-pack, .issue-pack-upload, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .issue-pack, .issue-pack-upload, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .connections ul .connection .connection-header, .connections ul .connection .connection-body .connection-label, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .issue-pack, .issue-pack-upload, .col-md-6, .issue-pack, .issue-pack-upload, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .connections ul .connection .connection-body, .connections ul .connection .connection-body .connection-input, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .issue-pack, .issue-pack-upload, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
@@ -1803,13 +1803,13 @@ pre {
     margin-left: 100%; } }
 
 @media (min-width: 992px) {
-  .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .issue-pack, .issue-pack-upload, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+  .col-md-1, .col-md-2, .col-md-3, .connections ul .connection .connection-header, .connections ul .connection .connection-body .connection-label, .col-md-4, .col-md-5, .col-md-6, .issue-pack, .issue-pack-upload, .col-md-7, .col-md-8, .col-md-9, .connections ul .connection .connection-body, .connections ul .connection .connection-body .connection-input, .col-md-10, .col-md-11, .col-md-12 {
     float: left; }
   .col-md-1 {
     width: 8.3333333333%; }
   .col-md-2 {
     width: 16.6666666667%; }
-  .col-md-3 {
+  .col-md-3, .connections ul .connection .connection-header, .connections ul .connection .connection-body .connection-label {
     width: 25%; }
   .col-md-4 {
     width: 33.3333333333%; }
@@ -1821,7 +1821,7 @@ pre {
     width: 58.3333333333%; }
   .col-md-8 {
     width: 66.6666666667%; }
-  .col-md-9 {
+  .col-md-9, .connections ul .connection .connection-body, .connections ul .connection .connection-body .connection-input {
     width: 75%; }
   .col-md-10 {
     width: 83.3333333333%; }
@@ -5941,7 +5941,7 @@ button.close {
   .nav_menu {
     position: static; } }
 
-.nav-md .container.body .col-md-3.left_col {
+.nav-md .container.body .col-md-3.left_col, .nav-md .container.body .connections ul .connection .left_col.connection-header, .connections ul .connection .nav-md .container.body .left_col.connection-header, .nav-md .container.body .connections ul .connection .connection-body .left_col.connection-label, .connections ul .connection .connection-body .nav-md .container.body .left_col.connection-label {
   width: 230px;
   padding: 0;
   position: absolute;
@@ -5966,7 +5966,7 @@ body .container.body .right_col {
   .nav-md .container.body .right_col, .nav-md .container.body .top_nav {
     width: 100%;
     margin: 0; }
-  .nav-md .container.body .col-md-3.left_col {
+  .nav-md .container.body .col-md-3.left_col, .nav-md .container.body .connections ul .connection .left_col.connection-header, .connections ul .connection .nav-md .container.body .left_col.connection-header, .nav-md .container.body .connections ul .connection .connection-body .left_col.connection-label, .connections ul .connection .connection-body .nav-md .container.body .left_col.connection-label {
     display: none; }
   .nav-md .container.body .right_col {
     width: 100%;
@@ -6170,14 +6170,14 @@ table.no-margin .progress {
   margin: 0 auto;
   float: none !important; }
 
-.col-md-55, .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .issue-pack, .issue-pack-upload, .col-md-6, .issue-pack, .issue-pack-upload, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .issue-pack, .issue-pack-upload, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-md-55, .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .connections ul .connection .connection-header, .connections ul .connection .connection-body .connection-label, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .issue-pack, .issue-pack-upload, .col-md-6, .issue-pack, .issue-pack-upload, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .connections ul .connection .connection-body, .connections ul .connection .connection-body .connection-input, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .issue-pack, .issue-pack-upload, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
   float: left;
   padding-right: 10px;
   padding-left: 10px; }
 
-.row {
+.row, .connections ul .connection {
   margin-right: -10px;
   margin-left: -10px; }
 
@@ -6780,7 +6780,7 @@ h3.degrees {
   overflow: hidden;
   width: 16.66666667%; }
 
-.weather .row {
+.weather .row, .weather .connections ul .connection, .connections ul .weather .connection {
   margin-bottom: 0; }
 
 /* *********  tables styling  ******************************* */
@@ -7287,7 +7287,7 @@ span.right {
   background: #fff;
   padding: 7px 10px; }
 
-.dashboard_graph .col-md-9, .dashboard_graph .col-md-3 {
+.dashboard_graph .col-md-9, .dashboard_graph .connections ul .connection .connection-body, .connections ul .connection .dashboard_graph .connection-body, .dashboard_graph .connections ul .connection .connection-body .connection-input, .connections ul .connection .connection-body .dashboard_graph .connection-input, .dashboard_graph .col-md-3, .dashboard_graph .connections ul .connection .connection-header, .connections ul .connection .dashboard_graph .connection-header, .dashboard_graph .connections ul .connection .connection-body .connection-label, .connections ul .connection .connection-body .dashboard_graph .connection-label {
   padding: 0; }
 
 a.user-profile {
@@ -9980,10 +9980,10 @@ ul.project_files li a i {
 .progress_summary .progress {
   margin: 5px 0 12px !important; }
 
-.progress_summary .row {
+.progress_summary .row, .progress_summary .connections ul .connection, .connections ul .progress_summary .connection {
   margin-bottom: 5px; }
 
-.progress_summary .row .col-xs-2 {
+.progress_summary .row .col-xs-2, .progress_summary .connections ul .connection .col-xs-2, .connections ul .progress_summary .connection .col-xs-2 {
   padding: 0; }
 
 .progress_summary .more_info span {
@@ -10799,7 +10799,21 @@ div#app {
     cursor: pointer;
     color: white; }
 
-.nav-md .container.body .col-md-3.left_col {
+.connections ul {
+  list-style: none;
+  padding-left: 0; }
+  .connections ul .connection {
+    border: 1px solid #ccc;
+    padding: 20px; }
+    .connections ul .connection .connection-header img {
+      max-height: 50px; }
+    .connections ul .connection .connection-header h4 {
+      display: inline-block;
+      margin-left: 20px; }
+    .connections ul .connection .connection-body .connection-label {
+      padding-top: 5px; }
+
+.nav-md .container.body .col-md-3.left_col, .nav-md .container.body .connections ul .connection .left_col.connection-header, .connections ul .connection .nav-md .container.body .left_col.connection-header, .nav-md .container.body .connections ul .connection .connection-body .left_col.connection-label, .connections ul .connection .connection-body .nav-md .container.body .left_col.connection-label {
   height: 100%;
   overflow: hidden;
   overflow-y: scroll; }

@@ -1,8 +1,10 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 //@import "global/mixins";
+@import 'global/variables';
 @import "vendor/gentelella";
 @import "vendor/gentelella-fixes";
 @import 'components/alert';
+@import 'components/connections';
 @import 'components/dashboard';
 @import 'components/file-upload';
 @import 'components/input-switch';

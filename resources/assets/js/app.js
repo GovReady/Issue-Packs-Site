@@ -15,6 +15,7 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 
 import App from './components/App.vue';
+import Connections from './components/Connections.vue';
 import HomeView from './components/HomeView.vue';
 import DashboardView from './components/DashboardView.vue';
 import ReposView from './components/ReposView.vue';
@@ -64,6 +65,11 @@ router.map({
     auth: true,
     title: 'Install Issue Packs',
     subRoutes: {
+      '/connections': {
+        name: 'connections',
+        component: Connections,
+        title: 'My Connections'
+      },
       '/search-packs': {
         name: 'search-packs',
         component: PackSearch,
