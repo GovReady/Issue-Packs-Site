@@ -5,7 +5,7 @@
         <li v-bind:class="{ 'active': showGithub }" v-if="orgs.length > 0">
           <a v-on:click="showGithub = !showGithub">
             GitHub
-            <i class="fa" v-bind:class="{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }"></i>
+            <span class="fa" v-bind:class="{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }"></span>
           </a>
           <ul class="nav child_menu">
             <li v-for="org in orgs | filterBy orgFilter in 'name' 'login' | orderBy 'login'" v-bind:class="{'active': org.show}">
@@ -28,7 +28,7 @@
         <li v-bind:class="{ 'active': showRedmine }" v-if="projects.length > 0">
           <a v-on:click="showRedmine = !showRedmine">
             Redmine
-            <i class="fa" v-bind:class="{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine }"></i>
+            <span class="fa" v-bind:class="{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine }"></span>
           </a>
           <ul class="nav child_menu">
             <li v-for="project in projects">

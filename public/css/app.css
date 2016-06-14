@@ -10979,7 +10979,8 @@ div#app {
   display: none; }
 
 .left_col {
-  height: 100%; }
+  height: 100%;
+  width: 100%; }
 
 .main_menu_side {
   border-top: 1px dotted #425668;
