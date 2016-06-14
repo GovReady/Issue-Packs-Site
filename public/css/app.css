@@ -1418,7 +1418,8 @@ blockquote {
       content: '\2014 \00A0'; }
 
 .blockquote-reverse,
-blockquote.pull-right {
+blockquote.pull-right,
+.connections ul .connection .connection-body .connection-installed blockquote.delete-connection {
   padding-right: 15px;
   padding-left: 0;
   border-right: 5px solid #eeeeee;
@@ -1427,16 +1428,16 @@ blockquote.pull-right {
   .blockquote-reverse footer:before,
   .blockquote-reverse small:before,
   .blockquote-reverse .small:before,
-  blockquote.pull-right footer:before,
-  blockquote.pull-right small:before,
-  blockquote.pull-right .small:before {
+  blockquote.pull-right footer:before, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection footer:before,
+  blockquote.pull-right small:before, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection small:before,
+  blockquote.pull-right .small:before, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection .small:before {
     content: ''; }
   .blockquote-reverse footer:after,
   .blockquote-reverse small:after,
   .blockquote-reverse .small:after,
-  blockquote.pull-right footer:after,
-  blockquote.pull-right small:after,
-  blockquote.pull-right .small:after {
+  blockquote.pull-right footer:after, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection footer:after,
+  blockquote.pull-right small:after, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection small:after,
+  blockquote.pull-right .small:after, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection .small:after {
     content: '\00A0 \2014'; }
 
 address {
@@ -1885,7 +1886,7 @@ pre {
     margin-left: 0%; }
   .col-md-offset-1 {
     margin-left: 8.3333333333%; }
-  .col-md-offset-2 {
+  .col-md-offset-2, .connections ul .connection .connection-body .connection-installed {
     margin-left: 16.6666666667%; }
   .col-md-offset-3 {
     margin-left: 25%; }
@@ -3149,7 +3150,7 @@ tbody.collapse.in {
   border-radius: 4px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box; }
-  .dropdown-menu.pull-right {
+  .dropdown-menu.pull-right, .connections ul .connection .connection-body .connection-installed .dropdown-menu.delete-connection {
     right: 0;
     left: auto; }
   .dropdown-menu .divider {
@@ -3217,7 +3218,7 @@ tbody.collapse.in {
   top: 0;
   z-index: 990; }
 
-.pull-right > .dropdown-menu {
+.pull-right > .dropdown-menu, .connections ul .connection .connection-body .connection-installed .delete-connection > .dropdown-menu {
   right: 0;
   left: auto; }
 
@@ -4467,11 +4468,13 @@ a.thumbnail.active {
     max-width: none; }
 
 .media-right,
-.media > .pull-right {
+.media > .pull-right, .connections ul .connection .connection-body .connection-installed
+.media > .delete-connection {
   padding-left: 10px; }
 
 .media-left,
-.media > .pull-left {
+.media > .pull-left, .connections ul .connection .connection-body .connection-installed
+.media > .connection-settings {
   padding-right: 10px; }
 
 .media-left,
@@ -5563,10 +5566,10 @@ button.close {
   margin-left: auto;
   margin-right: auto; }
 
-.pull-right {
+.pull-right, .connections ul .connection .connection-body .connection-installed .delete-connection {
   float: right !important; }
 
-.pull-left {
+.pull-left, .connections ul .connection .connection-body .connection-installed .connection-settings {
   float: left !important; }
 
 .hide {
@@ -6102,7 +6105,7 @@ body {
   float: left;
   display: block; }
 
-.page-title .title_right .pull-right {
+.page-title .title_right .pull-right, .page-title .title_right .connections ul .connection .connection-body .connection-installed .delete-connection, .connections ul .connection .connection-body .connection-installed .page-title .title_right .delete-connection {
   margin: 10px 0; }
 
 .fixed_height_320 {

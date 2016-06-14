@@ -17,6 +17,11 @@ class ConnectionController extends Controller
 
       $connections = Connection::where('user_id', '=', $user_id)->get();
 
+      //Decrypt the access tokens
+      foreach($connections as $connection) {
+        $connection->access_token = Crypt::decrypt($connection->access_token);
+      }
+
       return response()->json($connections);
     }
 
@@ -31,8 +36,12 @@ class ConnectionController extends Controller
 
       $connection = Connection::firstOrNew([
         'user_id' => $user_id,
-        'provider' => ''
+        'provider' => $input['provider']
       ]);
+
+      if(isset($input['url'])) {
+        $connection->url = $input['url'];
+      }
 
       if(isset($input['access_token'])) {
         $connection->access_token = Crypt::encrypt($input['access_token']);

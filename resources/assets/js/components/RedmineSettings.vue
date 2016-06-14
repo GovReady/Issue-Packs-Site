@@ -5,7 +5,7 @@
       <h4>Redmine</h4>
     </div>
     <div class="connection-body">
-      <validator name="validation">
+      <validator name="validation" v-if="connection === undefined">
         <form class="form-horizontal form-label-left" v-on:submit.prevent novalidate>
           <div class="form-group">
             <label for="url" class="control-label connection-label">URL:</label>
@@ -26,11 +26,20 @@
           <button class="btn btn-primary pull-right" v-on:click="saveConnection()" v-if="$validation.valid">Save Connection</button>
         </form>
       </validator>
+      <div class="connection-installed" v-if="connection !== undefined">
+        <div class="connection-settings">
+          <h4>Connection Installed:</h4>
+          <p>URL: {{ connection.url }}</p>
+        </div>
+        <button class="btn btn-danger delete-connection">Delete Connection</button>
+      </div>
+
     </div>
   </div>
 </template>
 <script>
   export default {
+    props: ['connection'],
     data: () => {
       return {
         url: '',
@@ -39,7 +48,11 @@
     },
     methods: {
       saveConnection: function () {
-        console.log('saving');
+        this.$dispatch('save-connection', {
+          provider: 'redmine',
+          url: this.url,
+          token: this.token
+        });
       }
     },
     validators: {

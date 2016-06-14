@@ -25,9 +25,23 @@ class User extends Authenticatable
     ];
 
     /**
+     * Auto-loading relationships
+     */
+    protected $with = [
+      'connections'
+    ];
+
+    /**
      *  Return issue packs owned by this user
      */
-    public function issue_packs() {
+    public function issue_packs () {
       return $this->hasMany('App\IssuePack');
+    }
+
+    /**
+     * Return User's connections
+     */
+    public function connections () {
+      return $this->hasMany('App\Connections');
     }
 }

@@ -30,6 +30,18 @@
         .connection-input {
           @extend .col-md-9;
         }
+
+        .connection-installed {
+          @extend .col-md-offset-2;
+
+          .connection-settings {
+            @extend .pull-left;
+          }
+
+          .delete-connection {
+            @extend .pull-right;
+          }
+        }
       }
     }
   }

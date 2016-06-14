@@ -56085,18 +56085,61 @@ var _RedmineSettings = require('./RedmineSettings.vue');
 
 var _RedmineSettings2 = _interopRequireDefault(_RedmineSettings);
 
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   components: { RedmineSettings: _RedmineSettings2.default },
+  route: {
+    data: function data(transition) {
+      var connectionPromise = this.$http.get('/api/connections').then(function (response) {
+        var connections = response.data;
+
+        connections.forEach(function (connection) {
+          this.connections.push(connection);
+        }.bind(this));
+      }.bind(this), function (error) {
+        console.error(error);
+      });
+
+      return connectionPromise;
+    }
+  },
   data: function data() {
     return {
-      connections: ['redmine']
+      connections: []
     };
+  },
+  computed: {
+    redmineConnection: function redmineConnection() {
+      return _underscore2.default.findWhere(this.connections, { provider: 'redmine' });
+    }
+  },
+  events: {
+    'save-connection': function saveConnection(connection) {
+      this.$http.post('/api/connections', {
+        provider: connection.provider,
+        url: connection.url,
+        access_token: connection.token
+      }).then(function (result) {
+        console.log(result.data);
+        this.$dispatch('new-alert', {
+          message: 'Connection Saved',
+          type: 'success'
+        });
+      }, function (error) {
+        console.error(error);
+      });
+      console.log('saving');
+      console.log(connection);
+    }
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"connections\">\n  <ul>\n    <li class=\"connection\">\n      <redmine-settings></redmine-settings>\n    </li>\n  </ul>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"connections\">\n  <ul>\n    <li class=\"connection\">\n      <redmine-settings :connection=\"redmineConnection\"></redmine-settings>\n    </li>\n  </ul>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -56108,7 +56151,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./RedmineSettings.vue":265,"vue":240,"vue-hot-reload-api":213}],256:[function(require,module,exports){
+},{"./RedmineSettings.vue":265,"underscore":206,"vue":240,"vue-hot-reload-api":213}],256:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56670,6 +56713,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
+  props: ['connection'],
   data: function data() {
     return {
       url: '',
@@ -56678,7 +56722,11 @@ exports.default = {
   },
   methods: {
     saveConnection: function saveConnection() {
-      console.log('saving');
+      this.$dispatch('save-connection', {
+        provider: 'redmine',
+        url: this.url,
+        token: this.token
+      });
     }
   },
   validators: {
@@ -56689,7 +56737,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"redmine-settings\">\n  <div class=\"connection-header\">\n    <img src=\"/img/redmine.png\">\n    <h4>Redmine</h4>\n  </div>\n  <div class=\"connection-body\">\n    <validator name=\"validation\">\n      <form class=\"form-horizontal form-label-left\" v-on:submit.prevent=\"\" novalidate=\"\">\n        <div class=\"form-group\">\n          <label for=\"url\" class=\"control-label connection-label\">URL:</label>\n          <div class=\"connection-input\">\n            <input type=\"url\" class=\"form-control\" v-model=\"url\" placeholder=\"Redmine URL\" name=\"url\" v-validate:url=\"['required', 'url']\">\n            <p v-if=\"$validation.url.required\"><small>Required*</small></p>\n            <p v-if=\"url &amp;&amp; $validation.url.url\"><small>Invalid Site URL</small></p>\n\n          </div>\n        </div>\n        <div class=\"form-group\">\n          <label for=\"token\" class=\"control-label connection-label\">Token:</label>\n          <div class=\"connection-input\">\n            <input type=\"text\" class=\"form-control\" v-model=\"token\" v-validate:token=\"['required']\" placeholder=\"Redmine API Token\" name=\"token\">\n            <p v-if=\"$validation.token.required\"><small>Required*</small></p>\n          </div>\n        </div>\n        <button class=\"btn btn-primary pull-right\" v-on:click=\"saveConnection()\" v-if=\"$validation.valid\">Save Connection</button>\n      </form>\n    </validator>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"redmine-settings\">\n  <div class=\"connection-header\">\n    <img src=\"/img/redmine.png\">\n    <h4>Redmine</h4>\n  </div>\n  <div class=\"connection-body\">\n    <validator name=\"validation\" v-if=\"connection === undefined\">\n      <form class=\"form-horizontal form-label-left\" v-on:submit.prevent=\"\" novalidate=\"\">\n        <div class=\"form-group\">\n          <label for=\"url\" class=\"control-label connection-label\">URL:</label>\n          <div class=\"connection-input\">\n            <input type=\"url\" class=\"form-control\" v-model=\"url\" placeholder=\"Redmine URL\" name=\"url\" v-validate:url=\"['required', 'url']\">\n            <p v-if=\"$validation.url.required\"><small>Required*</small></p>\n            <p v-if=\"url &amp;&amp; $validation.url.url\"><small>Invalid Site URL</small></p>\n\n          </div>\n        </div>\n        <div class=\"form-group\">\n          <label for=\"token\" class=\"control-label connection-label\">Token:</label>\n          <div class=\"connection-input\">\n            <input type=\"text\" class=\"form-control\" v-model=\"token\" v-validate:token=\"['required']\" placeholder=\"Redmine API Token\" name=\"token\">\n            <p v-if=\"$validation.token.required\"><small>Required*</small></p>\n          </div>\n        </div>\n        <button class=\"btn btn-primary pull-right\" v-on:click=\"saveConnection()\" v-if=\"$validation.valid\">Save Connection</button>\n      </form>\n    </validator>\n    <div class=\"connection-installed\" v-if=\"connection !== undefined\">\n      <div class=\"connection-settings\">\n        <h4>Connection Installed:</h4>\n        <p>URL: {{ connection.url }}</p>\n      </div>\n      <button class=\"btn btn-danger delete-connection\">Delete Connection</button>\n    </div>\n\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
