@@ -10802,6 +10802,22 @@ div#app {
     cursor: pointer;
     color: white; }
 
+.tooltip_trigger {
+  position: relative;
+  cursor: help; }
+  .tooltip_trigger .tooltip {
+    display: none !important;
+    padding: 5px;
+    opacity: 1;
+    background: #ccc;
+    border: 1px solid gray;
+    border-radius: 5px;
+    top: -77px;
+    width: 200px;
+    color: #555; }
+  .tooltip_trigger:hover .tooltip {
+    display: block !important; }
+
 .connections ul {
   list-style: none;
   padding-left: 0; }
@@ -10826,6 +10842,8 @@ div#app {
         overflow: hidden; }
         .connections ul .connection .instructions .instructions-body.active {
           max-height: 999px; }
+        .connections ul .connection .instructions .instructions-body li i {
+          margin-right: 5px; }
 
 .nav-md .container.body .col-md-3.left_col, .nav-md .container.body .connections ul .connection .left_col.connection-header, .connections ul .connection .nav-md .container.body .left_col.connection-header, .nav-md .container.body .connections ul .connection .connection-body .left_col.connection-label, .connections ul .connection .connection-body .nav-md .container.body .left_col.connection-label {
   height: 100%;

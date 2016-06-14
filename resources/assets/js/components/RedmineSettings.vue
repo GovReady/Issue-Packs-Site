@@ -48,7 +48,15 @@
       </h3>
 
       <div class="instructions-body" v-bind:class="{ 'active': showInstructions }">
-        Instructions Body
+        <ol>
+          <li>Go to your Redmine instance and copy the URL <em>(eg. http://redmine.example.com)</em></li>
+          <li>Paste the URL in the form above</li>
+          <li>In your Redmine instance, click on 'My Account' in the upper right corner</li>
+          <li>On the right-hand side, look for 'API access key' and click 'Show'<br><small class="tooltip_trigger"><i class="fa fa-question-circle-o"></i>Don't see 'API Access Key'
+          <div class="tooltip">Your Administrator may not have enabled the REST API.  Please tell your Administrator to go to Adminstration > Settings > Authentication and check 'Enable REST web service' on your Redmine instance.</div></small></li>
+          <li>Copy the access key and paste it in the form above</li>
+          <li>Click 'Save Connection'</li>
+        </ol>
       </div>
     </div>
   </div>
