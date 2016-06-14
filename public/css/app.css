@@ -10998,7 +10998,7 @@ div#app {
     padding: 14px 0 14px; }
   .main_menu_side .child_menu {
     max-height: 0; }
-  .main_menu_side nav.side-menu .active .child_menu {
+  .main_menu_side .nav.side-menu .active .child_menu {
     max-height: 999px; }
 
 .expand-transition {
