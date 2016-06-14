@@ -9,10 +9,12 @@ import Vue from 'vue';
 import VueAsyncData from 'vue-async-data';
 import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
+import VueValidator from 'vue-validator';
 
 Vue.use(VueAsyncData);
 Vue.use(VueResource);
 Vue.use(VueRouter);
+Vue.use(VueValidator);
 
 import App from './components/App.vue';
 import Connections from './components/Connections.vue';
