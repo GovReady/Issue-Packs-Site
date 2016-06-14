@@ -35,6 +35,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function () {
   Route::group(['prefix' => 'redmine'], function () {
     Route::get('/', 'RedmineController@getProjects');
     Route::get('/{id}', 'RedmineController@getProject');
+    Route::post('/{id}/install', 'RedmineController@installPack');
   });
 });
 

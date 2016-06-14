@@ -25,10 +25,6 @@ import IssuePack from './IssuePack.vue';
 import {store} from '../app';
 
   export default {
-    ready: function () {
-      console.log('ready');
-      console.log(store);
-    },
     data: function () {
       return {
         project: {},
@@ -37,8 +33,16 @@ import {store} from '../app';
     },
     events: {
       'install-pack': function (pack) {
-        console.log('installing');
-        console.log(pack);
+        this.$http.post('/api/redmine/' + this.project.id + '/install', {
+          pack_id: pack.id
+        }).then(function (response) {
+          this.$dispatch('new-alert', {
+            message: 'Issues installed successfully',
+            type: 'success'
+          });
+        }, function (error) {
+          console.error(error);
+        });
       }
     },
     components: { FileUpload, IssuePack },

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\Connection;
+use App\IssuePack;
 
 use Auth;
 use Crypt;
@@ -46,5 +47,33 @@ class RedmineController extends Controller
       $res = $client->request('GET', $url);
 
       return $res->getBody();
+    }
+
+    public function installPack($id, Request $request) {
+      $user_id = Auth::id();
+      $connection = Connection::where('user_id', '=', $user_id)->where('provider', '=', 'redmine')->first();
+
+      $pack_id = $request->input('pack_id');
+
+      $pack = IssuePack::find($pack_id);
+
+      $client = new \GuzzleHttp\Client();
+      $url = $connection->url . '/issues.json?key=' . Crypt::decrypt($connection->access_token);
+
+      foreach($pack->issues as $issue) {
+        $payload = [
+          'project_id' => (int)$id,
+          'subject' => $issue->title,
+          'description' => $issue->body
+        ];
+
+        $res = $client->request('POST', $url, [
+          'json' => [
+            'issue' => $payload
+          ]
+        ]);
+      }
+
+      return response()->json('Pack saved successfully');
     }
 }

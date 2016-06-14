@@ -56759,10 +56759,6 @@ var _app = require('../app');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  ready: function ready() {
-    console.log('ready');
-    console.log(_app.store);
-  },
   data: function data() {
     return {
       project: {},
@@ -56771,8 +56767,16 @@ exports.default = {
   },
   events: {
     'install-pack': function installPack(pack) {
-      console.log('installing');
-      console.log(pack);
+      this.$http.post('/api/redmine/' + this.project.id + '/install', {
+        pack_id: pack.id
+      }).then(function (response) {
+        this.$dispatch('new-alert', {
+          message: 'Issues installed successfully',
+          type: 'success'
+        });
+      }, function (error) {
+        console.error(error);
+      });
     }
   },
   components: { FileUpload: _FileUpload2.default, IssuePack: _IssuePack2.default },
