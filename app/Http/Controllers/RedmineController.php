@@ -26,7 +26,11 @@ class RedmineController extends Controller
       $client = new \GuzzleHttp\Client();
       $url = $connection->url . '/projects.json?key=' . Crypt::decrypt($connection->access_token);
 
-      $res = $client->request('GET', $url);
+      try {
+        $res = $client->request('GET', $url);
+      } catch (Exception $e) {
+        return response()->json('Error: ' . $e->getMessage());
+      }
 
       return $res->getBody();
     }
