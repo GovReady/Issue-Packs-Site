@@ -50,6 +50,7 @@ export default {
     },
     copyPack: function (pack) {
       this.$dispatch('copy-pack', pack);
+      pack.expanded = false;
     }
   },
   asyncData: function () {

@@ -56694,6 +56694,7 @@ exports.default = {
     },
     copyPack: function copyPack(pack) {
       this.$dispatch('copy-pack', pack);
+      pack.expanded = false;
     }
   },
   asyncData: function asyncData() {
