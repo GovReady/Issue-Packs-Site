@@ -3,7 +3,7 @@
     <div class="menu_section" v-show="orgs.length > 0">
       <ul class="nav side-menu">
         <li v-bind:class="{ 'active': showGithub }" v-if="orgs.length > 0">
-          <a v-on:click="showGithub = !showGithub">
+          <a v-on:click="toggleAccount('Github')">
             GitHub
             <span class="fa" v-bind:class="{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }"></span>
           </a>
@@ -26,7 +26,7 @@
           </ul>
         </li>
         <li v-bind:class="{ 'active': showRedmine }" v-if="projects.length > 0">
-          <a v-on:click="showRedmine = !showRedmine">
+          <a v-on:click="toggleAccount('Redmine')">
             Redmine
             <span class="fa" v-bind:class="{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine }"></span>
           </a>
@@ -76,6 +76,18 @@ import {store} from '../app';
       },
       loadRepo (repo) {
         this.$dispatch('repo-selected', repo);
+      },
+      toggleAccount(account) {
+        switch (account) {
+          case 'Github':
+            this.showGithub = !this.showGithub;
+            this.showRedmine = false;
+            break;
+          case 'Redmine':
+            this.showRedmine = !this.showRedmine;
+            this.showGithub = false;
+            break;
+        }
       }
     },
     events: {
