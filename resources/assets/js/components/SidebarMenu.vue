@@ -2,8 +2,8 @@
   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section" v-show="orgs.length > 0">
       <ul class="nav side-menu">
-        <li v-bind:class="{ 'active': showGithub }" v-if="orgs.length > 0">
-          <a v-on:click="toggleAccount('Github')">
+        <li v-bind:class="{ 'active': showGithub }" v-if="orgs.length > 0" v-on:blur="closeAccount('Github')" tabindex="1">
+          <a v-on:click="toggleAccount('Github', $event)">
             GitHub
             <span class="fa" v-bind:class="{'fa-chevron-up': showGithub, 'fa-chevron-down': !showGithub }"></span>
           </a>
@@ -25,8 +25,8 @@
             </li>
           </ul>
         </li>
-        <li v-bind:class="{ 'active': showRedmine }" v-if="projects.length > 0">
-          <a v-on:click="toggleAccount('Redmine')">
+        <li v-bind:class="{ 'active': showRedmine }" v-if="projects.length > 0" tabindex="2" v-on:blur="closeAccount('Redmine')">
+          <a v-on:click="toggleAccount('Redmine', $event)">
             Redmine
             <span class="fa" v-bind:class="{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine }"></span>
           </a>
@@ -64,6 +64,16 @@ import {store} from '../app';
     },
     props: [],
     methods: {
+      closeAccount (account) {
+        switch(account) {
+          case 'Github':
+            this.showGithub = false;
+            break;
+          case 'Redmine':
+            this.showRedmine = false;
+            break;
+        }
+      },
       show (org) {
         _.each(this.orgs, function (otherOrg) {
           //Don't change clicked org's status
@@ -77,7 +87,7 @@ import {store} from '../app';
       loadRepo (repo) {
         this.$dispatch('repo-selected', repo);
       },
-      toggleAccount(account) {
+      toggleAccount(account, event) {
         switch (account) {
           case 'Github':
             this.showGithub = !this.showGithub;
