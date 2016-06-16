@@ -1,5 +1,5 @@
   <template>
-  <div v-show="show" class="ui-pnotify " style="width: 300px; opacity: 1; display: block; overflow: visible; cursor: auto; right: 25px; top: 25px;">
+  <div v-show="show" class="ui-pnotify Alert">
     <div class="alert ui-pnotify-container alert-dark ui-pnotify-shadow" style="min-height: 16px; overflow: hidden;">
         <div class="ui-pnotify-closer" style="cursor: pointer;" @click="show = false">
           <span class="glyphicon glyphicon-remove" title="Close"></span>

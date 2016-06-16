@@ -10775,32 +10775,19 @@ div#app {
   margin-bottom: 49px; }
 
 .Alerts {
-  position: absolute;
+  position: fixed;
   width: 400px;
-  right: 20px;
+  right: -80px;
+  top: 20px;
   z-index: 999; }
 
 .Alert {
   position: relative;
-  background: #ddd;
-  border: 1px solid #c4c4c4;
-  border-radius: 10px;
-  padding: 1em;
-  color: white;
-  font-size: 1.2em; }
-  .Alert.Alert--Success {
-    background: #5cb85c;
-    border: 1px solid #4cae4c; }
-  .Alert.Alert--Error {
-    background: lighten red, 70%;
-    border: 1px solid #ff9999; }
-  .Alert .Alert__close {
-    position: absolute;
-    top: 1em;
-    right: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    color: white; }
+  width: 300px;
+  display: block;
+  margin-bottom: 10px; }
+  .Alert:last-child {
+    margin-bottom: 0; }
 
 .tooltip_trigger {
   position: relative;

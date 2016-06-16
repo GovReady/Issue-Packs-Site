@@ -1,35 +1,18 @@
 .Alerts {
-  position:absolute;
+  position:fixed;
   width:400px;
-  right:20px;
+  right:-80px;
+  top:20px;
   z-index:999;
 }
 
 .Alert {
-  position: relative;
-  background: #ddd;
-  border: 1px solid darken(#ddd, 10%);
-  border-radius:10px;
-  padding: 1em;
-  color:white;
-  font-size:1.2em;
+  position:relative;
+  width: 300px;
+  display:block;
+  margin-bottom:10px;
 
-  &.Alert--Success {
-    background: #5cb85c;
-    border: 1px solid #4cae4c;
-  }
-
-  &.Alert--Error {
-    background: lighten (red, 70%);
-    border: 1px solid lighten(red, 30%);
-  }
-
-  .Alert__close {
-    position:absolute;
-    top: 1em;
-    right: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    color: white;
+  &:last-child {
+    margin-bottom:0;
   }
 }
