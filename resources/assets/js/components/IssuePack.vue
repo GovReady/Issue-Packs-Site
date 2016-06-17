@@ -11,15 +11,21 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <div class="issue-pack-body">
-          <ul class="to_do">
-            <li v-for="issue in pack.issues">
-              <p>
-                <span>{{ issue.title }}</span> - <span>{{ issue.body }}</span>
-                <span v-for="label in issue.labels" class="issue-role">{{ label }}</span>
-              </p>
-            </li>
-          </ul>
+        <div class="issue-pack-body panel-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Issue Title</th>
+                <th>Issue Body</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="issue in pack.issues">
+                <td>{{ issue.title }}</td>
+                <td>{{ issue.body }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="issue-pack-manage" v-if="type == 'manage'">
           <div class="pack-delete">

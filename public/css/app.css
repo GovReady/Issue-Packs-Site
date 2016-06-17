@@ -10939,6 +10939,13 @@ div#app {
       transition: background-color 0.4s, left 0.2s;
       background-color: #fff; }
 
+.issue-pack-body {
+  height: 200px;
+  max-height: 200px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  overflow-y: scroll; }
+
 .official-pack-label {
   color: green; }
 

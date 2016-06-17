@@ -1,8 +1,9 @@
-.issue-pack {
-  .x_content{
-    // height:205px;
-    // overflow:hidden;
-  }
+.issue-pack-body {
+  height: 200px;
+  max-height: 200px;
+  margin-bottom:10px;
+  overflow:hidden;
+  overflow-y: scroll;
 }
 
 .official-pack-label {
