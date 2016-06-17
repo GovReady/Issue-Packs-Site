@@ -27,4 +27,4 @@ The site is built on Laravel 5.2, which currently serves a VueJS application.  A
 
 ## Development
 
-This repo comes with a [Laravel Homestead](https://laravel.com/docs/5.2/homestead) vagrant setup included.  Simply follow the instructions in the [Homestead documentation](https://laravel.com/docs/5.2/homestead) to get a development environment up and running.
+This repo comes with a [Laravel Homestead](https://laravel.com/docs/5.2/homestead) vagrant setup included.  Follow the instructions in the [Homestead documentation](https://laravel.com/docs/5.2/homestead) to get a development environment up and running.
