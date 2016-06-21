@@ -11,7 +11,7 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <div class="issue-pack-body panel-body" v-bind:class="{ 'scroll-shadow': overflowing }" v-on:scroll="onScroll">
+        <div class="issue-pack-body panel-body" v-bind:class="{ 'scroll-shadow': overflowing }">
           <table class="table table-bordered">
             <thead>
               <tr>
@@ -137,19 +137,6 @@ import Vue from 'vue';
       },
       toggleSyncLog() {
         this.showSyncLog = !this.showSyncLog;
-      },
-      onScroll () {
-        var el = $(this.$el).find('.issue-pack-body')[0];
-
-        if(el.scrollTop + el.clientHeight == el.scrollHeight) {
-          this.overflowing = false;
-        } else {
-          this.overflowing = true;
-        }
-
-        if(el.scrollTop == 0) {
-          this.overflowing = false;
-        }
       }
     },
     events: {
