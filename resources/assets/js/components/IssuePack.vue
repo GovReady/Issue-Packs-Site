@@ -11,7 +11,7 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <div class="issue-pack-body panel-body">
+        <div class="issue-pack-body panel-body" v-bind:class="{ 'scroll-shadow': overflowing }" v-on:scroll="onScroll">
           <table class="table table-bordered">
             <thead>
               <tr>
@@ -80,13 +80,21 @@
 <script>
 import InputSwitch from './InputSwitch.vue';
 import $ from 'jquery';
+import Vue from 'vue';
 
   export default {
+    ready () {
+      var el = $(this.$el).find('.issue-pack-body')[0];
+      var isOverflowing = el.clientHeight < el.scrollHeight;
+
+      this.overflowing = isOverflowing;
+    },
     components: { InputSwitch },
     props: ['pack', 'type', 'milestones', 'label', 'project'],
     data: function () {
       return {
-        showSyncLog: false
+        showSyncLog: false,
+        overflowing: false
       };
     },
     computed: {
@@ -102,13 +110,6 @@ import $ from 'jquery';
         } else {
           return false;
         }
-      },
-      overflowing: function () {
-        var el = $(this.$el).find('.issue-pack-body')[0];
-
-        var isOverflowing = el.clientHeight < el.scrollHeight;
-
-        return isOverflowing;
       }
     },
     methods: {
@@ -136,6 +137,19 @@ import $ from 'jquery';
       },
       toggleSyncLog() {
         this.showSyncLog = !this.showSyncLog;
+      },
+      onScroll () {
+        var el = $(this.$el).find('.issue-pack-body')[0];
+
+        if(el.scrollTop + el.clientHeight == el.scrollHeight) {
+          this.overflowing = false;
+        } else {
+          this.overflowing = true;
+        }
+
+        if(el.scrollTop == 0) {
+          this.overflowing = false;
+        }
       }
     },
     events: {
