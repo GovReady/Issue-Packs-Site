@@ -5,6 +5,7 @@
     "bootstrap-sass": "3.3.6",
     "github-api": "1.1.0",
     "issue-pack": "0.9.1",
+    "jquery": "3.0.0",
     "moment": "2.13.0",
     "request": "2.72.0",
     "underscore": "1.8.3",

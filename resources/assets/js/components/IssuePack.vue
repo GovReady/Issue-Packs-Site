@@ -79,6 +79,7 @@
 </template>
 <script>
 import InputSwitch from './InputSwitch.vue';
+import $ from 'jquery';
 
   export default {
     components: { InputSwitch },
@@ -101,6 +102,13 @@ import InputSwitch from './InputSwitch.vue';
         } else {
           return false;
         }
+      },
+      overflowing: function () {
+        var el = $(this.$el).find('.issue-pack-body')[0];
+
+        var isOverflowing = el.clientHeight < el.scrollHeight;
+
+        return isOverflowing;
       }
     },
     methods: {
