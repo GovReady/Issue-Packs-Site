@@ -33,7 +33,7 @@
             <input-switch :id="pack.id" :selected="pack.public"></input-switch>
           </div>
           <div class="pack-sync-log">
-            <a v-on:click="toggleSyncLog()">Show Installation Log <i class="fa" v-bind:class="{'fa-caret-down': !showSyncLog, 'fa-caret-up': showSyncLog}"></i></a>
+            <a v-on:click="toggleSyncLog()">Show Installation Log ({{ pack.syncs.length }}) <i class="fa" v-bind:class="{'fa-caret-down': !showSyncLog, 'fa-caret-up': showSyncLog}"></i></a>
             <div class="pack-sync-list" v-show="showSyncLog">
               <ul>
                 <li v-for="sync in pack.syncs">
@@ -80,7 +80,7 @@
 <script>
 import InputSwitch from './InputSwitch.vue';
 import $ from 'jquery';
-import Vue from 'vue';
+import YAML from 'yamljs';
 
   export default {
     ready () {
