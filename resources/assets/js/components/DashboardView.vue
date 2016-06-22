@@ -50,9 +50,9 @@
                 <span class=" fa fa-angle-down"></span>
               </a>
               <ul class="dropdown-menu dropdown-usermenu pull-right">
-                <!-- <li>
-                  <a href="javascript:;">  Profile</a>
-                </li> -->
+                <li>
+                  <a v-link="{ name: 'profile', params: { id: profile.id }}">  Profile</a>
+                </li>
                 <li><a v-link="{name: 'connections'}">Connections</a></li>
                 <li>
                   <a v-link="{name: 'my-packs'}">

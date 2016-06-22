@@ -24,6 +24,7 @@ import ReposView from './components/ReposView.vue';
 import RepoDashboard from './components/RepoDashboard.vue';
 import MyPacks from './components/MyPacks.vue';
 import PackSearch from './components/PackSearch.vue';
+import Profile from './components/Profile.vue';
 import ProjectDashboard from './components/ProjectDashboard.vue';
 import Alerts from './components/Alerts.vue';
 
@@ -103,6 +104,10 @@ router.map({
       '/projects/:id': {
         name: 'project-dashboard',
         component: ProjectDashboard
+      },
+      '/profiles/:id': {
+        name: 'profile',
+        component: Profile
       }
     }
   }

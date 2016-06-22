@@ -26,22 +26,25 @@ export default {
     login () {
       var self = this;
 
-      lock.show((err, profile, token) => {
+      lock.show(function (err, profile, token) {
         if(err) {
           // Handle the error
           console.log(err)
         } else {
-          var profile = JSON.stringify(profile);
-
-          // Set the token and user profile in local storage
-          localStorage.setItem('profile', profile);
-          localStorage.setItem('id_token', token);
+          var profileObject = profile;
 
           this.$http.post('/api/login', {profile: profile})
             .then(
               function (response) {
+                profileObject.id = response.data.id;
+
+                // Set the token and user profile in local storage
+                var profile = JSON.stringify(profileObject);
+                localStorage.setItem('profile', profile);
+                localStorage.setItem('id_token', token);
+
                 this.$dispatch('go', '/dashboard');
-                this.$dispatch('login', profile);
+                this.$dispatch('login', profile, { id: response.data.id });
               }.bind(this),
               function (error) {
                 console.error(error);
@@ -50,7 +53,7 @@ export default {
 
 
         }
-      });
+      }.bind(this));
     }
   }
 }
