@@ -12,7 +12,7 @@ use App\User;
 class UserController extends Controller
 {
     public function getUser($id) {
-      $user = User::find($id);
+      $user = User::with('issue_packs')->find($id);
 
       unset($user->connections);
 
