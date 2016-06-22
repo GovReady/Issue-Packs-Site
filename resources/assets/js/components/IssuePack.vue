@@ -3,10 +3,7 @@
     <div class="x_panel">
       <div class="x_title">
         <h2>{{ pack.name }}
-          <small v-if="pack.label" v-bind:class="{'official-pack-label': pack.listPriority == 0 }">
-            <i class="fa fa-check-circle" v-if="pack.listPriority == 0"></i>
-            {{ pack.label }}
-          </small>
+          <small>Owned by <a v-link="{name: 'profile', params: { id: pack.user.id }}">{{ pack.user.name }}</a></small>
         </h2>
         <div class="clearfix"></div>
       </div>
