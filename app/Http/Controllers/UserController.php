@@ -11,6 +11,14 @@ use App\User;
 
 class UserController extends Controller
 {
+    public function getUser($id) {
+      $user = User::find($id);
+
+      unset($user->connections);
+
+      return response()->json($user);
+    }
+
     public function login(Request $request) {
       $profile = $request->input('profile');
 

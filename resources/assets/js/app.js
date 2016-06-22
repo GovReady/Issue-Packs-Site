@@ -107,7 +107,8 @@ router.map({
       },
       '/profiles/:id': {
         name: 'profile',
-        component: Profile
+        component: Profile,
+        title: 'Profile'
       }
     }
   }

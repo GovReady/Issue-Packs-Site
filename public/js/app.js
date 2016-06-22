@@ -65950,7 +65950,8 @@ router.map({
       },
       '/profiles/:id': {
         name: 'profile',
-        component: _Profile2.default
+        component: _Profile2.default,
+        title: 'Profile'
       }
     }
   }
@@ -66903,14 +66904,35 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../services/github":275,"./IssuePack.vue":261,"vue":241,"vue-hot-reload-api":214}],267:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {};
+exports.default = {
+  data: function data() {
+    return {
+      profile: {}
+    };
+  },
+  route: {
+    data: function data(transition) {
+      var profilePromise = this.$http.get('/api/users/' + transition.to.params.id).then(function (response) {
+        console.log(response);
+
+        return {
+          profile: response.data
+        };
+      }, function (error) {
+        console.error(error);
+      });
+
+      return profilePromise;
+    }
+  }
+};
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"profile\">\n  <h3>Profile</h3>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"profile\">\n  <h3>{{ profile.name }}</h3>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
