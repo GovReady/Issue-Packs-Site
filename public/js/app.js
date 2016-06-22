@@ -66909,19 +66909,27 @@ if (module.hot) {(function () {  module.hot.accept()
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _IssuePack = require('./IssuePack.vue');
+
+var _IssuePack2 = _interopRequireDefault(_IssuePack);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
   data: function data() {
     return {
-      profile: {}
+      profile: {},
+      packs: []
     };
   },
+  components: { IssuePack: _IssuePack2.default },
   route: {
     data: function data(transition) {
       var profilePromise = this.$http.get('/api/users/' + transition.to.params.id).then(function (response) {
-        console.log(response);
-
         return {
-          profile: response.data
+          profile: response.data,
+          packs: response.data.issue_packs
         };
       }, function (error) {
         console.error(error);
@@ -66932,7 +66940,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"profile\">\n  <h3>{{ profile.name }}</h3>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"profile\">\n  <h3>{{ profile.name }}</h3>\n  <small v-if=\"packs.length == 0\">No public packs found.</small>\n  <issue-pack v-for=\"pack in packs\" :pack=\"pack\" type=\"search\"></issue-pack>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -66944,7 +66952,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":241,"vue-hot-reload-api":214}],268:[function(require,module,exports){
+},{"./IssuePack.vue":261,"vue":241,"vue-hot-reload-api":214}],268:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

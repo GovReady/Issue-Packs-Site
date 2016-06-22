@@ -12,7 +12,9 @@ use App\User;
 class UserController extends Controller
 {
     public function getUser($id) {
-      $user = User::with('issue_packs')->find($id);
+      $user = User::with(['issue_packs' => function ($query) {
+        $query->where('public', '=', true);
+      }])->find($id);
 
       unset($user->connections);
 
