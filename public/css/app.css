@@ -10967,7 +10967,14 @@ div#app {
   right: 0px;
   bottom: 5px; }
 
-.pack-sync-log a {
+.pack-sync-log {
+  margin-top: 5px; }
+  .pack-sync-log a {
+    cursor: pointer; }
+
+.pack-download {
+  position: absolute;
+  right: 5px;
   cursor: pointer; }
 
 .issue-pack-officials .official_pack_help {

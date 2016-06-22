@@ -46,7 +46,15 @@
 }
 
 .pack-sync-log {
+  margin-top:5px;
+
   a {
     cursor: pointer;
   }
+}
+
+.pack-download {
+  position:absolute;
+  right:5px;
+  cursor:pointer;
 }

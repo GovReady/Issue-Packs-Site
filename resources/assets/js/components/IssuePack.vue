@@ -32,6 +32,9 @@
             <button class="btn btn-danger" v-on:click="deletePack(pack)">Delete Pack</button>
             <input-switch :id="pack.id" :selected="pack.public"></input-switch>
           </div>
+          <div class="pack-download">
+            <a v-bind:download="filename" v-on:click="download($event)">Download Pack <i class="fa fa-download"></i></a>
+          </div>
           <div class="pack-sync-log">
             <a v-on:click="toggleSyncLog()">Show Installation Log ({{ pack.syncs.length }}) <i class="fa" v-bind:class="{'fa-caret-down': !showSyncLog, 'fa-caret-up': showSyncLog}"></i></a>
             <div class="pack-sync-list" v-show="showSyncLog">
@@ -110,6 +113,9 @@ import YAML from 'yamljs';
         } else {
           return false;
         }
+      },
+      filename: function () {
+        return this.pack.name + '.yaml';
       }
     },
     methods: {
@@ -122,6 +128,30 @@ import YAML from 'yamljs';
           (err) => console.error(err));
 
         return packPromise;
+      },
+      download(event) {
+        var packObject = {
+          name: this.pack.name,
+          issues: [],
+        };
+
+        this.pack.issues.forEach(function (issue) {
+          var packIssue = {
+            title: issue.title,
+            body: issue.body,
+            labels: issue.labels
+          };
+
+          if(packIssue.labels.length === 0) {
+            delete packIssue.labels;
+          }
+
+          packObject.issues.push(packIssue);
+        });
+
+        var packString = YAML.stringify(packObject, 4, 2);
+
+        event.target.href="data:text/plain," + encodeURIComponent(packString);
       },
       install (pack) {
         this.$dispatch('install-pack', pack);
