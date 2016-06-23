@@ -66651,7 +66651,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"animate form\">\n  <section class=\"login_content\">\n    <div class=\"login_intro\">\n      <h1>Get Started!</h1>\n    </div>\n    <div class=\"login_features\">\n      <ul>\n        <li>Use your project management software</li>\n        <li>Bake compliance into your workflow</li>\n        <li>Share compliance workflows with other agencies</li>\n      </ul>\n    </div>\n    <form>\n      <div>\n        <a class=\"btn btn-default\" v-on:click=\"login()\">Log In</a>\n      </div>\n      <!-- <div class=\"clearfix\"></div> -->\n    </form>\n    <!-- form -->\n  </section>\n  <!-- content -->\n  <div class=\"clearfix\"></div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"animate form\">\n  <section class=\"login_content\">\n    <div class=\"login_intro\">\n      <h1>Get Started!</h1>\n    </div>\n    <div class=\"login_features\">\n      <ul>\n        <li>Use your project management software</li>\n        <li>Bake compliance into your workflow</li>\n        <li>Share compliance workflows with other agencies</li>\n      </ul>\n    </div>\n    <div class=\"login_button\">\n      <button class=\"btn btn-success\" v-on:click=\"login()\">Log In</button>\n    </div>\n    <!-- form -->\n  </section>\n  <!-- content -->\n  <div class=\"clearfix\"></div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

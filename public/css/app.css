@@ -11023,6 +11023,9 @@ div#app {
         color: green;
         margin-right: .2em; }
 
+.login_button {
+  margin: 30px 0 20px 0; }
+
 .login_supported {
   text-align: center; }
   .login_supported .supported_platform {

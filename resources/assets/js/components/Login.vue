@@ -11,12 +11,9 @@
         <li>Share compliance workflows with other agencies</li>
       </ul>
     </div>
-    <form>
-      <div>
-        <a class="btn btn-default" v-on:click="login()">Log In</a>
-      </div>
-      <!-- <div class="clearfix"></div> -->
-    </form>
+    <div class="login_button">
+      <button class="btn btn-success" v-on:click="login()">Log In</button>
+    </div>
     <!-- form -->
   </section>
   <!-- content -->
