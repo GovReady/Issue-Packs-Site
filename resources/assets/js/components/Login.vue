@@ -2,16 +2,20 @@
 <div class="animate form">
   <section class="login_content">
     <div class="login_intro">
-      <h1>Issue Packs</h1>
+      <h1>Get Started!</h1>
+    </div>
+    <div class="login_features">
+      <ul>
+        <li>Use your project management software</li>
+        <li>Bake compliance into your workflow</li>
+        <li>Share compliance workflows with other agencies</li>
+      </ul>
     </div>
     <form>
       <div>
         <a class="btn btn-default" v-on:click="login()">Log In</a>
       </div>
       <!-- <div class="clearfix"></div> -->
-      <div class="separator">
-        <div class="clearfix"></div>
-      </div>
     </form>
     <!-- form -->
   </section>

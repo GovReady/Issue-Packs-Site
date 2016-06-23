@@ -1419,7 +1419,8 @@ blockquote {
 
 .blockquote-reverse,
 blockquote.pull-right,
-.connections ul .connection .connection-body .connection-installed blockquote.delete-connection {
+.connections ul .connection .connection-body .connection-installed blockquote.delete-connection,
+.login_header blockquote.header_right {
   padding-right: 15px;
   padding-left: 0;
   border-right: 5px solid #eeeeee;
@@ -1428,16 +1429,16 @@ blockquote.pull-right,
   .blockquote-reverse footer:before,
   .blockquote-reverse small:before,
   .blockquote-reverse .small:before,
-  blockquote.pull-right footer:before, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection footer:before,
-  blockquote.pull-right small:before, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection small:before,
-  blockquote.pull-right .small:before, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection .small:before {
+  blockquote.pull-right footer:before, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection footer:before, .login_header blockquote.header_right footer:before,
+  blockquote.pull-right small:before, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection small:before, .login_header blockquote.header_right small:before,
+  blockquote.pull-right .small:before, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection .small:before, .login_header blockquote.header_right .small:before {
     content: ''; }
   .blockquote-reverse footer:after,
   .blockquote-reverse small:after,
   .blockquote-reverse .small:after,
-  blockquote.pull-right footer:after, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection footer:after,
-  blockquote.pull-right small:after, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection small:after,
-  blockquote.pull-right .small:after, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection .small:after {
+  blockquote.pull-right footer:after, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection footer:after, .login_header blockquote.header_right footer:after,
+  blockquote.pull-right small:after, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection small:after, .login_header blockquote.header_right small:after,
+  blockquote.pull-right .small:after, .connections ul .connection .connection-body .connection-installed blockquote.delete-connection .small:after, .login_header blockquote.header_right .small:after {
     content: '\00A0 \2014'; }
 
 address {
@@ -3150,7 +3151,7 @@ tbody.collapse.in {
   border-radius: 4px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box; }
-  .dropdown-menu.pull-right, .connections ul .connection .connection-body .connection-installed .dropdown-menu.delete-connection {
+  .dropdown-menu.pull-right, .connections ul .connection .connection-body .connection-installed .dropdown-menu.delete-connection, .login_header .dropdown-menu.header_right {
     right: 0;
     left: auto; }
   .dropdown-menu .divider {
@@ -3218,7 +3219,7 @@ tbody.collapse.in {
   top: 0;
   z-index: 990; }
 
-.pull-right > .dropdown-menu, .connections ul .connection .connection-body .connection-installed .delete-connection > .dropdown-menu {
+.pull-right > .dropdown-menu, .connections ul .connection .connection-body .connection-installed .delete-connection > .dropdown-menu, .login_header .header_right > .dropdown-menu {
   right: 0;
   left: auto; }
 
@@ -4469,12 +4470,14 @@ a.thumbnail.active {
 
 .media-right,
 .media > .pull-right, .connections ul .connection .connection-body .connection-installed
-.media > .delete-connection {
+.media > .delete-connection, .login_header
+.media > .header_right {
   padding-left: 10px; }
 
 .media-left,
 .media > .pull-left, .connections ul .connection .connection-body .connection-installed
-.media > .connection-settings {
+.media > .connection-settings, .login_header
+.media > h1 {
   padding-right: 10px; }
 
 .media-left,
@@ -5566,10 +5569,10 @@ button.close {
   margin-left: auto;
   margin-right: auto; }
 
-.pull-right, .connections ul .connection .connection-body .connection-installed .delete-connection {
+.pull-right, .connections ul .connection .connection-body .connection-installed .delete-connection, .login_header .header_right {
   float: right !important; }
 
-.pull-left, .connections ul .connection .connection-body .connection-installed .connection-settings {
+.pull-left, .connections ul .connection .connection-body .connection-installed .connection-settings, .login_header h1 {
   float: left !important; }
 
 .hide {
@@ -6105,7 +6108,7 @@ body {
   float: left;
   display: block; }
 
-.page-title .title_right .pull-right, .page-title .title_right .connections ul .connection .connection-body .connection-installed .delete-connection, .connections ul .connection .connection-body .connection-installed .page-title .title_right .delete-connection {
+.page-title .title_right .pull-right, .page-title .title_right .connections ul .connection .connection-body .connection-installed .delete-connection, .connections ul .connection .connection-body .connection-installed .page-title .title_right .delete-connection, .page-title .title_right .login_header .header_right, .login_header .page-title .title_right .header_right {
   margin: 10px 0; }
 
 .fixed_height_320 {
@@ -10971,13 +10974,54 @@ div#app {
   right: 5px;
   cursor: pointer; }
 
+.login_header {
+  background: #333333;
+  height: 100px;
+  text-align: center;
+  padding-top: 27px;
+  padding-right: 80px;
+  color: #ccc; }
+  .login_header h1, .login_header h2, .login_header strong {
+    margin-top: 0;
+    display: inline-block; }
+  .login_header h1 {
+    margin-left: 30px; }
+  .login_header .header_icon {
+    margin-right: 10px; }
+  .login_header .header_right {
+    padding-top: 10px; }
+    .login_header .header_right h2, .login_header .header_right em {
+      display: inline-block; }
+    .login_header .header_right em {
+      margin-right: 20px; }
+
 .login_content {
   padding: 0; }
   .login_content h1 {
     margin: 10px 0; }
+  .login_content form {
+    margin-top: 30px; }
   .login_content form div a {
     margin-right: 0;
     margin-bottom: 10px; }
+
+.login_features {
+  margin-top: 30px;
+  text-align: center; }
+  .login_features ul {
+    list-style: none;
+    padding: 0; }
+    .login_features ul li {
+      padding-left: 1.3em;
+      margin-top: 5px; }
+      .login_features ul li:before {
+        content: "\f00c";
+        font-family: FontAwesome;
+        display: inline-block;
+        margin-left: -1.3em;
+        width: 1.3em;
+        color: green;
+        margin-right: .2em; }
 
 .login_supported {
   text-align: center; }
