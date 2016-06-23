@@ -20,9 +20,17 @@
   <section class="login_supported">
     <strong>Collaborate with:</strong>
     <br>
-    <img src="/img/github.png" alt="GitHub" class="supported_platform">
-    <img src="/img/redmine-banner.png" alt="Redmine" class="supported_platform">
-    <img src="/img/jira.svg" alt="Jira" class="supported_platform">
+    <div class="supported_platform">
+      <img src="/img/github.png" alt="GitHub" class="img-responsive">
+    </div>
+    <div class="supported_platform">
+      <img src="/img/redmine-banner.png" alt="Redmine" class="img-responsive">
+    </div>
+    <div class="supported_platform">
+      <span class="coming-soon-overlay">Coming Soon!</span>
+      <img src="/img/jira.svg" alt="Jira" class="img-responsive">
+    </div>
+
   </section>
 </div>
 </template>

@@ -11028,7 +11028,19 @@ div#app {
   .login_supported .supported_platform {
     display: inline-block;
     width: 200px;
-    margin: 0 10px; }
+    margin: 0 10px;
+    position: relative; }
+  .login_supported .coming-soon-overlay {
+    position: absolute;
+    -webkit-transform: rotate(-20deg);
+    transform: rotate(-20deg);
+    color: #cc0000;
+    font-size: 2.1em;
+    font-weight: bold;
+    font-style: italic;
+    left: 10px;
+    top: 20px;
+    opacity: .7; }
 
 .issue-pack-officials .official_pack_help {
   top: 7px;
