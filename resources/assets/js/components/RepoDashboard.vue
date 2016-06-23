@@ -4,6 +4,7 @@
     <div class="repo-name">
       <h3>{{ repo.name }}</h3>
     </div>
+    <pulse-loader :loading="loading"></pulse-loader>
     <issue-pack v-for="pack in issuePacks | orderBy 'listPriority'" :pack="pack" type="install" :milestones="milestones"></issue-pack>
     <div class="issue-pack-upload">
       <div class="x_panel">
@@ -94,7 +95,8 @@
           return {
             repo: response[0].repo,
             milestones: response[0].milestones,
-            issuePacks: loadedPacks
+            issuePacks: loadedPacks,
+            loading: false
           };
         });
       }
@@ -201,7 +203,8 @@
         milestones: [],
         pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples",
         profile: JSON.parse(localStorage.getItem('profile')),
-        repo: {}
+        repo: {},
+        loading: true
       }
     }
   }

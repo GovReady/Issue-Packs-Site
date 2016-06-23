@@ -67248,7 +67248,8 @@ exports.default = {
         return {
           repo: response[0].repo,
           milestones: response[0].milestones,
-          issuePacks: loadedPacks
+          issuePacks: loadedPacks,
+          loading: false
         };
       });
     }
@@ -67350,12 +67351,13 @@ exports.default = {
       milestones: [],
       pack_url: "https://api.github.com/repos/govready/issue-packs/contents/examples",
       profile: JSON.parse(localStorage.getItem('profile')),
-      repo: {}
+      repo: {},
+      loading: true
     };
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div class=\"repo-name\">\n      <h3>{{ repo.name }}</h3>\n    </div>\n    <issue-pack v-for=\"pack in issuePacks | orderBy 'listPriority'\" :pack=\"pack\" type=\"install\" :milestones=\"milestones\"></issue-pack>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n    <div class=\"issue-pack-officials\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>\n            ...Or Copy An Official Pack\n          </h2>\n          <span class=\"fa fa-question-circle-o tooltip_trigger official_pack_help\">\n            <p class=\"tooltip\">These are official issue packs from GovReady.  Copy them to your account to use them for your own projects.</p>\n          </span>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <official-packs></official-packs>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"repo-dashboard\">\n  <div class=\"row\">\n    <div class=\"repo-name\">\n      <h3>{{ repo.name }}</h3>\n    </div>\n    <pulse-loader :loading=\"loading\"></pulse-loader>\n    <issue-pack v-for=\"pack in issuePacks | orderBy 'listPriority'\" :pack=\"pack\" type=\"install\" :milestones=\"milestones\"></issue-pack>\n    <div class=\"issue-pack-upload\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>Upload a Pack</h2>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <file-upload></file-upload>\n        </div>\n      </div>\n    </div>\n    <div class=\"issue-pack-officials\">\n      <div class=\"x_panel\">\n        <div class=\"x_title\">\n          <h2>\n            ...Or Copy An Official Pack\n          </h2>\n          <span class=\"fa fa-question-circle-o tooltip_trigger official_pack_help\">\n            <p class=\"tooltip\">These are official issue packs from GovReady.  Copy them to your account to use them for your own projects.</p>\n          </span>\n          <div class=\"clearfix\"></div>\n        </div>\n        <div class=\"x_content\">\n          <official-packs></official-packs>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
