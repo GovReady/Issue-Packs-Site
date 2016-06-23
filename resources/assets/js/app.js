@@ -28,6 +28,7 @@ import Profile from './components/Profile.vue';
 import ProjectDashboard from './components/ProjectDashboard.vue';
 import About from './components/About.vue';
 import Alerts from './components/Alerts.vue';
+import { PulseLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 
 import moment from 'moment';
 
@@ -36,6 +37,7 @@ Vue.config.debug = true;
 
 //Register global components
 Vue.component('alerts', Alerts);
+Vue.component('pulse-loader', PulseLoader);
 
 export var store = {
   state: {

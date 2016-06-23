@@ -2,6 +2,7 @@
   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section" v-show="orgs.length > 0">
       <ul class="nav side-menu">
+        <pulse-loader :loading="loading"></pulse-loader>
         <li v-bind:class="{ 'active': showGithub }" v-if="orgs.length > 0" v-on:blur="closeAccount('Github')" tabindex="1">
           <a v-on:click="toggleAccount('Github', $event)">
             GitHub
@@ -59,7 +60,8 @@ import {store} from '../app';
         projects: [],
         showGithub: true,
         showRedmine: false,
-        state: store.state
+        state: store.state,
+        loading: true
       }
     },
     props: [],
@@ -162,7 +164,8 @@ import {store} from '../app';
 
           return {
             orgs: response[0].orgs,
-            projects: response[1]
+            projects: response[1],
+            loading: false
           };
         } else {
           return {
