@@ -5,13 +5,11 @@ Issue Pack marketplace for [issue-pack](https://www.npmjs.com/package/issue-pack
 
 ## Issue Packs
 
-The issue packs on the site currently pull from [the issue-pack examples directory](https://github.com/GovReady/Issue-Packs/tree/master/examples).
+The Official issue packs on the site currently pull from [the issue-pack examples directory](https://github.com/GovReady/Issue-Packs/tree/master/examples).
 
-_Users can also upload issue packs of their own, but they are currently only used as a sync tool and are not stored on the site._
+## Issue Pack Sync
 
-## Github Sync
-
-The site uses Auth0's Lock to log in a user and interact with Github.  Currently, the site is front-end only so there is no information stored but the packs can be synced to Github while the user is logged in.
+The site uses Auth0's Lock to log in a user and interact with the application.  Currently, Github and Redmine are supported.
 
 ## Colophon
 
