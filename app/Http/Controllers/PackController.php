@@ -122,6 +122,14 @@ class PackController extends Controller
       }
     }
 
+    /**
+     * saveSync($id)
+     *
+     * Input Parameters
+     *   (string) application - which application was this synced to?
+     *   (string) repo - what is the repo / project name?
+     *   (string) url - where should this sync log link to?
+     */
     public function saveSync($id, Request $request) {
       $user_id = Auth::id();
 
