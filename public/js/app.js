@@ -66621,7 +66621,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"login\" class=\"animate form\">\n  <section class=\"login_content\">\n    <form>\n      <h1>Issue Packs</h1>\n      <div>\n        <a class=\"btn btn-default\" v-on:click=\"login()\">Log In</a>\n      </div>\n      <!-- <div class=\"clearfix\"></div> -->\n      <div class=\"separator\">\n        <div class=\"clearfix\"></div>\n      </div>\n    </form>\n    <!-- form -->\n  </section>\n  <!-- content -->\n</div>\n  <!-- <button class=\"btn btn-primary btn-lg\" v-on:click=\"login()\">Log in with Github</button> -->\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"login\" class=\"animate form\">\n  <section class=\"login_content\">\n    <div class=\"login_intro\">\n      <h1>Issue Packs</h1>\n    </div>\n    <form>\n      <div>\n        <a class=\"btn btn-default\" v-on:click=\"login()\">Log In</a>\n      </div>\n      <!-- <div class=\"clearfix\"></div> -->\n      <div class=\"separator\">\n        <div class=\"clearfix\"></div>\n      </div>\n    </form>\n    <!-- form -->\n  </section>\n  <!-- content -->\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

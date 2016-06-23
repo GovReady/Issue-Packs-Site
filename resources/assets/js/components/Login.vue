@@ -1,8 +1,10 @@
 <template>
 <div id="login" class="animate form">
   <section class="login_content">
-    <form>
+    <div class="login_intro">
       <h1>Issue Packs</h1>
+    </div>
+    <form>
       <div>
         <a class="btn btn-default" v-on:click="login()">Log In</a>
       </div>
@@ -15,7 +17,6 @@
   </section>
   <!-- content -->
 </div>
-  <!-- <button class="btn btn-primary btn-lg" v-on:click="login()">Log in with Github</button> -->
 </template>
 
 <script>
