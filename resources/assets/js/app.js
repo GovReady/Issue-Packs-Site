@@ -26,6 +26,7 @@ import MyPacks from './components/MyPacks.vue';
 import PackSearch from './components/PackSearch.vue';
 import Profile from './components/Profile.vue';
 import ProjectDashboard from './components/ProjectDashboard.vue';
+import About from './components/About.vue';
 import Alerts from './components/Alerts.vue';
 
 import moment from 'moment';
@@ -82,6 +83,11 @@ router.map({
     auth: true,
     title: 'Install Issue Packs',
     subRoutes: {
+      '/about': {
+        name: 'about',
+        component: About,
+        title: 'About Issue Packs'
+      },
       '/connections': {
         name: 'connections',
         component: Connections,
