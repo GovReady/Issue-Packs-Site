@@ -6,6 +6,17 @@
   }
 
   form div a {
+    margin-right:0;
     margin-bottom:10px;
+  }
+}
+
+.login_supported {
+  text-align:center;
+
+  .supported_platform {
+    display:inline-block;
+    width:200px;
+    margin: 0 10px;
   }
 }

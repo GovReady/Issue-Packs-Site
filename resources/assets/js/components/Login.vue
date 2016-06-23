@@ -1,5 +1,5 @@
 <template>
-<div id="login" class="animate form">
+<div class="animate form">
   <section class="login_content">
     <div class="login_intro">
       <h1>Issue Packs</h1>
@@ -16,6 +16,7 @@
     <!-- form -->
   </section>
   <!-- content -->
+  <div class="clearfix"></div>
 </div>
 </template>
 

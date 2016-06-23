@@ -10757,12 +10757,6 @@ ul.notifications {
 div#app {
   height: 100%; }
 
-.login_content h1 {
-  margin: 10px 0; }
-
-.login_content form div a {
-  margin-bottom: 10px; }
-
 .container {
   background: #2A3F54;
   height: 100%; }
@@ -10982,7 +10976,15 @@ div#app {
   .login_content h1 {
     margin: 10px 0; }
   .login_content form div a {
+    margin-right: 0;
     margin-bottom: 10px; }
+
+.login_supported {
+  text-align: center; }
+  .login_supported .supported_platform {
+    display: inline-block;
+    width: 200px;
+    margin: 0 10px; }
 
 .issue-pack-officials .official_pack_help {
   top: 7px;
