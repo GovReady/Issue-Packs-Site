@@ -53,6 +53,7 @@ import {store} from '../app';
         this.$http.post('/api/redmine/' + this.project.id + '/install', {
           pack_id: pack.id
         }).then(function (response) {
+          this.saveSync(pack);
           this.$dispatch('new-alert', {
             message: 'Issues installed successfully',
             type: 'success'
@@ -91,6 +92,21 @@ import {store} from '../app';
       }
     },
     components: { FileUpload, IssuePack, OfficialPacks },
+    methods: {
+      saveSync: function (pack) {
+        if(pack.id) {
+          return this.$http.post('/api/packs/' + pack.id + '/sync', {
+            application: 'redmine',
+            repo: this.project.identifier
+          });
+        } else {
+          return new Promise(function (resolve, reject) {
+            console.info('Cannot save sync for packs not stored in the database.');
+            resolve();
+          });
+        }
+      }
+    },
     route: {
       data: function (transition) {
         var id = transition.to.params.id;

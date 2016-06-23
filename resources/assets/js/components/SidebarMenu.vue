@@ -26,7 +26,7 @@
             </li>
           </ul>
         </li>
-        <li v-bind:class="{ 'active': showRedmine }" v-if="projects.length > 0" tabindex="2" v-on:blur="closeAccount('Redmine')">
+        <li v-bind:class="{ 'active': showRedmine }" v-if="projects.length > 0" tabindex="2">
           <a v-on:click="toggleAccount('Redmine', $event)">
             Redmine
             <span class="fa" v-bind:class="{'fa-chevron-up': showRedmine, 'fa-chevron-down': !showRedmine }"></span>

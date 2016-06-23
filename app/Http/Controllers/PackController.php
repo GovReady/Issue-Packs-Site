@@ -8,6 +8,7 @@ use Auth;
 use Log;
 
 use App\Http\Requests;
+use App\Connection;
 use App\Issue;
 use App\IssuePack;
 use App\Label;
@@ -125,6 +126,8 @@ class PackController extends Controller
     /**
      * saveSync($id)
      *
+     *  Note: Redmine has to query connection to provide URL
+     *
      * Input Parameters
      *   (string) application - which application was this synced to?
      *   (string) repo - what is the repo / project name?
@@ -140,7 +143,17 @@ class PackController extends Controller
       $sync->issue_pack_id = $id;
       $sync->application = $input['application'];
       $sync->repo = $input['repo'];
-      $sync->url = $input['url'];
+      if($input['application'] == 'redmine') {
+        $connection = Connection::where('user_id', '=', $user_id)->where('provider', '=', 'redmine')->first();
+
+        if(!$connection) {
+          return response()->json('Redmine connection not found.', 400);
+        }
+
+        $sync->url = $connection->url . '/projects/' . $input['repo'] . '/issues';
+      } else {
+        $sync->url = $input['url'];
+      }
 
       return response()->json($sync->save());
     }
