@@ -11148,6 +11148,9 @@ div#app {
 html, body {
   height: 100%; }
 
+a {
+  cursor: pointer; }
+
 .bg-faded {
   background-color: #f1f1f1; }
 
