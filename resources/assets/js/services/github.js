@@ -38,6 +38,7 @@ function getPack(pack, callback) {
 export default class GithubService {
   constructor (options) {
     this.profile = options.profile;
+    console.log(this.profile);
 
     var github_identity = _.findWhere(this.profile.identities, {provider: "github"});
     this.github_token = github_identity.access_token;
