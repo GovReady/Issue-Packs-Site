@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -22,20 +23,26 @@ class UserController extends Controller
     }
 
     public function login(Request $request) {
-      $profile = $request->input('profile');
+      try {
+        $profile = $request->input('profile');
 
-      $user = User::where('email', '=', $profile['email'])->first();
+        $user = User::where('email', '=', $profile['email'])->first();
 
-      if(!isset($user)) {
-        $user = new User();
-        $user->name = $profile['name'];
-        $user->email = $profile['email'];
-        $user->save();
+        if(!isset($user)) {
+          $user = new User();
+          $user->name = $profile['name'];
+          $user->email = $profile['email'];
+          $user->save();
+        }
+
+        Auth::login($user);
+
+        unset($user->connections);
+      } catch (Exception $e) {
+        Log::error("Error logging user in: \n");
+        Log::error($e);
       }
 
-      Auth::login($user);
-
-      unset($user->connections);
 
       return response()->json($user);
     }
